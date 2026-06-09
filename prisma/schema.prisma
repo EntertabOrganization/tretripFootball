@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  phone     String?  @unique
+  email     String?  @unique
+  name      String?
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+}
+
+model News {
+  id          String   @id @default(uuid())
+  titleAr     String
+  titleEn     String
+  slug        String   @unique
+  summaryAr   String?
+  summaryEn   String?
+  contentAr   String
+  contentEn   String
+  imageUrl    String?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  titleAr     String
+  titleEn     String
+  slug        String   @unique
+  locationAr  String?
+  locationEn  String?
+  startsAt    DateTime
+  endsAt      DateTime?
+  imageUrl    String?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model Match {
+  id            String   @id @default(uuid())
+  homeTeam      String
+  awayTeam      String
+  homeLogoUrl   String?
+  awayLogoUrl   String?
+  competition   String?
+  stadium       String?
+  matchDate     DateTime
+  ticketUrl     String?
+  scoreHome     Int?
+  scoreAway     Int?
+  status        MatchStatus @default(SCHEDULED)
+}
+
+model FanSubmission {
+  id        String   @id @default(uuid())
+  userId    String?
+  type      String
+  message   String?
+  imageUrl  String?
+  approved  Boolean @default(false)
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum MatchStatus {
+  SCHEDULED
+  LIVE
+  FINISHED
+}
