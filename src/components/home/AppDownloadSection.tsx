@@ -1,6 +1,9 @@
 import { Smartphone } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export function AppDownloadSection() {
+  const t = useTranslations('AppDownloadSection');
+
   return (
     <section className="w-full py-24 bg-background relative border-t border-b border-white/5">
       <div className="absolute left-0 top-0 w-1/2 h-full bg-giddam-secondary/30 transform skew-x-12 -translate-x-32 z-0"></div>
@@ -8,27 +11,27 @@ export function AppDownloadSection() {
       <div className="max-w-7xl mx-auto px-4 relative z-10 flex flex-col md:flex-row items-center justify-between gap-16">
         <div className="flex-1 space-y-8">
           <h2 className="text-4xl md:text-6xl font-heading font-bold text-white uppercase tracking-widest leading-tight">
-            Get Closer with <br/>
-            <span className="text-primary transform inline-block -skew-x-12 mt-2">SAFF FANS APP</span>
+            {t('title')} <br/>
+            <span className="text-primary transform inline-block -skew-x-12 mt-2">{t('titleHighlight')}</span>
           </h2>
           
           <p className="text-xl text-white/80 max-w-xl">
-            The official app for Saudi Arabian national team fans. Get exclusive content, live updates, digital tickets, and join the ultimate fan community.
+            {t('description')}
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <a href="#" className="flex items-center justify-center gap-3 bg-white text-black px-6 py-4 rounded hover:bg-giddam-light transition-colors">
               <Smartphone size={24} />
               <div className="flex flex-col text-left">
-                <span className="text-xs font-bold opacity-70">Download on the</span>
-                <span className="text-lg font-bold leading-none">App Store</span>
+                <span className="text-xs font-bold opacity-70">{t('downloadOn')}</span>
+                <span className="text-lg font-bold leading-none">{t('appStore')}</span>
               </div>
             </a>
             <a href="#" className="flex items-center justify-center gap-3 bg-white text-black px-6 py-4 rounded hover:bg-giddam-light transition-colors">
               <Smartphone size={24} />
               <div className="flex flex-col text-left">
-                <span className="text-xs font-bold opacity-70">GET IT ON</span>
-                <span className="text-lg font-bold leading-none">Google Play</span>
+                <span className="text-xs font-bold opacity-70">{t('getItOn')}</span>
+                <span className="text-lg font-bold leading-none">{t('googlePlay')}</span>
               </div>
             </a>
           </div>

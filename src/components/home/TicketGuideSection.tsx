@@ -1,22 +1,25 @@
 import { UserPlus, CalendarDays, CheckCircle2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export function TicketGuideSection() {
+  const t = useTranslations('TicketGuideSection');
+
   const steps = [
     {
       icon: UserPlus,
-      title: '1. Create A FIFA Account',
-      description: 'Register or log in to your FIFA ticketing account to begin the process.',
+      title: t('step1Title'),
+      description: t('step1Desc'),
     },
     {
       icon: CalendarDays,
-      title: '2. Choose Your Match',
-      description: 'Browse the match schedule and select the Green Falcons games you want to attend.',
+      title: t('step2Title'),
+      description: t('step2Desc'),
     },
     {
       icon: CheckCircle2,
-      title: '3. Submit Your Application',
-      description: 'Complete your application and await the ticket allocation draw results.',
-    }
+      title: t('step3Title'),
+      description: t('step3Desc'),
+    },
   ];
 
   return (
@@ -24,9 +27,9 @@ export function TicketGuideSection() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-white uppercase tracking-widest transform -skew-x-12">
-            Ticket Purchase Guide
+            {t('sectionTitle')}
           </h2>
-          <p className="text-primary mt-4 uppercase tracking-widest font-bold">Your road to the stands</p>
+          <p className="text-primary mt-4 uppercase tracking-widest font-bold">{t('subtitle')}</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 relative">
@@ -50,7 +53,7 @@ export function TicketGuideSection() {
         
         <div className="mt-16 text-center">
           <a href="https://fifa.com/tickets" target="_blank" rel="noreferrer" className="inline-block px-10 py-5 bg-primary text-primary-foreground font-bold text-xl transform -skew-x-12 hover:bg-giddam-light transition-all shadow-[0_0_20px_rgba(11,157,181,0.4)]">
-            <span className="block transform skew-x-12 tracking-wider">Start Application</span>
+            <span className="block transform skew-x-12 tracking-wider">{t('startApplication')}</span>
           </a>
         </div>
       </div>

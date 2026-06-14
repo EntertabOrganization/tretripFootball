@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { MapPin, Clock } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 const FAN_ZONES = [
   { id: 1, city: 'Riyadh', address: 'KAFD Fan Zone', time: '4:00 PM - 12:00 AM', mapLink: '#' },
@@ -14,6 +15,7 @@ const MATCH_ZONES = [
 ];
 
 export function FanZonesSection() {
+  const t = useTranslations('FanZonesSection');
   const [activeTab, setActiveTab] = useState<'fan' | 'match'>('fan');
 
   const zones = activeTab === 'fan' ? FAN_ZONES : MATCH_ZONES;
@@ -23,9 +25,9 @@ export function FanZonesSection() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex flex-col items-center mb-12 text-center">
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-white uppercase tracking-widest transform -skew-x-12">
-            Experience the <span className="text-primary block mt-2 md:inline md:mt-0">Passion</span>
+            {t('sectionTitle')} <span className="text-primary block mt-2 md:inline md:mt-0">{t('sectionTitleHighlight')}</span>
           </h2>
-          <p className="mt-4 text-white/60 text-lg">Join fellow fans at our official zones</p>
+          <p className="mt-4 text-white/60 text-lg">{t('subtitle')}</p>
         </div>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
@@ -35,7 +37,7 @@ export function FanZonesSection() {
               activeTab === 'fan' ? 'bg-primary border-primary text-primary-foreground' : 'bg-transparent border-white/20 text-white hover:border-primary/50'
             }`}
           >
-            <span className="block transform skew-x-12 tracking-wider">Fan Zones</span>
+            <span className="block transform skew-x-12 tracking-wider">{t('fanZonesTab')}</span>
           </button>
           <button
             onClick={() => setActiveTab('match')}
@@ -43,7 +45,7 @@ export function FanZonesSection() {
               activeTab === 'match' ? 'bg-primary border-primary text-primary-foreground' : 'bg-transparent border-white/20 text-white hover:border-primary/50'
             }`}
           >
-            <span className="block transform skew-x-12 tracking-wider">Match Fan Zones</span>
+            <span className="block transform skew-x-12 tracking-wider">{t('matchFanZonesTab')}</span>
           </button>
         </div>
 
@@ -66,7 +68,7 @@ export function FanZonesSection() {
               </div>
               
               <a href={zone.mapLink} className="inline-block border-b border-primary text-primary font-bold uppercase tracking-widest pb-1 hover:text-white transition-colors group-hover:border-white relative z-10">
-                View on Map
+                {t('viewOnMap')}
               </a>
             </div>
           ))}

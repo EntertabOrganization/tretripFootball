@@ -13,8 +13,8 @@ const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: "Qiddam With The Same Spirit",
-  description: "Giddam Saudi World Cup 2026 Campaign",
+  title: "TreTrip",
+  description: "TreTrip – Saudi National Team Fan Platform for the 2026 FIFA World Cup",
 };
 
 export default async function RootLayout({

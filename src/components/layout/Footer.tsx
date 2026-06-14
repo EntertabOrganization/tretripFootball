@@ -2,16 +2,19 @@
 
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 const socialLinks = ['f', 'X', 'IG', 'SC', 'TT', 'YT'];
 
-const quickLinks = [
-  { label: 'Saudi Arabian Football Federation', href: 'https://saff.com.sa/' },
-  { label: 'International Federation of Association Football (FIFA)', href: 'https://www.fifa.com/' },
-  { label: 'SAFF Fans App', href: '#' },
-];
-
 export function Footer() {
+  const t = useTranslations('Footer');
+
+  const quickLinks = [
+    { label: t('saff'), href: 'https://saff.com.sa/' },
+    { label: t('fifa'), href: 'https://www.fifa.com/' },
+    { label: t('saffFansApp'), href: '#' },
+  ];
+
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-[#2f7374] px-4 py-16 md:px-10">
       <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_0_40%,rgba(255,255,255,0.07)_40%_52%,transparent_52%_68%,rgba(255,255,255,0.06)_68%_80%,transparent_80%)]" />
@@ -45,7 +48,7 @@ export function Footer() {
           </div>
 
           <div className="flex flex-col justify-start pt-4">
-            <h2 className="text-2xl font-bold text-white">Quick Links</h2>
+            <h2 className="text-2xl font-bold text-white">{t('quickLinks')}</h2>
             <div className="mt-8 flex flex-col gap-7">
               {quickLinks.map((link) => (
                 <a
@@ -64,17 +67,17 @@ export function Footer() {
 
         <div className="relative mt-16 border-t border-white/15 pt-10 text-center">
           <p className="text-xl text-white">
-            {'\u00A9'} 2026 All rights reserved for Technology and Innovation at{' '}
+            {'\u00A9'} 2026 {t('copyright')}{' '}
             <a href="https://www.entertab.net" className="text-[#d6aa24] transition-colors hover:text-white">
               Entertab.net
             </a>
           </p>
           <div className="mt-7 flex justify-center gap-8 text-lg text-white">
             <Link href="/" className="transition-colors hover:text-primary">
-              Privacy Policy
+              {t('privacyPolicy')}
             </Link>
             <Link href="/" className="transition-colors hover:text-primary">
-              Terms of Service
+              {t('termsOfService')}
             </Link>
           </div>
         </div>

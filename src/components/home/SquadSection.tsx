@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 const SQUAD_DATA = [
   { id: 1, name: 'Mohammed Al-Owais', position: 'Goalkeeper', number: 21 },
@@ -12,9 +13,17 @@ const SQUAD_DATA = [
   { id: 8, name: 'Firas Al-Buraikan', position: 'Attack Line', number: 9 },
 ];
 
-const FILTERS = ['All', 'Goalkeepers', 'Defence Line', 'Midfield Line', 'Attack Line'];
-
 export function SquadSection() {
+  const t = useTranslations('SquadSection');
+
+  const FILTERS = [
+    { key: 'All', label: t('filterAll') },
+    { key: 'Goalkeepers', label: t('filterGoalkeepers') },
+    { key: 'Defence Line', label: t('filterDefence') },
+    { key: 'Midfield Line', label: t('filterMidfield') },
+    { key: 'Attack Line', label: t('filterAttack') },
+  ];
+
   const [activeFilter, setActiveFilter] = useState('All');
 
   const filteredSquad = SQUAD_DATA.filter((player) => {
@@ -29,23 +38,23 @@ export function SquadSection() {
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
           <div>
             <h2 className="text-4xl md:text-5xl font-heading font-bold text-primary uppercase tracking-wide transform -skew-x-12">
-              National Team Squad
+              {t('sectionTitle')}
             </h2>
-            <h3 className="text-2xl text-white/60 mt-2 font-heading transform -skew-x-12">At the World Cup</h3>
+            <h3 className="text-2xl text-white/60 mt-2 font-heading transform -skew-x-12">{t('subtitle')}</h3>
           </div>
           
           <div className="flex flex-wrap gap-2">
             {FILTERS.map((filter) => (
               <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
+                key={filter.key}
+                onClick={() => setActiveFilter(filter.key)}
                 className={`px-4 py-2 transform -skew-x-12 border transition-all font-bold tracking-widest text-sm ${
-                  activeFilter === filter
+                  activeFilter === filter.key
                     ? 'bg-primary border-primary text-primary-foreground'
                     : 'bg-white/5 border-white/20 text-white hover:bg-white/10'
                 }`}
               >
-                <span className="block transform skew-x-12">{filter}</span>
+                <span className="block transform skew-x-12">{filter.label}</span>
               </button>
             ))}
           </div>

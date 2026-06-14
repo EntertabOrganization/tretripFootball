@@ -1,7 +1,86 @@
 {
+  "Navbar": {
+    "home": "الرئيسية",
+    "about": "عن الفريق",
+    "matches": "المباريات",
+    "saffFans": "جماهير سافف",
+    "fanZone": "منطقة المشجعين",
+    "signIn": "تسجيل الدخول",
+    "signUp": "إنشاء حساب"
+  },
   "HomePage": {
+    "heroLine1": "قدام",
+    "heroLine2": "بنفس الروح",
+    "heroSubtitle": "الحملة الرسمية للمنتخب الوطني لكأس العالم FIFA 2026. كن جزءاً من الحدث وقف خلف الصقور الخضر.",
+    "signIn": "تسجيل الدخول",
+    "signUp": "إنشاء حساب",
     "title": "قدام بنفس الروح",
     "bookTicket": "احجز تذكرتك",
     "matchSchedule": "جدول المباريات"
+  },
+  "AboutSection": {
+    "journeyTitle": "رحلتنا في كأس العالم",
+    "journeyText": "يتمتع المنتخب السعودي بتاريخ غني في كأس العالم، يعكس شغف المملكة بكرة القدم على الساحة الدولية. من ظهورنا التاريخي عام 1994 إلى انتصارنا التاريخي على الأرجنتين عام 2022، يواصل الصقور الخضر تحليقه.",
+    "roadTitle": "طريقنا إلى كأس العالم 2026",
+    "roadText": "بروح متجددة وإصرار لا يتوقف، يستعد فريقنا للتحدي الأكبر. الطريق إلى 2026 معبّد بالعمل الدؤوب، وندعو كل مشجع للوقوف خلف الفريق بينما نسعى لصنع التاريخ من جديد.",
+    "basicInfoTitle": "معلومات أساسية",
+    "nickname": "اللقب",
+    "nicknameValue": "الصقور الخضر",
+    "manager": "المدرب",
+    "managerValue": "جورجيوس دونيس",
+    "worldCupAppearances": "مشاركات كأس العالم",
+    "confederation": "الاتحاد"
+  },
+  "MatchCenterSection": {
+    "sectionTitle": "مركز المباريات",
+    "upcoming": "قادم",
+    "internationalFriendly": "مباراة ودية دولية",
+    "viewAllMatches": "عرض كل المباريات"
+  },
+  "SquadSection": {
+    "sectionTitle": "قائمة المنتخب الوطني",
+    "subtitle": "في كأس العالم",
+    "filterAll": "الكل",
+    "filterGoalkeepers": "الحراس",
+    "filterDefence": "خط الدفاع",
+    "filterMidfield": "خط الوسط",
+    "filterAttack": "خط الهجوم"
+  },
+  "FanZonesSection": {
+    "sectionTitle": "عش",
+    "sectionTitleHighlight": "الحماس",
+    "subtitle": "انضم إلى رفاق المشجعين في مناطقنا الرسمية",
+    "fanZonesTab": "مناطق المشجعين",
+    "matchFanZonesTab": "مناطق مشجعي المباريات",
+    "viewOnMap": "عرض على الخريطة"
+  },
+  "TicketGuideSection": {
+    "sectionTitle": "دليل شراء التذاكر",
+    "subtitle": "طريقك إلى المدرجات",
+    "step1Title": "١. إنشاء حساب FIFA",
+    "step1Desc": "سجّل أو سجّل الدخول إلى حساب تذاكر FIFA لبدء العملية.",
+    "step2Title": "٢. اختر مبارياتك",
+    "step2Desc": "تصفح جدول المباريات واختر مباريات الصقور الخضر التي تريد حضورها.",
+    "step3Title": "٣. قدّم طلبك",
+    "step3Desc": "أكمل طلبك وانتظر نتائج قرعة توزيع التذاكر.",
+    "startApplication": "ابدأ الطلب"
+  },
+  "AppDownloadSection": {
+    "title": "اقترب أكثر مع",
+    "titleHighlight": "تطبيق جماهير سافف",
+    "description": "التطبيق الرسمي لمشجعي المنتخب السعودي. احصل على محتوى حصري وتحديثات مباشرة وتذاكر رقمية وانضم إلى مجتمع المشجعين.",
+    "downloadOn": "حمّله على",
+    "appStore": "App Store",
+    "getItOn": "متوفر على",
+    "googlePlay": "Google Play"
+  },
+  "Footer": {
+    "quickLinks": "روابط سريعة",
+    "saff": "الاتحاد السعودي لكرة القدم",
+    "fifa": "الاتحاد الدولي لكرة القدم (FIFA)",
+    "saffFansApp": "تطبيق جماهير سافف",
+    "copyright": "جميع الحقوق محفوظة للتقنية والابتكار لدى",
+    "privacyPolicy": "سياسة الخصوصية",
+    "termsOfService": "شروط الخدمة"
   }
 }
