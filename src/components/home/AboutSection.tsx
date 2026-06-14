@@ -10,7 +10,7 @@ export function AboutSection() {
                 Our World Cup Journey
               </h2>
               <p className="text-lg text-white/80 leading-relaxed font-sans">
-                The Saudi Arabian national team has a rich history in the FIFA World Cup, showcasing the kingdom's passion for football on the global stage. From our unforgettable debut in 1994 to our historic victory against Argentina in 2022, the Green Falcons continue to soar.
+                The Saudi Arabian national team has a rich history in the FIFA World Cup, showcasing the kingdom&apos;s passion for football on the global stage. From our unforgettable debut in 1994 to our historic victory against Argentina in 2022, the Green Falcons continue to soar.
               </p>
             </div>
             

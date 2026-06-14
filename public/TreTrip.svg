@@ -1,0 +1,16 @@
+<svg width="556" height="556" viewBox="0 0 556 556" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Entertab logo">
+  <defs>
+    <mask id="logo-cutouts" maskUnits="userSpaceOnUse" x="0" y="0" width="556" height="556">
+      <rect x="0" y="0" width="556" height="556" fill="white" />
+      <rect x="0" y="100" width="556" height="12" fill="black" />
+      <rect x="272" y="0" width="12" height="556" fill="black" />
+      <circle cx="94" cy="106" r="18" fill="black" />
+      <circle cx="462" cy="106" r="18" fill="black" />
+      <circle cx="278" cy="350" r="18" fill="black" />
+    </mask>
+  </defs>
+  <g mask="url(#logo-cutouts)">
+    <rect x="16" y="28" width="524" height="156" rx="78" fill="#0B9DB5" />
+    <rect x="176" y="28" width="204" height="500" rx="102" fill="#0B9DB5" />
+  </g>
+</svg>

@@ -37,7 +37,7 @@ export function TicketGuideSection() {
             const Icon = step.icon;
             return (
               <div key={idx} className="relative z-10 flex flex-col items-center text-center group">
-                <div className="w-24 h-24 bg-background border-2 border-primary rounded-full flex items-center justify-center mb-6 relative overflow-hidden shadow-[0_0_15px_rgba(0,168,135,0.2)] group-hover:shadow-[0_0_25px_rgba(0,168,135,0.6)] transition-all">
+                <div className="w-24 h-24 bg-background border-2 border-primary rounded-full flex items-center justify-center mb-6 relative overflow-hidden shadow-[0_0_15px_rgba(11,157,181,0.2)] group-hover:shadow-[0_0_25px_rgba(11,157,181,0.6)] transition-all">
                   <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   <Icon size={32} className="text-primary group-hover:scale-110 transition-transform" />
                 </div>
@@ -49,7 +49,7 @@ export function TicketGuideSection() {
         </div>
         
         <div className="mt-16 text-center">
-          <a href="https://fifa.com/tickets" target="_blank" rel="noreferrer" className="inline-block px-10 py-5 bg-primary text-primary-foreground font-bold text-xl transform -skew-x-12 hover:bg-giddam-light transition-all shadow-[0_0_20px_rgba(0,168,135,0.4)]">
+          <a href="https://fifa.com/tickets" target="_blank" rel="noreferrer" className="inline-block px-10 py-5 bg-primary text-primary-foreground font-bold text-xl transform -skew-x-12 hover:bg-giddam-light transition-all shadow-[0_0_20px_rgba(11,157,181,0.4)]">
             <span className="block transform skew-x-12 tracking-wider">Start Application</span>
           </a>
         </div>

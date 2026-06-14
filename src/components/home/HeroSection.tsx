@@ -4,30 +4,34 @@ export function HeroSection() {
   const t = useTranslations('HomePage');
 
   return (
-    <section className="relative w-full min-h-[85vh] flex items-center justify-center overflow-hidden bg-giddam-secondary">
-      {/* Background overlay/image placeholder */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-giddam-secondary/60 to-black/80 z-0"></div>
-      
-      {/* Decorative skewed elements */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/10 transform skew-x-12 translate-x-32 z-0 blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-1/4 h-1/2 bg-giddam-teal/10 transform -skew-x-12 -translate-x-32 z-0 blur-3xl"></div>
+    <section className="relative flex min-h-screen w-full items-center overflow-hidden bg-[#0b2f34] px-4 pt-56 md:px-10 lg:px-16">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_28%,rgba(255,255,255,0.18),transparent_28%),linear-gradient(135deg,rgba(11,157,181,0.28),rgba(4,44,48,0.82)_45%,rgba(3,71,67,0.94))]" />
+      <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(255,255,255,0.08)_0_18%,transparent_18%_40%,rgba(255,255,255,0.06)_40%_54%,transparent_54%)] opacity-70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-giddam-secondary/30 to-background/70" />
+      <div className="absolute bottom-0 right-0 h-2/3 w-1/2 -skew-x-12 bg-primary/15 blur-3xl" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 flex flex-col items-center text-center">
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-heading font-bold text-primary uppercase tracking-wider mb-8 transform -skew-x-12 leading-none drop-shadow-2xl">
-          <span className="block text-white text-3xl md:text-5xl lg:text-6xl mb-4">Giddam</span>
-          {t('title')}
+      <div className="relative z-10 mx-auto flex w-full max-w-[112rem] flex-col items-start">
+        <h1 className="max-w-[96rem] font-heading text-5xl font-bold uppercase leading-[0.9] tracking-normal text-white drop-shadow-2xl sm:text-7xl md:text-8xl lg:text-[7.2rem] xl:text-[8.6rem]">
+          <span className="text-white">GIDDAM </span>
+          <span className="text-primary">WITH THE SAME SPIRIT</span>
         </h1>
-        
-        <p className="text-xl md:text-3xl text-white/90 max-w-3xl mb-12 font-medium tracking-wide">
-          Our road to the 2026 World Cup begins here.
+
+        <p className="mt-10 max-w-5xl text-2xl font-medium leading-relaxed text-white/95 md:text-3xl">
+          The official national team campaign for the 2026 FIFA World Cup, and be part of the event.
         </p>
-        
-        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center w-full sm:w-auto">
-          <a href="https://fifa.com/tickets" className="w-full sm:w-auto group relative px-12 py-5 bg-primary text-primary-foreground font-bold text-xl transform -skew-x-12 hover:bg-giddam-light transition-all overflow-hidden border-2 border-transparent hover:border-white/20 shadow-[0_0_30px_rgba(0,168,135,0.3)]">
-            <span className="block transform skew-x-12 tracking-widest relative z-10">{t('bookTicket')}</span>
+
+        <div className="mt-10 flex w-full flex-col gap-5 sm:w-auto sm:flex-row">
+          <a
+            href="https://fifa.com/tickets"
+            className="inline-flex min-w-72 -skew-x-12 items-center justify-center rounded-md bg-primary px-12 py-5 text-xl font-bold italic text-[#07333a] shadow-[0_18px_35px_rgba(11,157,181,0.26)] transition-colors hover:bg-accent"
+          >
+            <span className="skew-x-12">{t('bookTicket')}</span>
           </a>
-          <a href="#matches" className="w-full sm:w-auto px-12 py-5 bg-white/5 backdrop-blur-md border border-white/20 text-white font-bold text-xl transform -skew-x-12 hover:bg-white/10 hover:border-white/40 transition-all">
-            <span className="block transform skew-x-12 tracking-widest">{t('matchSchedule')}</span>
+          <a
+            href="#matches"
+            className="inline-flex min-w-72 -skew-x-12 items-center justify-center rounded-md border border-white/35 bg-white/5 px-12 py-5 text-xl font-bold italic text-white backdrop-blur-sm transition-colors hover:bg-white/10"
+          >
+            <span className="skew-x-12">{t('matchSchedule')}</span>
           </a>
         </div>
       </div>

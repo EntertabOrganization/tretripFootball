@@ -1,44 +1,81 @@
 'use client';
-import { useTranslations } from 'next-intl';
+
+import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 
-export function Footer() {
-  const socialLinks = [
-    { name: 'FB', href: '#' },
-    { name: 'X', href: '#' },
-    { name: 'IG', href: '#' },
-    { name: 'YT', href: '#' },
-  ];
+const socialLinks = ['f', 'X', 'IG', 'SC', 'TT', 'YT'];
 
+const quickLinks = [
+  { label: 'Saudi Arabian Football Federation', href: 'https://saff.com.sa/' },
+  { label: 'International Federation of Association Football (FIFA)', href: 'https://www.fifa.com/' },
+  { label: 'SAFF Fans App', href: '#' },
+];
+
+export function Footer() {
   return (
-    <footer className="bg-background pt-16 pb-8 border-t border-white/10">
-      <div className="max-w-7xl mx-auto px-4 flex flex-col items-center gap-10">
-        <div className="flex items-center gap-4">
-          {socialLinks.map((social, idx) => {
-            return (
-              <a 
-                key={idx} 
-                href={social.href}
-                className="w-12 h-12 rounded-full bg-gradient-to-tr from-giddam-light via-giddam-teal to-primary flex items-center justify-center text-background hover:scale-110 transition-transform font-bold"
-              >
-                {social.name}
-              </a>
-            );
-          })}
+    <footer className="relative overflow-hidden border-t border-white/10 bg-[#2f7374] px-4 py-16 md:px-10">
+      <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_0_40%,rgba(255,255,255,0.07)_40%_52%,transparent_52%_68%,rgba(255,255,255,0.06)_68%_80%,transparent_80%)]" />
+      <div className="relative mx-auto max-w-[112rem] overflow-hidden rounded-[1.35rem] border border-white/15 bg-white/8 px-6 py-16 shadow-[0_20px_70px_rgba(0,0,0,0.18)] backdrop-blur-sm md:px-12">
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 -skew-x-12 bg-black/10" />
+
+        <div className="relative grid gap-14 md:grid-cols-[1fr_1.05fr]">
+          <div className="flex flex-col items-start">
+            <Image
+              src="/TreTrip.svg"
+              alt="TreTrip"
+              width={556}
+              height={556}
+              className="h-28 w-auto brightness-0 invert md:h-32"
+            />
+
+            <p className="mt-14 text-xl font-bold text-[#d6aa24]">#QiddamWithTheSameSpirit</p>
+
+            <div className="mt-8 flex flex-wrap gap-4">
+              {socialLinks.map((social) => (
+                <a
+                  key={social}
+                  href="#"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-primary font-bold text-[#0b3a3d] transition-transform hover:scale-110 hover:bg-giddam-light"
+                  aria-label={social}
+                >
+                  {social}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col justify-start pt-4">
+            <h2 className="text-2xl font-bold text-white">Quick Links</h2>
+            <div className="mt-8 flex flex-col gap-7">
+              {quickLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target={link.href.startsWith('http') ? '_blank' : undefined}
+                  rel={link.href.startsWith('http') ? 'noreferrer' : undefined}
+                  className="text-lg font-bold text-white transition-colors hover:text-primary"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
-        
-        <h2 className="text-2xl md:text-4xl font-heading font-bold text-primary uppercase tracking-widest text-center">
-          #QiddamWithTheSameSpirit
-        </h2>
-        
-        <div className="w-full h-px bg-white/10 my-4"></div>
-        
-        <div className="flex flex-col md:flex-row items-center justify-between w-full text-white/60 text-sm">
-          <p>© 2026 Saudi Arabian Football Federation. All Rights Reserved.</p>
-          <div className="flex items-center gap-6 mt-4 md:mt-0">
-            <Link href="/" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link href="/" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/" className="hover:text-white transition-colors">Contact Us</Link>
+
+        <div className="relative mt-16 border-t border-white/15 pt-10 text-center">
+          <p className="text-xl text-white">
+            {'\u00A9'} 2026 All rights reserved for Technology and Innovation at{' '}
+            <a href="https://www.entertab.net" className="text-[#d6aa24] transition-colors hover:text-white">
+              Entertab.net
+            </a>
+          </p>
+          <div className="mt-7 flex justify-center gap-8 text-lg text-white">
+            <Link href="/" className="transition-colors hover:text-primary">
+              Privacy Policy
+            </Link>
+            <Link href="/" className="transition-colors hover:text-primary">
+              Terms of Service
+            </Link>
           </div>
         </div>
       </div>
