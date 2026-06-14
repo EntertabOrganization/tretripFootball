@@ -4,8 +4,10 @@ import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link, usePathname, useRouter } from '@/i18n/routing';
 import { useState, useEffect } from 'react';
-import { ChevronDown, Globe2, LogIn, Menu, UserPlus, X } from 'lucide-react';
+import { ChevronDown, Globe2, LayoutDashboard, LogIn, Menu, UserPlus, X } from 'lucide-react';
+import { hasAdminSession } from '@/lib/admin-client';
 import { ARAB_TEAMS } from '@/data/arabMatches';
+import { supabase } from '@/lib/supabase';
 
 interface NavbarProps {
   selectedTeamCode?: string;
@@ -20,6 +22,8 @@ export function Navbar({ selectedTeamCode = 'KSA', onSelectTeam = () => {} }: Na
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isTeamDropdownOpen, setIsTeamDropdownOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [dashboardHref, setDashboardHref] = useState<'/dashboard' | '/admin'>('/dashboard');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,6 +31,49 @@ export function Navbar({ selectedTeamCode = 'KSA', onSelectTeam = () => {} }: Na
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const syncAuthState = async () => {
+      const isAdmin = hasAdminSession();
+
+      if (isAdmin) {
+        setIsAuthenticated(true);
+        setDashboardHref('/admin');
+        return;
+      }
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      setIsAuthenticated(Boolean(session));
+      setDashboardHref('/dashboard');
+    };
+
+    void syncAuthState();
+
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (hasAdminSession()) {
+        setIsAuthenticated(true);
+        setDashboardHref('/admin');
+        return;
+      }
+
+      setIsAuthenticated(Boolean(session));
+      setDashboardHref('/dashboard');
+    });
+
+    const handleStorage = () => {
+      void syncAuthState();
+    };
+
+    window.addEventListener('storage', handleStorage);
+
+    return () => {
+      data.subscription.unsubscribe();
+      window.removeEventListener('storage', handleStorage);
+    };
   }, []);
 
   const switchLocale = () => {
@@ -93,24 +140,36 @@ export function Navbar({ selectedTeamCode = 'KSA', onSelectTeam = () => {} }: Na
             </div>
 
             <div className="hidden shrink-0 items-center gap-3 lg:flex">
-              <Link
-                href="/sign-in"
-                className={`flex min-w-36 items-center justify-center gap-2 rounded-md px-5 py-3.5 text-base font-bold transition-colors ${
-                  scrolled
-                    ? 'border-2 border-primary/80 bg-transparent text-primary hover:bg-primary hover:text-white'
-                    : 'border-2 border-white/30 bg-white/5 text-white hover:bg-white/15'
-                }`}
-              >
-                <LogIn size={18} />
-                {t('signIn')}
-              </Link>
-              <Link
-                href="/sign-up"
-                className="flex min-w-36 items-center justify-center gap-2 rounded-md bg-primary px-5 py-3.5 text-base font-bold text-white shadow-[0_8px_20px_rgba(11,157,181,0.28)] transition-colors hover:bg-accent"
-              >
-                <UserPlus size={18} />
-                {t('signUp')}
-              </Link>
+              {isAuthenticated ? (
+                <Link
+                  href={dashboardHref}
+                  className="flex min-w-36 items-center justify-center gap-2 rounded-md bg-primary px-5 py-3.5 text-base font-bold text-white shadow-[0_8px_20px_rgba(57,158,182,0.28)] transition-colors hover:bg-accent"
+                >
+                  <LayoutDashboard size={18} />
+                  {t('dashboard')}
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    href="/sign-in"
+                    className={`flex min-w-36 items-center justify-center gap-2 rounded-md px-5 py-3.5 text-base font-bold transition-colors ${
+                      scrolled
+                        ? 'border-2 border-primary/80 bg-transparent text-primary hover:bg-primary hover:text-white'
+                        : 'border-2 border-white/30 bg-white/5 text-white hover:bg-white/15'
+                    }`}
+                  >
+                    <LogIn size={18} />
+                    {t('signIn')}
+                  </Link>
+                  <Link
+                    href="/sign-up"
+                    className="flex min-w-36 items-center justify-center gap-2 rounded-md bg-primary px-5 py-3.5 text-base font-bold text-white shadow-[0_8px_20px_rgba(57,158,182,0.28)] transition-colors hover:bg-accent"
+                  >
+                    <UserPlus size={18} />
+                    {t('signUp')}
+                  </Link>
+                </>
+              )}
 
               {/* Team Selector Dropdown */}
               <div className="relative">
@@ -198,23 +257,35 @@ export function Navbar({ selectedTeamCode = 'KSA', onSelectTeam = () => {} }: Na
                   {item.hasDropdown ? <ChevronDown size={16} /> : null}
                 </Link>
               ))}
-              <div className="flex gap-3 mt-2">
-                <Link
-                  href="/sign-in"
-                  className={`flex flex-1 items-center justify-center gap-2 rounded-md border-2 px-5 py-3.5 font-bold transition-colors ${
-                    scrolled ? 'border-primary text-primary' : 'border-white/30 text-white'
-                  }`}
-                >
-                  <LogIn size={18} />
-                  {t('signIn')}
-                </Link>
-                <Link
-                  href="/sign-up"
-                  className="flex flex-1 items-center justify-center gap-2 rounded-md bg-primary px-5 py-3.5 font-bold text-white"
-                >
-                  <UserPlus size={18} />
-                  {t('signUp')}
-                </Link>
+              <div className="mt-2 flex gap-3">
+                {isAuthenticated ? (
+                  <Link
+                    href={dashboardHref}
+                    className="flex flex-1 items-center justify-center gap-2 rounded-md bg-primary px-5 py-3.5 font-bold text-white"
+                  >
+                    <LayoutDashboard size={18} />
+                    {t('dashboard')}
+                  </Link>
+                ) : (
+                  <>
+                    <Link
+                      href="/sign-in"
+                      className={`flex flex-1 items-center justify-center gap-2 rounded-md border-2 px-5 py-3.5 font-bold transition-colors ${
+                        scrolled ? 'border-primary text-primary' : 'border-white/30 text-white'
+                      }`}
+                    >
+                      <LogIn size={18} />
+                      {t('signIn')}
+                    </Link>
+                    <Link
+                      href="/sign-up"
+                      className="flex flex-1 items-center justify-center gap-2 rounded-md bg-primary px-5 py-3.5 font-bold text-white"
+                    >
+                      <UserPlus size={18} />
+                      {t('signUp')}
+                    </Link>
+                  </>
+                )}
               </div>
               <div className="flex flex-col gap-2 mt-2">
                 <span className={`text-xs font-bold uppercase tracking-wider ${scrolled ? 'text-gray-500' : 'text-white/60'}`}>

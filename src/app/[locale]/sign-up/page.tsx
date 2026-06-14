@@ -98,7 +98,7 @@ export default function SignUpPage() {
         </Link>
 
         <div className="overflow-hidden rounded-[2rem] border border-white/20 bg-white shadow-[0_32px_80px_rgba(9,33,37,0.22)]">
-          <div className="h-2 bg-[linear-gradient(90deg,#36c5b4,#2f7374,#d9b037)]" />
+          <div className="h-2 bg-[linear-gradient(90deg,#399eb6,#2f7374,#d9b037)]" />
 
           <div className="p-8 md:p-9">
             <div className="mb-8 text-center">

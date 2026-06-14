@@ -6,6 +6,7 @@ import { ArrowLeft, LogIn } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link, useRouter } from '@/i18n/routing';
 import { getFriendlyAuthError } from '@/lib/auth-errors';
+import { isSuperAdminCredentials, setAdminSession } from '@/lib/admin-client';
 import { supabase } from '@/lib/supabase';
 
 export default function SignInPage() {
@@ -25,6 +26,13 @@ export default function SignInPage() {
     setError(null);
 
     try {
+      if (isSuperAdminCredentials(email, password)) {
+        setAdminSession();
+        setSuccess(true);
+        router.replace('/admin');
+        return;
+      }
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -39,7 +47,7 @@ export default function SignInPage() {
         router.replace('/dashboard');
       }
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : t('errorGeneric');
+      const message = err instanceof Error ? getFriendlyAuthError(err.message) : t('errorGeneric');
       setError(message);
     } finally {
       setLoading(false);
@@ -79,7 +87,7 @@ export default function SignInPage() {
         </Link>
 
         <div className="overflow-hidden rounded-[2rem] border border-white/20 bg-white shadow-[0_32px_80px_rgba(9,33,37,0.22)]">
-          <div className="h-2 bg-[linear-gradient(90deg,#2f7374,#36c5b4,#d9b037)]" />
+          <div className="h-2 bg-[linear-gradient(90deg,#2f7374,#399eb6,#d9b037)]" />
 
           <div className="p-8 md:p-9">
             <div className="mb-8 text-center">

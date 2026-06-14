@@ -6,6 +6,7 @@ import { ArrowLeft, CalendarDays, Film, LogOut, Save, Trophy, Upload, User } fro
 import { useTranslations } from 'next-intl';
 import { Link, useRouter } from '@/i18n/routing';
 import { ALL_ARAB_MATCHES } from '@/data/arabMatches';
+import { getAdminMatches, getStoredPredictions, savePrediction } from '@/lib/admin-client';
 import { supabase } from '@/lib/supabase';
 
 type SessionUser = {
@@ -15,8 +16,6 @@ type SessionUser = {
   };
 };
 
-const DASHBOARD_MATCHES = ALL_ARAB_MATCHES.slice(0, 8);
-
 export default function DashboardPage() {
   const t = useTranslations('Dashboard');
   const router = useRouter();
@@ -24,15 +23,15 @@ export default function DashboardPage() {
   const [user, setUser] = useState<SessionUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [fullName, setFullName] = useState('');
-  const [selectedMatchId, setSelectedMatchId] = useState<number>(DASHBOARD_MATCHES[0]?.id ?? 0);
+  const [selectedMatchId, setSelectedMatchId] = useState<number>(ALL_ARAB_MATCHES[0]?.id ?? 0);
   const [homeScore, setHomeScore] = useState('1');
   const [awayScore, setAwayScore] = useState('0');
   const [successMsg, setSuccessMsg] = useState('');
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [videoPreviewUrl, setVideoPreviewUrl] = useState('');
+  const [dashboardMatches, setDashboardMatches] = useState(() => ALL_ARAB_MATCHES.slice(0, 8));
   const previewUrlRef = useRef('');
-
-  const selectedMatch = DASHBOARD_MATCHES.find((match) => match.id === selectedMatchId) ?? DASHBOARD_MATCHES[0];
+  const selectedMatch = dashboardMatches.find((match) => match.id === selectedMatchId) ?? dashboardMatches[0];
 
   useEffect(() => {
     const loadSession = async () => {
@@ -47,6 +46,17 @@ export default function DashboardPage() {
 
       setUser(session.user as SessionUser);
       setFullName(session.user.user_metadata?.full_name || '');
+      const managedMatches = getAdminMatches();
+      const nextMatches = managedMatches.length > 0 ? managedMatches : ALL_ARAB_MATCHES.slice(0, 8);
+      setDashboardMatches(nextMatches);
+      setSelectedMatchId(nextMatches[0]?.id ?? 0);
+
+      const latestPrediction = getStoredPredictions()[0];
+      if (latestPrediction) {
+        setSelectedMatchId(latestPrediction.matchId);
+        setHomeScore(String(latestPrediction.homeScore));
+        setAwayScore(String(latestPrediction.awayScore));
+      }
       setLoading(false);
     };
 
@@ -67,6 +77,21 @@ export default function DashboardPage() {
       data.subscription.unsubscribe();
     };
   }, [router]);
+
+  useEffect(() => {
+    const syncManagedMatches = () => {
+      const managedMatches = getAdminMatches();
+      const nextMatches = managedMatches.length > 0 ? managedMatches : ALL_ARAB_MATCHES.slice(0, 8);
+      setDashboardMatches(nextMatches);
+
+      if (!nextMatches.some((match) => match.id === selectedMatchId)) {
+        setSelectedMatchId(nextMatches[0]?.id ?? 0);
+      }
+    };
+
+    window.addEventListener('storage', syncManagedMatches);
+    return () => window.removeEventListener('storage', syncManagedMatches);
+  }, [selectedMatchId]);
 
   useEffect(() => {
     return () => {
@@ -107,6 +132,14 @@ export default function DashboardPage() {
 
   const handlePredictionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!selectedMatch) return;
+
+    savePrediction({
+      matchId: selectedMatch.id,
+      homeScore: Number(homeScore),
+      awayScore: Number(awayScore),
+      submittedAt: new Date().toISOString(),
+    });
     showSuccess(t('predictionSubmitted'));
   };
 
@@ -176,7 +209,7 @@ export default function DashboardPage() {
                   <CalendarDays size={20} />
                 </div>
                 <p className="text-sm text-foreground/55">{t('upcomingMatches')}</p>
-                <p className="mt-2 text-3xl font-semibold text-foreground">{DASHBOARD_MATCHES.length}</p>
+                <p className="mt-2 text-3xl font-semibold text-foreground">{dashboardMatches.length}</p>
               </div>
 
               <div className="rounded-[1.5rem] border border-white/60 bg-white/75 p-5 shadow-[0_14px_34px_rgba(18,53,58,0.06)]">
@@ -293,14 +326,14 @@ export default function DashboardPage() {
 
             <form onSubmit={handlePredictionSubmit} className="space-y-6">
               <div className="grid gap-3 md:grid-cols-2">
-                {DASHBOARD_MATCHES.map((match) => (
+                {dashboardMatches.map((match) => (
                   <button
                     key={match.id}
                     type="button"
                     onClick={() => setSelectedMatchId(match.id)}
                     className={`rounded-[1.4rem] border p-4 text-left transition-all ${
                       selectedMatchId === match.id
-                        ? 'border-primary bg-white shadow-[0_18px_40px_rgba(54,197,180,0.16)]'
+                        ? 'border-primary bg-white shadow-[0_18px_40px_rgba(57,158,182,0.16)]'
                         : 'border-white/75 bg-white/70 hover:border-primary/35 hover:bg-white'
                     }`}
                   >
