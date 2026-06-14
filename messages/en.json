@@ -44,13 +44,16 @@
     "filterAFC": "AFC (Asia)",
     "filterCAF": "CAF (Africa)"
   },
-  "FanZonesSection": {
+  "LeaderboardSection": {
     "sectionTitle": "Experience the",
     "sectionTitleHighlight": "Arab Spirit",
-    "subtitle": "Join Arab fans at official World Cup fan zones across the host cities",
-    "fanZonesTab": "Fan Zones",
-    "matchFanZonesTab": "Match Day Zones",
-    "viewOnMap": "View on Map"
+    "subtitle": "Predict match results and compete with Arab fans worldwide",
+    "rank": "Rank",
+    "predictor": "Predictor",
+    "predictions": "Predictions",
+    "correct": "Correct",
+    "points": "Points",
+    "noData": "Be the first to predict!"
   },
   "TicketGuideSection": {
     "sectionTitle": "Ticket Purchase Guide",
@@ -87,5 +90,40 @@
     "filterAll": "All Teams",
     "backHome": "Back to Home",
     "groupStage": "Group Stage"
+  },
+  "Auth": {
+    "signInTitle": "Welcome Back",
+    "signInSubtitle": "Sign in to access your predictions and dashboard.",
+    "signUpTitle": "Join the Arab Spirit",
+    "signUpSubtitle": "Create an account to predict matches and connect with fans.",
+    "fullName": "Full Name",
+    "email": "Email Address",
+    "password": "Password",
+    "signInButton": "Sign In",
+    "signUpButton": "Create Account",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "errorGeneric": "An error occurred. Please try again.",
+    "signInSuccess": "Successfully signed in!",
+    "signUpSuccess": "Account created successfully!"
+  },
+  "Dashboard": {
+    "title": "Welcome Back",
+    "subtitle": "Manage your profile, predict matches, and share your experience.",
+    "editProfile": "Edit Profile",
+    "fullName": "Full Name",
+    "saveChanges": "Save Changes",
+    "logout": "Logout",
+    "uploadVideo": "Upload a Video",
+    "videoDesc": "Share your World Cup experience or fan reactions. Add a YouTube or video link below.",
+    "videoLink": "Video Link (YouTube, Vimeo, etc.)",
+    "submitVideo": "Submit Video",
+    "predictMatch": "Predict Match Result",
+    "predictDesc": "Select an upcoming match and predict the final score.",
+    "selectMatch": "Select a Match",
+    "homeScore": "Home Score",
+    "awayScore": "Away Score",
+    "submitPrediction": "Submit Prediction",
+    "successMessage": "Successfully updated!"
   }
 }

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { AboutSection } from '@/components/home/AboutSection';
 import { AppDownloadSection } from '@/components/home/AppDownloadSection';
-import { FanZonesSection } from '@/components/home/FanZonesSection';
+import { LeaderboardSection } from '@/components/home/LeaderboardSection';
 import { HeroSection } from '@/components/home/HeroSection';
 import { MatchCenterSection } from '@/components/home/MatchCenterSection';
 import { SquadSection } from '@/components/home/SquadSection';
@@ -22,7 +22,7 @@ export default function Home() {
         <AboutSection selectedTeamCode={selectedTeamCode} />
         <MatchCenterSection selectedTeamCode={selectedTeamCode} />
         <SquadSection selectedTeamCode={selectedTeamCode} />
-        <FanZonesSection />
+        <LeaderboardSection />
         <TicketGuideSection />
         <AppDownloadSection />
       </main>

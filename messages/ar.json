@@ -44,13 +44,16 @@
     "filterAFC": "AFC (آسيا)",
     "filterCAF": "CAF (أفريقيا)"
   },
-  "FanZonesSection": {
+  "LeaderboardSection": {
     "sectionTitle": "عش",
     "sectionTitleHighlight": "الروح العربية",
-    "subtitle": "انضم إلى المشجعين العرب في مناطق المشجعين الرسمية عبر مدن كأس العالم",
-    "fanZonesTab": "مناطق المشجعين",
-    "matchFanZonesTab": "مناطق يوم المباراة",
-    "viewOnMap": "عرض على الخريطة"
+    "subtitle": "توقع نتائج المباريات وتنافس مع المشجعين العرب حول العالم",
+    "rank": "المركز",
+    "predictor": "المتوقع",
+    "predictions": "التوقعات",
+    "correct": "صحيحة",
+    "points": "النقاط",
+    "noData": "كن أول من يتوقع!"
   },
   "TicketGuideSection": {
     "sectionTitle": "دليل شراء التذاكر",
@@ -87,5 +90,40 @@
     "filterAll": "جميع المنتخبات",
     "backHome": "العودة للرئيسية",
     "groupStage": "دور المجموعات"
+  },
+  "Auth": {
+    "signInTitle": "مرحباً بعودتك",
+    "signInSubtitle": "سجل الدخول للوصول إلى توقعاتك ولوحة التحكم.",
+    "signUpTitle": "انضم إلى الروح العربية",
+    "signUpSubtitle": "أنشئ حساباً لتوقع المباريات والتواصل مع المشجعين.",
+    "fullName": "الاسم الكامل",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "signInButton": "تسجيل الدخول",
+    "signUpButton": "إنشاء حساب",
+    "noAccount": "ليس لديك حساب؟",
+    "hasAccount": "لديك حساب بالفعل؟",
+    "errorGeneric": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+    "signInSuccess": "تم تسجيل الدخول بنجاح!",
+    "signUpSuccess": "تم إنشاء الحساب بنجاح!"
+  },
+  "Dashboard": {
+    "title": "مرحباً بك",
+    "subtitle": "أدر ملفك الشخصي، توقع المباريات، وشارك تجربتك.",
+    "editProfile": "تعديل الملف الشخصي",
+    "fullName": "الاسم الكامل",
+    "saveChanges": "حفظ التغييرات",
+    "logout": "تسجيل الخروج",
+    "uploadVideo": "رفع فيديو",
+    "videoDesc": "شارك تجربتك في كأس العالم أو ردود أفعالك. أضف رابط يوتيوب أو فيديو أدناه.",
+    "videoLink": "رابط الفيديو (يوتيوب، فيميو، الخ)",
+    "submitVideo": "إرسال الفيديو",
+    "predictMatch": "توقع نتيجة المباراة",
+    "predictDesc": "اختر مباراة قادمة وتوقع النتيجة النهائية.",
+    "selectMatch": "اختر مباراة",
+    "homeScore": "نقاط المضيف",
+    "awayScore": "نقاط الضيف",
+    "submitPrediction": "إرسال التوقع",
+    "successMessage": "تم التحديث بنجاح!"
   }
 }
