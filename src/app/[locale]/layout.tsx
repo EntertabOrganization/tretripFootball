@@ -4,8 +4,6 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
 import "../globals.css";
 
 const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
@@ -27,7 +25,7 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
-  if (!routing.locales.includes(locale as any)) {
+  if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
     notFound();
   }
 
@@ -39,13 +37,9 @@ export default async function RootLayout({
       dir={locale === 'ar' ? 'rtl' : 'ltr'}
       className={`${ibmPlexSansArabic.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">
+      <body className="min-h-full bg-background font-sans text-foreground">
         <NextIntlClientProvider messages={messages}>
-          <Navbar />
-          <div className="flex-1 pt-20">
-            {children}
-          </div>
-          <Footer />
+          {children}
         </NextIntlClientProvider>
       </body>
     </html>
