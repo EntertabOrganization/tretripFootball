@@ -28,7 +28,7 @@ export function Footer() {
               alt="TreTrip"
               width={556}
               height={556}
-              className="h-28 w-auto brightness-0 invert md:h-32"
+              className="h-28 w-auto md:h-32"
             />
 
             <p className="mt-14 text-xl font-bold text-[#d6aa24]">#TreTrip2026</p>

@@ -1,6 +1,7 @@
 import { useTranslations, useLocale } from 'next-intl';
 import { LogIn, UserPlus } from 'lucide-react';
 import { ARAB_TEAMS } from '@/data/arabMatches';
+import { Link } from '@/i18n/routing';
 
 interface HeroSectionProps {
   selectedTeamCode?: string;
@@ -38,7 +39,7 @@ export function HeroSection({ selectedTeamCode = 'KSA' }: HeroSectionProps) {
         </p>
 
         <div className="mt-8 flex w-full flex-col gap-4 sm:w-auto sm:flex-row">
-          <a
+          <Link
             href="/sign-in"
             className="inline-flex min-w-56 -skew-x-12 items-center justify-center gap-3 rounded-md bg-primary px-10 py-4 text-lg font-bold italic text-[#07333a] shadow-[0_18px_35px_rgba(11,157,181,0.26)] transition-colors hover:bg-accent"
           >
@@ -46,8 +47,8 @@ export function HeroSection({ selectedTeamCode = 'KSA' }: HeroSectionProps) {
               <LogIn size={20} />
               {t('signIn')}
             </span>
-          </a>
-          <a
+          </Link>
+          <Link
             href="/sign-up"
             className="inline-flex min-w-56 -skew-x-12 items-center justify-center gap-3 rounded-md border border-white/35 bg-white/5 px-10 py-4 text-lg font-bold italic text-white backdrop-blur-sm transition-colors hover:bg-white/10"
           >
@@ -55,7 +56,7 @@ export function HeroSection({ selectedTeamCode = 'KSA' }: HeroSectionProps) {
               <UserPlus size={20} />
               {t('signUp')}
             </span>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

@@ -68,7 +68,7 @@ export function Navbar({ selectedTeamCode = 'KSA', onSelectTeam = () => {} }: Na
                 width={556}
                 height={556}
                 priority
-                className={`h-14 w-auto transition-all duration-300 md:h-16 ${scrolled ? 'brightness-0' : 'brightness-0 invert'}`}
+                className="h-14 w-auto transition-all duration-300 md:h-16"
               />
               <span className={`hidden h-12 w-px sm:block transition-colors duration-300 ${scrolled ? 'bg-black/20' : 'bg-white/40'}`} />
             </Link>
@@ -93,7 +93,7 @@ export function Navbar({ selectedTeamCode = 'KSA', onSelectTeam = () => {} }: Na
             </div>
 
             <div className="hidden shrink-0 items-center gap-3 lg:flex">
-              <a
+              <Link
                 href="/sign-in"
                 className={`flex min-w-36 items-center justify-center gap-2 rounded-md px-5 py-3.5 text-base font-bold transition-colors ${
                   scrolled
@@ -103,14 +103,14 @@ export function Navbar({ selectedTeamCode = 'KSA', onSelectTeam = () => {} }: Na
               >
                 <LogIn size={18} />
                 {t('signIn')}
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/sign-up"
                 className="flex min-w-36 items-center justify-center gap-2 rounded-md bg-primary px-5 py-3.5 text-base font-bold text-white shadow-[0_8px_20px_rgba(11,157,181,0.28)] transition-colors hover:bg-accent"
               >
                 <UserPlus size={18} />
                 {t('signUp')}
-              </a>
+              </Link>
 
               {/* Team Selector Dropdown */}
               <div className="relative">
@@ -199,7 +199,7 @@ export function Navbar({ selectedTeamCode = 'KSA', onSelectTeam = () => {} }: Na
                 </Link>
               ))}
               <div className="flex gap-3 mt-2">
-                <a
+                <Link
                   href="/sign-in"
                   className={`flex flex-1 items-center justify-center gap-2 rounded-md border-2 px-5 py-3.5 font-bold transition-colors ${
                     scrolled ? 'border-primary text-primary' : 'border-white/30 text-white'
@@ -207,14 +207,14 @@ export function Navbar({ selectedTeamCode = 'KSA', onSelectTeam = () => {} }: Na
                 >
                   <LogIn size={18} />
                   {t('signIn')}
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/sign-up"
                   className="flex flex-1 items-center justify-center gap-2 rounded-md bg-primary px-5 py-3.5 font-bold text-white"
                 >
                   <UserPlus size={18} />
                   {t('signUp')}
-                </a>
+                </Link>
               </div>
               <div className="flex flex-col gap-2 mt-2">
                 <span className={`text-xs font-bold uppercase tracking-wider ${scrolled ? 'text-gray-500' : 'text-white/60'}`}>

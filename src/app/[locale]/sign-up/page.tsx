@@ -68,7 +68,7 @@ export default function SignUpPage() {
           
           <div className="text-center mb-8">
             <Link href="/" className="inline-block mb-6">
-              <Image src="/TreTrip.svg" alt="TreTrip" width={140} height={40} className="h-8 w-auto mx-auto brightness-0 invert" />
+              <Image src="/TreTrip.svg" alt="TreTrip" width={140} height={40} className="h-8 w-auto mx-auto" />
             </Link>
             <h1 className="text-3xl font-heading font-bold text-white uppercase tracking-wider mb-2">{t('signUpTitle')}</h1>
             <p className="text-white/60 text-sm">{t('signUpSubtitle')}</p>
