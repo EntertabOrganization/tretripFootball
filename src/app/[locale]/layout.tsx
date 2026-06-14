@@ -13,8 +13,8 @@ const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: "TreTrip",
-  description: "TreTrip – Saudi National Team Fan Platform for the 2026 FIFA World Cup",
+  title: "TreTrip — Arab World Cup 2026",
+  description: "TreTrip – Your ultimate hub for all Arab nations at the 2026 FIFA World Cup. Follow Saudi Arabia, Morocco, Egypt, Jordan, Iraq, Algeria, Qatar & Tunisia.",
 };
 
 export default async function RootLayout({

@@ -4,14 +4,14 @@ import { MapPin, Clock } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 const FAN_ZONES = [
-  { id: 1, city: 'Riyadh', address: 'KAFD Fan Zone', time: '4:00 PM - 12:00 AM', mapLink: '#' },
-  { id: 2, city: 'Jeddah', address: 'Jeddah Corniche', time: '4:00 PM - 12:00 AM', mapLink: '#' },
-  { id: 3, city: 'Dammam', address: 'King Abdullah Park', time: '4:00 PM - 12:00 AM', mapLink: '#' },
+  { id: 1, city: 'New York', address: 'MetLife Stadium Fan Village', time: '4:00 PM - 12:00 AM', mapLink: '#' },
+  { id: 2, city: 'Los Angeles', address: 'SoFi Stadium Fan Plaza', time: '4:00 PM - 12:00 AM', mapLink: '#' },
+  { id: 3, city: 'Dallas', address: 'AT&T Stadium Fan Zone', time: '4:00 PM - 12:00 AM', mapLink: '#' },
 ];
 
 const MATCH_ZONES = [
-  { id: 4, city: 'Atlanta', address: 'Mercedes-Benz Stadium Plaza', time: '12:00 PM - 8:00 PM', mapLink: '#' },
-  { id: 5, city: 'Boston', address: 'Gillette Stadium Fan Fest', time: '12:00 PM - 8:00 PM', mapLink: '#' },
+  { id: 4, city: 'Miami', address: 'Hard Rock Stadium Fan Fest', time: '12:00 PM - 8:00 PM', mapLink: '#' },
+  { id: 5, city: 'Vancouver', address: 'BC Place Fan Village', time: '12:00 PM - 8:00 PM', mapLink: '#' },
 ];
 
 export function FanZonesSection() {

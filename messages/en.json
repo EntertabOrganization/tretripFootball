@@ -3,31 +3,31 @@
     "home": "Home",
     "about": "About",
     "matches": "Matches",
-    "saffFans": "SAFF Fans",
+    "saffFans": "Arab Teams",
     "fanZone": "Fan Zone",
     "signIn": "Sign In",
     "signUp": "Sign Up"
   },
   "HomePage": {
-    "heroLine1": "GIDDAM",
-    "heroLine2": "WITH THE SAME SPIRIT",
-    "heroSubtitle": "The official national team campaign for the 2026 FIFA World Cup. Be part of the event and stand behind the Green Falcons.",
+    "heroLine1": "TreTrip",
+    "heroLine2": "WITH THE ARAB SPIRIT",
+    "heroSubtitle": "Your ultimate hub for all Arab nations at the 2026 FIFA World Cup. Follow 8 Arab teams as they compete in USA, Canada & Mexico — be part of the biggest Arab football moment in history.",
     "signIn": "Sign In",
     "signUp": "Sign Up",
-    "title": "GIDDAM WITH THE SAME SPIRIT",
+    "title": "TreTrip — Arab World Cup 2026",
     "bookTicket": "Book Your Ticket",
     "matchSchedule": "Match Schedule"
   },
   "AboutSection": {
-    "journeyTitle": "Our World Cup Journey",
-    "journeyText": "The Saudi Arabian national team has a rich history in the FIFA World Cup, showcasing the kingdom's passion for football on the global stage. From our unforgettable debut in 1994 to our historic victory against Argentina in 2022, the Green Falcons continue to soar.",
-    "roadTitle": "Our Road to World Cup 2026",
-    "roadText": "With a renewed spirit and relentless determination, our squad is preparing for the ultimate challenge. The road to 2026 is paved with hard work, and we invite every fan to stand behind the team as we aim to make history once again.",
-    "basicInfoTitle": "Basic Information",
+    "journeyTitle": "Arab Nations at the World Cup",
+    "journeyText": "For the first time in history, eight Arab nations will compete simultaneously on the FIFA World Cup stage. From the Atlas Lions of Morocco to the Lions of Mesopotamia in Iraq, the Arab footballing world is writing its greatest chapter yet at the 2026 FIFA World Cup.",
+    "roadTitle": "The Road to 2026",
+    "roadText": "Spanning three host nations — the United States, Canada, and Mexico — the 2026 FIFA World Cup is the largest edition ever with 48 teams. Arab nations from both AFC and CAF confederations qualified through fierce competition, earning their place on the world's biggest stage.",
+    "basicInfoTitle": "2026 Arab Presence",
     "nickname": "Nickname",
     "nicknameValue": "Green Falcons",
     "manager": "Manager",
-    "managerValue": "Georgios Donis",
+    "managerValue": "Hervé Renard",
     "worldCupAppearances": "World Cup Appearances",
     "confederation": "Confederation"
   },
@@ -38,20 +38,18 @@
     "viewAllMatches": "View All Matches"
   },
   "SquadSection": {
-    "sectionTitle": "National Team Squad",
-    "subtitle": "At the World Cup",
-    "filterAll": "All",
-    "filterGoalkeepers": "Goalkeepers",
-    "filterDefence": "Defence Line",
-    "filterMidfield": "Midfield Line",
-    "filterAttack": "Attack Line"
+    "sectionTitle": "Arab Nations",
+    "subtitle": "FIFA World Cup 2026",
+    "filterAll": "All Teams",
+    "filterAFC": "AFC (Asia)",
+    "filterCAF": "CAF (Africa)"
   },
   "FanZonesSection": {
     "sectionTitle": "Experience the",
-    "sectionTitleHighlight": "Passion",
-    "subtitle": "Join fellow fans at our official zones",
+    "sectionTitleHighlight": "Arab Spirit",
+    "subtitle": "Join Arab fans at official World Cup fan zones across the host cities",
     "fanZonesTab": "Fan Zones",
-    "matchFanZonesTab": "Match Fan Zones",
+    "matchFanZonesTab": "Match Day Zones",
     "viewOnMap": "View on Map"
   },
   "TicketGuideSection": {
@@ -60,15 +58,15 @@
     "step1Title": "1. Create A FIFA Account",
     "step1Desc": "Register or log in to your FIFA ticketing account to begin the process.",
     "step2Title": "2. Choose Your Match",
-    "step2Desc": "Browse the match schedule and select the Green Falcons games you want to attend.",
+    "step2Desc": "Browse the match schedule and select the Arab team games you want to attend.",
     "step3Title": "3. Submit Your Application",
     "step3Desc": "Complete your application and await the ticket allocation draw results.",
     "startApplication": "Start Application"
   },
   "AppDownloadSection": {
     "title": "Get Closer with",
-    "titleHighlight": "SAFF FANS APP",
-    "description": "The official app for Saudi Arabian national team fans. Get exclusive content, live updates, digital tickets, and join the ultimate fan community.",
+    "titleHighlight": "TRETRIP APP",
+    "description": "The ultimate app for Arab World Cup 2026 fans. Track all 8 Arab teams, get live match updates, squad news, and join the largest Arab football fan community.",
     "downloadOn": "Download on the",
     "appStore": "App Store",
     "getItOn": "GET IT ON",
@@ -78,9 +76,16 @@
     "quickLinks": "Quick Links",
     "saff": "Saudi Arabian Football Federation",
     "fifa": "International Federation of Association Football (FIFA)",
-    "saffFansApp": "SAFF Fans App",
+    "saffFansApp": "TreTrip App",
     "copyright": "All rights reserved for Technology and Innovation at",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service"
+  },
+  "MatchesPage": {
+    "title": "Arab Teams — All Matches",
+    "subtitle": "Complete group stage schedule for all Arab nations at FIFA World Cup 2026",
+    "filterAll": "All Teams",
+    "backHome": "Back to Home",
+    "groupStage": "Group Stage"
   }
 }

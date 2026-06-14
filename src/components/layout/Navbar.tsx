@@ -5,14 +5,21 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Link, usePathname, useRouter } from '@/i18n/routing';
 import { useState, useEffect } from 'react';
 import { ChevronDown, Globe2, LogIn, Menu, UserPlus, X } from 'lucide-react';
+import { ARAB_TEAMS } from '@/data/arabMatches';
 
-export function Navbar() {
+interface NavbarProps {
+  selectedTeamCode?: string;
+  onSelectTeam?: (code: string) => void;
+}
+
+export function Navbar({ selectedTeamCode = 'KSA', onSelectTeam = () => {} }: NavbarProps) {
   const locale = useLocale();
   const t = useTranslations('Navbar');
   const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isTeamDropdownOpen, setIsTeamDropdownOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,10 +37,12 @@ export function Navbar() {
   const navItems = [
     { label: t('home'), href: '/' },
     { label: t('about'), href: '#about', hasDropdown: true },
-    { label: t('matches'), href: '#matches', hasDropdown: true },
+    { label: t('matches'), href: '/matches', hasDropdown: false },
     { label: t('saffFans'), href: '#fans' },
     { label: t('fanZone'), href: '#fan-zones' },
   ];
+
+  const currentTeam = ARAB_TEAMS.find(t => t.code === selectedTeamCode) || ARAB_TEAMS[0];
 
   return (
     <header
@@ -72,14 +81,14 @@ export function Navbar() {
               }`}
             >
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.label}
-                  href={item.href}
+                  href={item.href as '/' | '/matches'}
                   className={`flex items-center gap-1.5 transition-colors hover:text-primary ${scrolled ? 'text-gray-700' : ''}`}
                 >
                   {item.label}
                   {item.hasDropdown ? <ChevronDown size={16} /> : null}
-                </a>
+                </Link>
               ))}
             </div>
 
@@ -102,9 +111,51 @@ export function Navbar() {
                 <UserPlus size={18} />
                 {t('signUp')}
               </a>
+
+              {/* Team Selector Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setIsTeamDropdownOpen(!isTeamDropdownOpen)}
+                  className={`flex h-11 items-center justify-center gap-2 rounded-md border-2 px-3 font-bold transition-colors cursor-pointer ${
+                    scrolled
+                      ? 'border-primary/60 bg-transparent text-primary hover:bg-primary hover:text-white'
+                      : 'border-primary/80 bg-white/5 text-white hover:bg-primary'
+                  }`}
+                  title="Select National Team"
+                >
+                  <span className="text-lg">{currentTeam.flag}</span>
+                  <span className="text-sm tracking-wider font-heading">{currentTeam.code}</span>
+                  <ChevronDown size={14} className={`transition-transform duration-200 ${isTeamDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                {isTeamDropdownOpen && (
+                  <div className={`absolute right-0 mt-2 w-64 rounded-md shadow-lg border border-white/10 overflow-hidden z-50 ${
+                    scrolled ? 'bg-white text-gray-800 border-gray-200' : 'bg-[#071C25] text-white'
+                  }`}>
+                    <div className="py-1">
+                      {ARAB_TEAMS.map((team) => (
+                        <button
+                          key={team.code}
+                          onClick={() => {
+                            onSelectTeam(team.code);
+                            setIsTeamDropdownOpen(false);
+                          }}
+                          className={`w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-primary/20 transition-colors cursor-pointer ${
+                            selectedTeamCode === team.code ? 'bg-primary/10 font-bold text-primary' : ''
+                          }`}
+                        >
+                          <span className="text-xl">{team.flag}</span>
+                          <span className="text-sm font-semibold">{locale === 'ar' ? team.nameAr : team.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
               <button
                 onClick={switchLocale}
-                className={`flex h-11 w-11 items-center justify-center rounded-md border-2 font-bold transition-colors ${
+                className={`flex h-11 w-11 items-center justify-center rounded-md border-2 font-bold transition-colors cursor-pointer ${
                   scrolled
                     ? 'border-primary/60 bg-transparent text-primary hover:bg-primary hover:text-white'
                     : 'border-primary/80 bg-white/5 text-white hover:bg-primary'
@@ -135,9 +186,9 @@ export function Navbar() {
               }`}
             >
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.label}
-                  href={item.href}
+                  href={item.href as '/' | '/matches'}
                   className={`flex items-center justify-between rounded-lg px-4 py-3 font-bold transition-colors hover:text-primary ${
                     scrolled ? 'bg-gray-100 text-gray-800' : 'bg-white/5 text-white'
                   }`}
@@ -145,7 +196,7 @@ export function Navbar() {
                 >
                   {item.label}
                   {item.hasDropdown ? <ChevronDown size={16} /> : null}
-                </a>
+                </Link>
               ))}
               <div className="flex gap-3 mt-2">
                 <a
@@ -165,9 +216,37 @@ export function Navbar() {
                   {t('signUp')}
                 </a>
               </div>
+              <div className="flex flex-col gap-2 mt-2">
+                <span className={`text-xs font-bold uppercase tracking-wider ${scrolled ? 'text-gray-500' : 'text-white/60'}`}>
+                  {locale === 'en' ? 'Select National Team' : 'اختر المنتخب الوطني'}
+                </span>
+                <div className="grid grid-cols-4 gap-2">
+                  {ARAB_TEAMS.map((team) => (
+                    <button
+                      key={team.code}
+                      onClick={() => {
+                        onSelectTeam(team.code);
+                        setIsOpen(false);
+                      }}
+                      className={`flex flex-col items-center justify-center p-2 rounded-md border transition-all cursor-pointer ${
+                        selectedTeamCode === team.code
+                          ? 'border-primary bg-primary/20 text-primary font-bold'
+                          : scrolled
+                            ? 'border-gray-200 bg-gray-50 text-gray-800 hover:border-primary/50'
+                            : 'border-white/15 bg-white/5 text-white hover:border-primary/50'
+                      }`}
+                      title={locale === 'ar' ? team.nameAr : team.name}
+                    >
+                      <span className="text-2xl">{team.flag}</span>
+                      <span className="text-xs mt-1 font-semibold">{team.code}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <button
                 onClick={switchLocale}
-                className={`flex items-center justify-center gap-2 rounded-md border px-6 py-3.5 font-bold transition-colors ${
+                className={`flex items-center justify-center gap-2 rounded-md border px-6 py-3.5 font-bold transition-colors cursor-pointer ${
                   scrolled ? 'border-primary/60 text-primary' : 'border-primary text-white'
                 }`}
               >

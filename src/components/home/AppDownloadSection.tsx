@@ -41,7 +41,7 @@ export function AppDownloadSection() {
           {/* Abstract Phone Mockup Placeholder */}
           <div className="w-64 h-[500px] border-4 border-white/20 rounded-[3rem] bg-giddam-secondary relative overflow-hidden shadow-2xl shadow-primary/20 flex flex-col items-center justify-center p-6 text-center">
              <div className="absolute top-0 w-32 h-6 bg-background rounded-b-xl"></div>
-             <div className="text-primary font-heading text-3xl font-bold mb-4 transform -skew-x-12">SAFF FANS</div>
+             <div className="text-primary font-heading text-3xl font-bold mb-4 transform -skew-x-12">TreTrip</div>
              <div className="w-full h-48 bg-primary/20 rounded-lg border border-primary/30 mb-4"></div>
              <div className="w-full h-24 bg-white/5 rounded-lg mb-2"></div>
              <div className="w-full h-24 bg-white/5 rounded-lg"></div>

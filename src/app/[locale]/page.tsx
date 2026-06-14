@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { AboutSection } from '@/components/home/AboutSection';
 import { AppDownloadSection } from '@/components/home/AppDownloadSection';
 import { FanZonesSection } from '@/components/home/FanZonesSection';
@@ -9,14 +12,16 @@ import { Footer } from '@/components/layout/Footer';
 import { Navbar } from '@/components/layout/Navbar';
 
 export default function Home() {
+  const [selectedTeamCode, setSelectedTeamCode] = useState('KSA');
+
   return (
     <>
-      <Navbar />
+      <Navbar selectedTeamCode={selectedTeamCode} onSelectTeam={setSelectedTeamCode} />
       <main className="min-h-screen w-full bg-background">
-        <HeroSection />
-        <AboutSection />
-        <MatchCenterSection />
-        <SquadSection />
+        <HeroSection selectedTeamCode={selectedTeamCode} />
+        <AboutSection selectedTeamCode={selectedTeamCode} />
+        <MatchCenterSection selectedTeamCode={selectedTeamCode} />
+        <SquadSection selectedTeamCode={selectedTeamCode} />
         <FanZonesSection />
         <TicketGuideSection />
         <AppDownloadSection />

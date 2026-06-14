@@ -31,7 +31,7 @@ export function Footer() {
               className="h-28 w-auto brightness-0 invert md:h-32"
             />
 
-            <p className="mt-14 text-xl font-bold text-[#d6aa24]">#QiddamWithTheSameSpirit</p>
+            <p className="mt-14 text-xl font-bold text-[#d6aa24]">#TreTrip2026</p>
 
             <div className="mt-8 flex flex-wrap gap-4">
               {socialLinks.map((social) => (
