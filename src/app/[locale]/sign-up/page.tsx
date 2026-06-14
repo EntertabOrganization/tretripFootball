@@ -1,16 +1,18 @@
 'use client';
+
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { useRouter } from '@/i18n/routing';
-import { Link } from '@/i18n/routing';
-import { supabase } from '@/lib/supabase';
-import { UserPlus, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
+import { ArrowLeft, UserPlus } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
+import { Link, useRouter } from '@/i18n/routing';
+import { getFriendlyAuthError } from '@/lib/auth-errors';
+import { supabase } from '@/lib/supabase';
 
 export default function SignUpPage() {
   const t = useTranslations('Auth');
+  const locale = useLocale();
   const router = useRouter();
-  
+
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,30 +24,42 @@ export default function SignUpPage() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    
+
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            full_name: fullName,
-          }
-        }
+      const registerResponse = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fullName,
+          email,
+          password,
+        }),
       });
 
-      if (error) throw error;
+      const registerResult = (await registerResponse.json()) as { error?: string };
+
+      if (!registerResponse.ok) {
+        throw new Error(registerResult.error || t('errorGeneric'));
+      }
+
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (signInError) {
+        throw signInError;
+      }
 
       if (data.user) {
         setSuccess(true);
-        // Supabase typically sends an email confirmation, but we will redirect to sign-in or dashboard
-        // depending on settings. Assuming email verification is disabled for this test:
-        setTimeout(() => {
-          router.push('/dashboard');
-        }, 1500);
+        router.replace('/dashboard');
       }
-    } catch (err: any) {
-      setError(err.message || t('errorGeneric'));
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : t('errorGeneric');
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -54,139 +68,142 @@ export default function SignUpPage() {
   const handleGoogleSignIn = async () => {
     setLoading(true);
     setError(null);
+
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/dashboard`
-        }
+          redirectTo: `${window.location.origin}/${locale}/dashboard`,
+        },
       });
-      if (error) throw error;
-    } catch (err: any) {
-      setError(err.message || t('errorGeneric'));
+
+      if (error) {
+        throw error;
+      }
+    } catch (err: unknown) {
+      const message = err instanceof Error ? getFriendlyAuthError(err.message) : t('errorGeneric');
+      setError(message);
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-giddam-secondary flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(11,157,181,0.1),transparent_40%)]" />
-      <div className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-primary/10 blur-[100px] rounded-full" />
-      
-      <div className="w-full max-w-md relative z-10">
-        <Link href="/" className="inline-flex items-center gap-2 text-white/60 hover:text-primary transition-colors mb-8">
+    <div className="tretrip-pattern-bg relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(54,197,180,0.16),transparent_24%)]" />
+
+      <div className="relative z-10 w-full max-w-md">
+        <Link href="/" className="mb-8 inline-flex items-center gap-2 font-medium text-white/72 transition-colors hover:text-white">
           <ArrowLeft size={20} />
-          <span className="font-medium">Back to Home</span>
+          <span>Back to Home</span>
         </Link>
-        
-        <div className="bg-[#0A2430]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-giddam-gold to-primary" />
-          
-          <div className="text-center mb-8">
-            <Link href="/" className="inline-block mb-6">
-              <Image src="/TreTrip.svg" alt="TreTrip" width={140} height={40} className="h-8 w-auto mx-auto" />
-            </Link>
-            <h1 className="text-3xl font-heading font-bold text-white uppercase tracking-wider mb-2">{t('signUpTitle')}</h1>
-            <p className="text-white/60 text-sm">{t('signUpSubtitle')}</p>
-          </div>
 
-          <form onSubmit={handleSignUp} className="space-y-5">
-            {error && (
-              <div className="bg-red-500/10 border border-red-500/50 text-red-200 p-3 rounded-lg text-sm text-center">
-                {error}
+        <div className="overflow-hidden rounded-[2rem] border border-white/20 bg-white shadow-[0_32px_80px_rgba(9,33,37,0.22)]">
+          <div className="h-2 bg-[linear-gradient(90deg,#36c5b4,#2f7374,#d9b037)]" />
+
+          <div className="p-8 md:p-9">
+            <div className="mb-8 text-center">
+              <Link href="/" className="mb-6 inline-block">
+                <Image src="/TreTrip.svg" alt="TreTrip" width={160} height={48} className="mx-auto h-9 w-auto" />
+              </Link>
+              <h1 className="mb-2 text-3xl font-heading font-bold uppercase tracking-wide text-foreground">{t('signUpTitle')}</h1>
+              <p className="text-sm text-foreground/60">{t('signUpSubtitle')}</p>
+            </div>
+
+            <form onSubmit={handleSignUp} className="space-y-5">
+              {error ? (
+                <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-center text-sm text-red-700">
+                  {error}
+                </div>
+              ) : null}
+
+              {success ? (
+                <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-center text-sm text-emerald-700">
+                  {t('signUpSuccess')}
+                </div>
+              ) : null}
+
+              <div>
+                <label className="mb-2 block text-sm font-bold uppercase tracking-wider text-accent">{t('fullName')}</label>
+                <input
+                  type="text"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
+                  className="w-full rounded-2xl border border-border bg-muted/45 px-4 py-3 text-foreground placeholder:text-foreground/30 focus:border-primary focus:outline-none"
+                  placeholder="Fahad Al-Dossari"
+                />
               </div>
-            )}
-            
-            {success && (
-              <div className="bg-green-500/10 border border-green-500/50 text-green-200 p-3 rounded-lg text-sm text-center">
-                {t('signUpSuccess')}
+
+              <div>
+                <label className="mb-2 block text-sm font-bold uppercase tracking-wider text-accent">{t('email')}</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full rounded-2xl border border-border bg-muted/45 px-4 py-3 text-foreground placeholder:text-foreground/30 focus:border-primary focus:outline-none"
+                  placeholder="you@example.com"
+                />
               </div>
-            )}
 
-            <div>
-              <label className="block text-sm font-bold text-primary mb-1.5 uppercase tracking-wider">{t('fullName')}</label>
-              <input 
-                type="text" 
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                required
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
-                placeholder="Fahad Al-Dossari"
-              />
-            </div>
+              <div>
+                <label className="mb-2 block text-sm font-bold uppercase tracking-wider text-accent">{t('password')}</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="w-full rounded-2xl border border-border bg-muted/45 px-4 py-3 text-foreground placeholder:text-foreground/30 focus:border-primary focus:outline-none"
+                  placeholder="********"
+                />
+              </div>
 
-            <div>
-              <label className="block text-sm font-bold text-primary mb-1.5 uppercase tracking-wider">{t('email')}</label>
-              <input 
-                type="email" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
-                placeholder="you@example.com"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-bold text-primary mb-1.5 uppercase tracking-wider">{t('password')}</label>
-              <input 
-                type="password" 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
-                placeholder="••••••••"
-              />
-            </div>
-
-            <button 
-              type="submit" 
-              disabled={loading || success}
-              className="w-full bg-primary hover:bg-accent text-white font-bold text-lg py-4 rounded-xl flex items-center justify-center gap-2 transform -skew-x-12 transition-all shadow-[0_0_20px_rgba(11,157,181,0.3)] disabled:opacity-70 disabled:cursor-not-allowed mt-4"
-            >
-              <span className="block transform skew-x-12 tracking-widest uppercase flex items-center gap-2">
+              <button
+                type="submit"
+                disabled={loading || success}
+                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-secondary px-4 py-4 text-lg font-bold text-white transition-colors hover:bg-accent disabled:cursor-not-allowed disabled:opacity-70"
+              >
                 {loading ? (
-                  <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
                 ) : (
                   <>
                     <UserPlus size={20} />
                     {t('signUpButton')}
                   </>
                 )}
-              </span>
+              </button>
+            </form>
+
+            <div className="relative mt-8">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-border" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="bg-white px-3 text-foreground/45">{t('orContinueWith')}</span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleGoogleSignIn}
+              disabled={loading || success}
+              className="mt-6 flex w-full items-center justify-center gap-3 rounded-2xl border border-border bg-white px-4 py-4 font-bold text-foreground transition-colors hover:bg-muted/50 disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+              </svg>
+              {t('signUpWithGoogle')}
             </button>
-          </form>
 
-          <div className="relative mt-8">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-white/10"></div>
+            <div className="mt-8 text-center text-sm text-foreground/55">
+              {t('hasAccount')}{' '}
+              <Link href="/sign-in" className="font-bold text-secondary transition-colors hover:text-primary">
+                {t('signInButton')}
+              </Link>
             </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="bg-[#0A2430] px-2 text-white/50">{t('orContinueWith')}</span>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={handleGoogleSignIn}
-            disabled={loading || success}
-            className="mt-6 w-full flex items-center justify-center gap-3 rounded-xl border border-white/20 bg-white/5 py-4 font-bold text-white transition-all hover:bg-white/10 disabled:opacity-70 disabled:cursor-not-allowed"
-          >
-            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-            </svg>
-            {t('signUpWithGoogle')}
-          </button>
-
-          <div className="mt-8 text-center text-sm text-white/50">
-            {t('hasAccount')}{' '}
-            <Link href="/sign-in" className="text-primary font-bold hover:text-white transition-colors">
-              {t('signInButton')}
-            </Link>
           </div>
         </div>
       </div>

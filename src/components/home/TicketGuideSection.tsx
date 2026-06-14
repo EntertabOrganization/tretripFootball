@@ -26,7 +26,7 @@ export function TicketGuideSection() {
   ];
 
   return (
-    <section className="w-full py-24 bg-[#111111] relative border-t border-white/5 overflow-hidden">
+    <section className="relative w-full overflow-hidden border-t border-white/10 bg-brand-light py-24">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-white uppercase tracking-widest transform -skew-x-12">

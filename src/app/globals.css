@@ -5,14 +5,17 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-plex);
-  --font-heading: 'Giddam', var(--font-plex);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --font-sans: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --font-heading: 'Giddam', "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-brand-light: var(--brand-light);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);
@@ -28,24 +31,30 @@
 }
 
 :root {
-  --background: #06131A;
-  --foreground: #FFFFFF;
-  --card: #071C25;
-  --card-foreground: #FFFFFF;
-  --popover: #071C25;
-  --popover-foreground: #FFFFFF;
-  --primary: #0B9DB5;
-  --primary-foreground: #FFFFFF;
-  --secondary: #08212C;
-  --secondary-foreground: #FFFFFF;
-  --muted: #0A2430;
-  --muted-foreground: #B9D7DF;
-  --accent: #4CC7DB;
-  --accent-foreground: #06131A;
+  --background: #f7fbfb;
+  --foreground: #12353a;
+  --card: #ffffff;
+  --card-foreground: #12353a;
+  --popover: #ffffff;
+  --popover-foreground: #12353a;
+  --primary: #36c5b4;
+  --primary-foreground: #ffffff;
+  --brand-light: #2f7374;
+  --secondary: #2f7374;
+  --secondary-foreground: #ffffff;
+  --muted: #e8f3f3;
+  --muted-foreground: #537579;
+  --accent: #1d5e63;
+  --accent-foreground: #ffffff;
   --destructive: #ef4444;
-  --border: rgba(76, 199, 219, 0.18);
-  --input: rgba(255, 255, 255, 0.1);
-  --ring: #4CC7DB;
+  --border: rgba(18, 53, 58, 0.12);
+  --input: rgba(47, 115, 116, 0.08);
+  --ring: #2f7374;
+  --section-pattern-base: #2f7374;
+  --section-pattern-overlay: rgba(255, 255, 255, 0.08);
+  --section-pattern-overlay-soft: rgba(255, 255, 255, 0.05);
+  --section-light: #ffffff;
+  --section-light-alt: #edf7f6;
   --radius: 0.5rem;
 }
 
@@ -56,9 +65,51 @@
   }
 
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--border);
+    outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .tretrip-pattern-bg {
+    background-color: var(--section-pattern-base);
+    background-image:
+      linear-gradient(135deg, transparent 0 40%, var(--section-pattern-overlay) 40% 56%, transparent 56% 68%, var(--section-pattern-overlay-soft) 68% 84%, transparent 84%),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04));
+  }
+
+  .tretrip-pattern-panel {
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03)),
+      color-mix(in oklab, var(--section-pattern-base) 90%, black 10%);
+  }
+
+  .tretrip-section-light {
+    background:
+      radial-gradient(circle at top right, rgba(54, 197, 180, 0.12), transparent 32%),
+      linear-gradient(180deg, var(--section-light) 0%, var(--section-light-alt) 100%);
+  }
+
+  .tretrip-soft-card {
+    background: linear-gradient(
+      145deg,
+      color-mix(in oklab, white 84%, var(--primary) 16%),
+      color-mix(in oklab, white 92%, var(--accent) 8%)
+    );
+    border: 1px solid color-mix(in oklab, white 62%, var(--primary) 38%);
+    box-shadow: 0 22px 55px rgba(18, 53, 58, 0.08);
+  }
+
+  .tretrip-soft-card-dark {
+    background: linear-gradient(
+      145deg,
+      color-mix(in oklab, var(--brand-light) 86%, white 14%),
+      color-mix(in oklab, var(--brand-light) 92%, var(--primary) 8%)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 22px 55px rgba(9, 33, 37, 0.14);
   }
 }

@@ -11,7 +11,7 @@ export function WhatWeProvideSection() {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-[#0A2430] py-24 border-t border-white/5">
+    <section className="relative overflow-hidden border-t border-white/10 bg-brand-light py-24">
       <div className="mx-auto max-w-7xl px-4 relative z-10">
         
         <div className="mb-16">
@@ -31,7 +31,7 @@ export function WhatWeProvideSection() {
           {steps.map((step) => (
             <div 
               key={step.num}
-              className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-md transition-colors hover:bg-white/10"
+              className="tretrip-soft-card-dark group relative overflow-hidden rounded-3xl p-8 text-white transition-colors hover:bg-white/10"
             >
               <div className="mb-6 text-5xl font-heading font-black text-white/10 group-hover:text-blue-400/20 transition-colors">
                 {step.num}

@@ -12,7 +12,7 @@ export function ContentPreviewSection() {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-[#0A2430] py-24 border-t border-white/5">
+    <section className="relative overflow-hidden border-t border-white/10 bg-brand-light py-24">
       <div className="mx-auto max-w-7xl px-4 relative z-10">
         
         <div className="mb-16 text-center">
@@ -31,7 +31,7 @@ export function ContentPreviewSection() {
             return (
               <div 
                 key={idx} 
-                className="group relative flex flex-col items-center justify-center overflow-hidden rounded-3xl border border-white/10 bg-[#112F3D] p-10 text-center transition-all hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)]"
+                className="tretrip-soft-card-dark group relative flex flex-col items-center justify-center overflow-hidden rounded-3xl p-10 text-center text-white transition-all hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)]"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                 

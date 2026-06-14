@@ -5,7 +5,7 @@ export function MinistryContactCTA() {
   const t = useTranslations('Partnership');
 
   return (
-    <section className="relative overflow-hidden bg-[#0A2430] py-32 border-t border-white/5">
+    <section className="relative overflow-hidden border-t border-white/10 bg-brand-light py-32">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(11,157,181,0.1),transparent_60%)]" />
       <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
       

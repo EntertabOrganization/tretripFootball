@@ -32,7 +32,7 @@ export function CitiesStrategySection() {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-giddam-secondary py-24 border-t border-white/5">
+    <section className="relative overflow-hidden border-t border-border bg-white py-24">
       <div className="mx-auto max-w-7xl px-4 relative z-10">
         
         <div className="mb-16 text-center">
@@ -40,10 +40,10 @@ export function CitiesStrategySection() {
             {t('citiesTitle')}
           </div>
           <div className="mx-auto mb-8 h-1 w-24 bg-[#FF6B6B]" />
-          <h2 className="mb-6 font-heading text-4xl font-bold uppercase leading-tight text-white md:text-5xl">
+          <h2 className="mb-6 font-heading text-4xl font-bold uppercase leading-tight text-foreground md:text-5xl">
             {t('citiesHeadline')}
           </h2>
-          <p className="mx-auto max-w-3xl text-lg text-white/80">
+          <p className="mx-auto max-w-3xl text-lg text-foreground/80">
             {t('citiesDesc')}
           </p>
         </div>
@@ -52,16 +52,16 @@ export function CitiesStrategySection() {
           {cities.map((city) => (
             <div 
               key={city.id}
-              className={`relative overflow-hidden rounded-3xl border-2 ${city.borderColor} bg-[#0A2430] p-8 shadow-xl transition-transform hover:-translate-y-2`}
+              className={`relative overflow-hidden rounded-3xl border-2 ${city.borderColor} bg-white p-8 shadow-xl transition-transform hover:-translate-y-2`}
             >
               <div className={`absolute inset-0 bg-gradient-to-b ${city.bgClass} opacity-50`} />
               
               <div className="relative z-10 flex flex-col items-center text-center">
                 <MapPin className={`mb-6 h-12 w-12 ${city.color}`} />
-                <h3 className="mb-4 font-heading text-3xl font-bold uppercase text-white">
+                <h3 className="mb-4 font-heading text-3xl font-bold uppercase text-foreground">
                   {city.name}
                 </h3>
-                <p className="text-white/80 leading-relaxed font-medium">
+                <p className="font-medium leading-relaxed text-foreground/80">
                   {city.desc}
                 </p>
               </div>

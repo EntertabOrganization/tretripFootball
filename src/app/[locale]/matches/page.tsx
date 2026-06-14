@@ -45,7 +45,6 @@ const getLocalizedTeamName = (teamName: string, teamCode: string, locale: string
 
 export default function MatchesPage() {
   const t = useTranslations('MatchesPage');
-  const tMatch = useTranslations('MatchCenterSection');
   const locale = useLocale();
   const isRtl = locale === 'ar';
 

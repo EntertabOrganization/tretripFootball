@@ -5,7 +5,7 @@ export function SustainableValueSection() {
   const t = useTranslations('Partnership');
 
   return (
-    <section className="relative overflow-hidden bg-[#0A2430] py-24 border-t border-white/5">
+    <section className="relative overflow-hidden border-t border-white/10 bg-brand-light py-24">
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none" />
       
       <div className="mx-auto max-w-7xl px-4 relative z-10">

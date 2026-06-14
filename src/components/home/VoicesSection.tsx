@@ -5,7 +5,7 @@ export function VoicesSection() {
   const t = useTranslations('Partnership');
 
   return (
-    <section className="relative overflow-hidden bg-[#0A2430] py-24 border-t border-white/5">
+    <section className="relative overflow-hidden border-t border-white/10 bg-brand-light py-24">
       <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-giddam-gold/5 rounded-full blur-3xl pointer-events-none" />
       
       <div className="mx-auto max-w-7xl px-4 relative z-10">
@@ -27,19 +27,19 @@ export function VoicesSection() {
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2">
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm transition-transform hover:-translate-y-1 hover:border-primary/50">
+            <div className="tretrip-soft-card-dark rounded-2xl p-8 text-white transition-transform hover:-translate-y-1 hover:border-primary/50">
               <Users className="mb-4 h-10 w-10 text-primary" />
               <div className="mb-2 text-3xl font-bold text-white">{t('voicesReach')}</div>
               <p className="text-sm text-white/60">{t('voicesReachDesc')}</p>
             </div>
             
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm transition-transform hover:-translate-y-1 hover:border-blue-400/50">
+            <div className="tretrip-soft-card-dark rounded-2xl p-8 text-white transition-transform hover:-translate-y-1 hover:border-blue-400/50">
               <Globe2 className="mb-4 h-10 w-10 text-blue-400" />
               <div className="mb-2 text-3xl font-bold text-white">{t('voicesEnglish')}</div>
               <p className="text-sm text-white/60">{t('voicesEnglishDesc')}</p>
             </div>
             
-            <div className="sm:col-span-2 rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm transition-transform hover:-translate-y-1 hover:border-giddam-gold/50">
+            <div className="tretrip-soft-card-dark rounded-2xl p-8 text-white transition-transform hover:-translate-y-1 hover:border-giddam-gold/50 sm:col-span-2">
               <Sparkles className="mb-4 h-10 w-10 text-giddam-gold" />
               <div className="mb-2 text-3xl font-bold text-white">{t('voicesAuthentic')}</div>
               <p className="text-sm text-white/60">{t('voicesAuthenticDesc')}</p>

@@ -49,7 +49,7 @@ export function MatchCenterSection({ selectedTeamCode = 'KSA' }: MatchCenterSect
   const matches = getMatchesByTeam(selectedTeamCode);
 
   return (
-    <section id="matches" className="w-full py-24 bg-giddam-secondary relative overflow-hidden">
+    <section id="matches" className="relative w-full overflow-hidden border-t border-white/10 bg-brand-light py-24">
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         <div className="flex flex-col items-center mb-16">
           <h2 className="text-5xl md:text-6xl font-heading font-bold text-primary uppercase tracking-widest transform -skew-x-12">
@@ -60,7 +60,7 @@ export function MatchCenterSection({ selectedTeamCode = 'KSA' }: MatchCenterSect
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {matches.map((match) => (
-            <div key={match.id} className="bg-background border border-white/10 overflow-hidden group hover:border-primary/50 transition-colors">
+            <div key={match.id} className="tretrip-soft-card-dark overflow-hidden text-white group transition-colors hover:border-primary/50">
               <div className="bg-primary/10 p-3 text-center border-b border-white/10 flex justify-between items-center px-6">
                 <span className="text-primary font-bold uppercase tracking-widest text-sm">
                   {locale === 'en' ? `Group ${match.group}` : `المجموعة ${match.group}`}

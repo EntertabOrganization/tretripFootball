@@ -15,28 +15,28 @@ export function LeaderboardSection() {
   const t = useTranslations('LeaderboardSection');
 
   return (
-    <section className="w-full py-24 bg-white relative border-t border-gray-100">
+    <section className="relative w-full border-t border-border bg-white py-24">
       <div className="max-w-5xl mx-auto px-4">
         <div className="flex flex-col items-center mb-16 text-center">
-          <div className="w-20 h-20 bg-[#f0fbfd] rounded-full flex items-center justify-center mb-6">
-            <Trophy size={40} className="text-[#0B9DB5]" />
+          <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
+            <Trophy size={40} className="text-primary" />
           </div>
-          <h2 className="text-4xl md:text-5xl font-heading font-bold text-[#071C25] uppercase tracking-widest transform -skew-x-12">
-            {t('sectionTitle')} <span className="text-[#0B9DB5] block mt-2 md:inline md:mt-0">{t('sectionTitleHighlight')}</span>
+          <h2 className="transform -skew-x-12 text-4xl font-heading font-bold uppercase tracking-widest text-foreground md:text-5xl">
+            {t('sectionTitle')} <span className="mt-2 block text-primary md:mt-0 md:inline">{t('sectionTitleHighlight')}</span>
           </h2>
-          <p className="mt-4 text-[#071C25]/60 text-lg max-w-2xl">{t('subtitle')}</p>
+          <p className="mt-4 max-w-2xl text-lg text-foreground/60">{t('subtitle')}</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+        <div className="overflow-hidden rounded-[1.75rem] border border-primary/15 bg-white shadow-[0_26px_60px_rgba(18,53,58,0.08)]">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-[#f0fbfd] border-b border-[#0B9DB5]/20">
-                  <th className="py-5 px-6 text-[#0B9DB5] font-bold uppercase tracking-wider text-sm">{t('rank')}</th>
-                  <th className="py-5 px-6 text-[#0B9DB5] font-bold uppercase tracking-wider text-sm">{t('predictor')}</th>
-                  <th className="py-5 px-6 text-[#0B9DB5] font-bold uppercase tracking-wider text-sm text-center">{t('predictions')}</th>
-                  <th className="py-5 px-6 text-[#0B9DB5] font-bold uppercase tracking-wider text-sm text-center">{t('correct')}</th>
-                  <th className="py-5 px-6 text-[#0B9DB5] font-bold uppercase tracking-wider text-sm text-right">{t('points')}</th>
+                <tr className="border-b border-primary/15 bg-primary/8">
+                  <th className="px-6 py-5 text-sm font-bold uppercase tracking-wider text-accent">{t('rank')}</th>
+                  <th className="px-6 py-5 text-sm font-bold uppercase tracking-wider text-accent">{t('predictor')}</th>
+                  <th className="px-6 py-5 text-center text-sm font-bold uppercase tracking-wider text-accent">{t('predictions')}</th>
+                  <th className="px-6 py-5 text-center text-sm font-bold uppercase tracking-wider text-accent">{t('correct')}</th>
+                  <th className="px-6 py-5 text-right text-sm font-bold uppercase tracking-wider text-accent">{t('points')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -44,7 +44,7 @@ export function LeaderboardSection() {
                   LEADERBOARD_DATA.map((user, index) => (
                     <tr 
                       key={user.id} 
-                      className={`border-b border-gray-50 hover:bg-gray-50 transition-colors ${index < 3 ? 'bg-gradient-to-r from-transparent to-gray-50/50' : ''}`}
+                      className={`border-b border-border/60 transition-colors hover:bg-muted/40 ${index < 3 ? 'bg-gradient-to-r from-transparent to-primary/5' : ''}`}
                     >
                       <td className="py-4 px-6">
                         <div className="flex items-center justify-center w-8 h-8 rounded-full font-bold">
@@ -61,20 +61,20 @@ export function LeaderboardSection() {
                       </td>
                       <td className="py-4 px-6">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-[#0B9DB5]/10 text-[#0B9DB5] flex items-center justify-center font-bold">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 font-bold text-primary">
                             {user.name.charAt(0)}
                           </div>
-                          <span className="font-bold text-[#071C25]">{user.name}</span>
+                          <span className="font-bold text-foreground">{user.name}</span>
                         </div>
                       </td>
-                      <td className="py-4 px-6 text-center font-medium text-[#071C25]/70">{user.predictions}</td>
+                      <td className="py-4 px-6 text-center font-medium text-foreground/70">{user.predictions}</td>
                       <td className="py-4 px-6 text-center font-medium text-green-600">{user.correct}</td>
-                      <td className="py-4 px-6 text-right font-bold text-[#0B9DB5] text-lg">{user.points}</td>
+                      <td className="py-4 px-6 text-right text-lg font-bold text-primary">{user.points}</td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={5} className="py-12 text-center text-[#071C25]/50 font-medium">
+                    <td colSpan={5} className="py-12 text-center font-medium text-foreground/50">
                       {t('noData')}
                     </td>
                   </tr>
