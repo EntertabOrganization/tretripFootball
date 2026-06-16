@@ -39,13 +39,13 @@ export default function Home() {
         <TicketGuideSection />
         
         {/* New Ministry Pitch Sections */}
-        <OpportunitySection />
+        {/* <OpportunitySection /> */}
         <VoicesSection />
-        <DataActivationSection />
+        {/* <DataActivationSection /> */}
         <ContentPreviewSection />
         <CitiesStrategySection />
         <WhatWeProvideSection />
-        <DeliverablesSection />
+        {/* <DeliverablesSection /> */}
         <SustainableValueSection />
         <PartnerSection />
         <MinistryContactCTA />

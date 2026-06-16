@@ -19,11 +19,11 @@ export function PartnerSection() {
         </div>
 
         <div className="rounded-3xl border border-border bg-muted/35 p-12 text-center backdrop-blur-sm shadow-2xl">
-          <Image 
-            src="/TreTrip.svg" 
-            alt="TreTrip" 
-            width={240} 
-            height={60} 
+          <Image
+            src="/TreTrip.png"
+            alt="TreTrip"
+            width={558}
+            height={539}
             className="mx-auto mb-8 h-16 w-auto"
           />
           <p className="mx-auto mb-10 max-w-2xl text-xl leading-relaxed text-foreground/90">

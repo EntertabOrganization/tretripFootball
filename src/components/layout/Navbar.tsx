@@ -109,7 +109,7 @@ export function Navbar({ selectedTeamCode = 'KSA', onSelectTeam = () => {} }: Na
         >
           <div className="flex items-center justify-between gap-8">
             <div className="flex shrink-0 items-center gap-4">
-              <BrandLogo priority className="h-14 w-auto transition-all duration-300 md:h-16" />
+              <BrandLogo preload className="h-14 w-auto transition-all duration-300 md:h-16" />
               <span className={`hidden h-12 w-px transition-colors duration-300 sm:block ${scrolled ? 'bg-black/20' : 'bg-white/40'}`} />
             </div>
 

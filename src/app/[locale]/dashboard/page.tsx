@@ -180,7 +180,7 @@ export default function DashboardPage() {
               <ArrowLeft size={18} />
               <span>Back to Home</span>
             </Link>
-            <Image src="/TreTrip.svg" alt="TreTrip" width={126} height={36} className="hidden h-8 w-auto md:block" />
+            <Image src="/TreTrip.png" alt="TreTrip" width={558} height={539} className="hidden h-8 w-auto md:block" />
           </div>
 
           <button
