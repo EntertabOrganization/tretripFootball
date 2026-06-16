@@ -168,9 +168,9 @@ export const ARAB_TEAMS_DATA: ArabTeamProfile[] = [
       ar: 'توقع ترتيب المغرب في المجموعة ونافس على جوائز سفر ومنتجات تشجيعية.',
     },
     matchSchedule: [
-      createMatch(1, 'C', 'BRA', 'MAR', 'Matchday 1', 'North America'),
-      createMatch(2, 'C', 'SCO', 'MAR', 'Matchday 2', 'North America'),
-      createMatch(3, 'C', 'MAR', 'HAI', 'Matchday 3', 'North America'),
+      createMatch(1, 'C', 'BRA', 'MAR', 'Matchday 1', 'New York / New Jersey'),
+      createMatch(2, 'C', 'SCO', 'MAR', 'Matchday 2', 'Boston'),
+      createMatch(3, 'C', 'MAR', 'HAI', 'Matchday 3', 'Atlanta'),
     ],
   },
   {
@@ -201,9 +201,9 @@ export const ARAB_TEAMS_DATA: ArabTeamProfile[] = [
       ar: 'أرسل توقعاتك لنتائج مصر للدخول في سحب على أطقم جماهيرية مميزة.',
     },
     matchSchedule: [
-      createMatch(4, 'G', 'BEL', 'EGY', 'Matchday 1', 'North America'),
-      createMatch(5, 'G', 'NZL', 'EGY', 'Matchday 2', 'North America'),
-      createMatch(6, 'G', 'EGY', 'IRN', 'Matchday 3', 'North America'),
+      createMatch(4, 'G', 'BEL', 'EGY', 'Matchday 1', 'Seattle'),
+      createMatch(5, 'G', 'NZL', 'EGY', 'Matchday 2', 'Vancouver'),
+      createMatch(6, 'G', 'EGY', 'IRN', 'Matchday 3', 'Seattle'),
     ],
   },
   {
@@ -234,9 +234,9 @@ export const ARAB_TEAMS_DATA: ArabTeamProfile[] = [
       ar: 'انضم إلى تحدي جماهير السعودية عبر توقع النتائج والمشاركات التفاعلية.',
     },
     matchSchedule: [
-      createMatch(7, 'H', 'KSA', 'URU', 'Matchday 1', 'North America'),
-      createMatch(8, 'H', 'ESP', 'KSA', 'Matchday 2', 'North America'),
-      createMatch(9, 'H', 'CPV', 'KSA', 'Matchday 3', 'North America'),
+      createMatch(7, 'H', 'KSA', 'URU', 'Matchday 1', 'Miami'),
+      createMatch(8, 'H', 'ESP', 'KSA', 'Matchday 2', 'Atlanta'),
+      createMatch(9, 'H', 'CPV', 'KSA', 'Matchday 3', 'Houston'),
     ],
   },
   {
@@ -267,9 +267,9 @@ export const ARAB_TEAMS_DATA: ArabTeamProfile[] = [
       ar: 'نافس جماهير الجزائر عبر توقع الهدافين وترتيب المجموعة النهائي.',
     },
     matchSchedule: [
-      createMatch(10, 'J', 'ARG', 'ALG', 'Matchday 1', 'North America'),
-      createMatch(11, 'J', 'JOR', 'ALG', 'Matchday 2', 'North America'),
-      createMatch(12, 'J', 'ALG', 'AUT', 'Matchday 3', 'North America'),
+      createMatch(10, 'J', 'ARG', 'ALG', 'Matchday 1', 'Kansas City'),
+      createMatch(11, 'J', 'JOR', 'ALG', 'Matchday 2', 'San Francisco Bay Area'),
+      createMatch(12, 'J', 'ALG', 'AUT', 'Matchday 3', 'Kansas City'),
     ],
   },
   {
@@ -300,9 +300,9 @@ export const ARAB_TEAMS_DATA: ArabTeamProfile[] = [
       ar: 'شارك بتوقعاتك لمنتخب تونس للدخول في جوائز جماهيرية حصرية.',
     },
     matchSchedule: [
-      createMatch(13, 'F', 'SWE', 'TUN', 'Matchday 1', 'North America'),
-      createMatch(14, 'F', 'TUN', 'JPN', 'Matchday 2', 'North America'),
-      createMatch(15, 'F', 'TUN', 'NED', 'Matchday 3', 'North America'),
+      createMatch(13, 'F', 'SWE', 'TUN', 'Matchday 1', 'Monterrey'),
+      createMatch(14, 'F', 'TUN', 'JPN', 'Matchday 2', 'Monterrey'),
+      createMatch(15, 'F', 'TUN', 'NED', 'Matchday 3', 'Kansas City'),
     ],
   },
   {
@@ -333,9 +333,9 @@ export const ARAB_TEAMS_DATA: ArabTeamProfile[] = [
       ar: 'توقع نتائج قطر وادخل في سحوبات جوائز مخصصة لجماهير العنابي.',
     },
     matchSchedule: [
-      createMatch(16, 'B', 'QAT', 'SUI', 'Matchday 1', 'North America'),
-      createMatch(17, 'B', 'CAN', 'QAT', 'Matchday 2', 'North America'),
-      createMatch(18, 'B', 'BIH', 'QAT', 'Matchday 3', 'North America'),
+      createMatch(16, 'B', 'QAT', 'SUI', 'Matchday 1', 'San Francisco Bay Area'),
+      createMatch(17, 'B', 'CAN', 'QAT', 'Matchday 2', 'Vancouver'),
+      createMatch(18, 'B', 'BIH', 'QAT', 'Matchday 3', 'Seattle'),
     ],
   },
   {
@@ -366,9 +366,9 @@ export const ARAB_TEAMS_DATA: ArabTeamProfile[] = [
       ar: 'شارك في مسابقات توقعات العراق وتحديات الأسئلة الخاصة بالجماهير.',
     },
     matchSchedule: [
-      createMatch(19, 'I', 'IRQ', 'NOR', 'Matchday 1', 'North America'),
-      createMatch(20, 'I', 'FRA', 'IRQ', 'Matchday 2', 'North America'),
-      createMatch(21, 'I', 'SEN', 'IRQ', 'Matchday 3', 'North America'),
+      createMatch(19, 'I', 'IRQ', 'NOR', 'Matchday 1', 'Boston'),
+      createMatch(20, 'I', 'FRA', 'IRQ', 'Matchday 2', 'Philadelphia'),
+      createMatch(21, 'I', 'SEN', 'IRQ', 'Matchday 3', 'Toronto'),
     ],
   },
   {
@@ -399,9 +399,9 @@ export const ARAB_TEAMS_DATA: ArabTeamProfile[] = [
       ar: 'انضم إلى مسار مسابقات الأردن عبر التوقعات وتسجيل المشاركين.',
     },
     matchSchedule: [
-      createMatch(22, 'J', 'AUT', 'JOR', 'Matchday 1', 'North America'),
-      createMatch(23, 'J', 'JOR', 'ALG', 'Matchday 2', 'North America'),
-      createMatch(24, 'J', 'JOR', 'ARG', 'Matchday 3', 'North America'),
+      createMatch(22, 'J', 'AUT', 'JOR', 'Matchday 1', 'San Francisco Bay Area'),
+      createMatch(23, 'J', 'JOR', 'ALG', 'Matchday 2', 'San Francisco Bay Area'),
+      createMatch(24, 'J', 'JOR', 'ARG', 'Matchday 3', 'Dallas'),
     ],
   },
 ];

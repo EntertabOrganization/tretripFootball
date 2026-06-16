@@ -9,13 +9,10 @@ import { HeroSection } from '@/components/home/HeroSection';
 import { MatchCenterSection } from '@/components/home/MatchCenterSection';
 import { SquadSection } from '@/components/home/SquadSection';
 import { TicketGuideSection } from '@/components/home/TicketGuideSection';
-import { OpportunitySection } from '@/components/home/OpportunitySection';
 import { VoicesSection } from '@/components/home/VoicesSection';
-import { DataActivationSection } from '@/components/home/DataActivationSection';
 import { ContentPreviewSection } from '@/components/home/ContentPreviewSection';
 import { CitiesStrategySection } from '@/components/home/CitiesStrategySection';
 import { WhatWeProvideSection } from '@/components/home/WhatWeProvideSection';
-import { DeliverablesSection } from '@/components/home/DeliverablesSection';
 import { SustainableValueSection } from '@/components/home/SustainableValueSection';
 import { PartnerSection } from '@/components/home/PartnerSection';
 import { MinistryContactCTA } from '@/components/home/MinistryContactCTA';
@@ -43,7 +40,7 @@ export default function Home() {
         <VoicesSection />
         {/* <DataActivationSection /> */}
         <ContentPreviewSection />
-        <CitiesStrategySection />
+        <CitiesStrategySection selectedTeamCode={selectedTeamCode} />
         <WhatWeProvideSection />
         {/* <DeliverablesSection /> */}
         <SustainableValueSection />

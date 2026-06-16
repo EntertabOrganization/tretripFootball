@@ -1,35 +1,32 @@
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { MapPin } from 'lucide-react';
+import { getTeamByCode } from '@/data/arabTeams';
 
-export function CitiesStrategySection() {
+interface CitiesStrategySectionProps {
+  selectedTeamCode: string;
+}
+
+export function CitiesStrategySection({ selectedTeamCode }: CitiesStrategySectionProps) {
   const t = useTranslations('Partnership');
-
-  const cities = [
+  const locale = useLocale();
+  const team = getTeamByCode(selectedTeamCode);
+  const cardStyles = [
     {
-      id: 'miami',
-      name: t('miami'),
-      desc: t('miamiDesc'),
       color: 'text-primary',
       borderColor: 'border-primary',
-      bgClass: 'from-primary/10 to-transparent'
+      bgClass: 'from-primary/10 to-transparent',
     },
     {
-      id: 'atlanta',
-      name: t('atlanta'),
-      desc: t('atlantaDesc'),
       color: 'text-giddam-gold',
       borderColor: 'border-giddam-gold',
-      bgClass: 'from-giddam-gold/10 to-transparent'
+      bgClass: 'from-giddam-gold/10 to-transparent',
     },
     {
-      id: 'houston',
-      name: t('houston'),
-      desc: t('houstonDesc'),
       color: 'text-blue-400',
       borderColor: 'border-blue-400',
-      bgClass: 'from-blue-400/10 to-transparent'
-    }
-  ];
+      bgClass: 'from-blue-400/10 to-transparent',
+    },
+  ] as const;
 
   return (
     <section className="relative overflow-hidden border-t border-border bg-white py-24">
@@ -49,24 +46,38 @@ export function CitiesStrategySection() {
         </div>
 
         <div className="grid gap-8 md:grid-cols-3">
-          {cities.map((city) => (
-            <div 
-              key={city.id}
-              className={`relative overflow-hidden rounded-3xl border-2 ${city.borderColor} bg-white p-8 shadow-xl transition-transform hover:-translate-y-2`}
-            >
-              <div className={`absolute inset-0 bg-gradient-to-b ${city.bgClass} opacity-50`} />
-              
-              <div className="relative z-10 flex flex-col items-center text-center">
-                <MapPin className={`mb-6 h-12 w-12 ${city.color}`} />
-                <h3 className="mb-4 font-heading text-3xl font-bold uppercase text-foreground">
-                  {city.name}
-                </h3>
-                <p className="font-medium leading-relaxed text-foreground/80">
-                  {city.desc}
-                </p>
+          {team.matchSchedule.map((match, index) => {
+            const style = cardStyles[index % cardStyles.length];
+            const activationCopy =
+              locale === 'ar'
+                ? `تفعيل جماهيري حول ${match.city} لدعم منتخب ${team.countryNameAr} في ${match.date}.`
+                : `Fan activation around ${match.city} for ${team.countryName} on ${match.date}.`;
+
+            return (
+              <div
+                key={`${match.id}-${match.city}`}
+                className={`relative overflow-hidden rounded-3xl border-2 ${style.borderColor} bg-white p-8 shadow-xl transition-transform hover:-translate-y-2`}
+              >
+                <div className={`absolute inset-0 bg-gradient-to-b ${style.bgClass} opacity-50`} />
+
+                <div className="relative z-10 flex flex-col items-center text-center">
+                  <MapPin className={`mb-6 h-12 w-12 ${style.color}`} />
+                  <h3 className="mb-4 font-heading text-3xl font-bold uppercase text-foreground">
+                    {match.city}
+                  </h3>
+                  <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-foreground/45">
+                    {match.date}
+                  </p>
+                  <p className="font-semibold leading-relaxed text-foreground">
+                    {match.homeTeam} vs {match.awayTeam}
+                  </p>
+                  <p className="mt-3 font-medium leading-relaxed text-foreground/80">
+                    {activationCopy}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
