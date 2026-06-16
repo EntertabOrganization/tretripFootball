@@ -5,6 +5,7 @@
     "matches": "Matches",
     "saffFans": "Arab Teams",
     "fanZone": "Fan Zone",
+    "competitions": "Competitions",
     "signIn": "Sign In",
     "signUp": "Sign Up",
     "dashboard": "Dashboard"
@@ -20,12 +21,16 @@
     "matchSchedule": "Match Schedule"
   },
   "AboutSection": {
+    "journeyEyebrow": "Team Overview",
     "journeyTitle": "Arab Nations at the World Cup",
     "journeyText": "For the first time in history, eight Arab nations will compete simultaneously on the FIFA World Cup stage. From the Atlas Lions of Morocco to the Lions of Mesopotamia in Iraq, the Arab footballing world is writing its greatest chapter yet at the 2026 FIFA World Cup.",
     "roadTitle": "The Road to 2026",
     "roadText": "Spanning three host nations — the United States, Canada, and Mexico — the 2026 FIFA World Cup is the largest edition ever with 48 teams. Arab nations from both AFC and CAF confederations qualified through fierce competition, earning their place on the world's biggest stage.",
     "basicInfoTitle": "2026 Arab Presence",
     "nickname": "Nickname",
+    "group": "Group",
+    "opponents": "Opponents",
+    "keyPlayers": "Key Players",
     "nicknameValue": "Green Falcons",
     "manager": "Manager",
     "managerValue": "Hervé Renard",
@@ -67,20 +72,15 @@
     "step3Desc": "Complete your application and await the ticket allocation draw results.",
     "startApplication": "Start Application"
   },
-  "AppDownloadSection": {
-    "title": "Get Closer with",
-    "titleHighlight": "TRETRIP APP",
-    "description": "The ultimate app for Arab World Cup 2026 fans. Track all 8 Arab teams, get live match updates, squad news, and join the largest Arab football fan community.",
-    "downloadOn": "Download on the",
-    "appStore": "App Store",
-    "getItOn": "GET IT ON",
-    "googlePlay": "Google Play"
-  },
   "Footer": {
     "quickLinks": "Quick Links",
+    "about": "About",
+    "arabTeams": "Arab Teams",
+    "fanZone": "Fan Zone",
+    "competitions": "Competitions",
+    "matches": "Matches",
     "saff": "Saudi Arabian Football Federation",
     "fifa": "International Federation of Association Football (FIFA)",
-    "saffFansApp": "TreTrip App",
     "copyright": "All rights reserved for Technology and Innovation at",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service"
@@ -141,6 +141,32 @@
     "upcomingMatches": "Upcoming Matches",
     "mediaVault": "Media Vault",
     "activePrediction": "Active Prediction"
+  },
+  "FanZone": {
+    "eyebrow": "Fan Zone",
+    "title": "Supporter Content That Changes by Country",
+    "content": "Related Fan Content",
+    "competition": "Country Competition Angle"
+  },
+  "Competitions": {
+    "eyebrow": "Competitions",
+    "title": "Take Part in TreTrip Campaigns",
+    "summary": "Browse active contests, check prizes and terms, and register directly from the website.",
+    "viewAll": "View all competitions",
+    "registerNow": "Register now"
+  },
+  "CompetitionForm": {
+    "competition": "Competition",
+    "fullName": "Full name",
+    "email": "Email",
+    "phone": "Phone number",
+    "country": "Country",
+    "favoriteTeam": "Favorite national team",
+    "entry": "Prediction / answer / entry",
+    "submit": "Submit entry",
+    "submitting": "Submitting...",
+    "success": "Your entry has been submitted successfully.",
+    "error": "Something went wrong. Please try again."
   },
   "Partnership": {
     "opportunityTitle": "The Opportunity",

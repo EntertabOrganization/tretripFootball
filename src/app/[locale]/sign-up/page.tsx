@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { ArrowLeft, UserPlus } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link, useRouter } from '@/i18n/routing';
 import { getFriendlyAuthError } from '@/lib/auth-errors';
 import { supabase } from '@/lib/supabase';
+import { BrandLogo } from '@/components/branding/BrandLogo';
 
 export default function SignUpPage() {
   const t = useTranslations('Auth');
@@ -94,7 +94,7 @@ export default function SignUpPage() {
       <div className="relative z-10 w-full max-w-md">
         <Link href="/" className="mb-8 inline-flex items-center gap-2 font-medium text-white/72 transition-colors hover:text-white">
           <ArrowLeft size={20} />
-          <span>Back to Home</span>
+          <span>{locale === 'en' ? 'Back to Home' : 'العودة إلى الرئيسية'}</span>
         </Link>
 
         <div className="overflow-hidden rounded-[2rem] border border-white/20 bg-white shadow-[0_32px_80px_rgba(9,33,37,0.22)]">
@@ -102,9 +102,9 @@ export default function SignUpPage() {
 
           <div className="p-8 md:p-9">
             <div className="mb-8 text-center">
-              <Link href="/" className="mb-6 inline-block">
-                <Image src="/TreTrip.svg" alt="TreTrip" width={160} height={48} className="mx-auto h-9 w-auto" />
-              </Link>
+              <div className="mb-6 inline-block">
+                <BrandLogo className="mx-auto h-9 w-auto" />
+              </div>
               <h1 className="mb-2 text-3xl font-heading font-bold uppercase tracking-wide text-foreground">{t('signUpTitle')}</h1>
               <p className="text-sm text-foreground/60">{t('signUpSubtitle')}</p>
             </div>

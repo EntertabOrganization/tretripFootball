@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { AboutSection } from '@/components/home/AboutSection';
-import { AppDownloadSection } from '@/components/home/AppDownloadSection';
+import { CompetitionsTeaserSection } from '@/components/home/CompetitionsTeaserSection';
+import { FanZoneSection } from '@/components/home/FanZoneSection';
 import { LeaderboardSection } from '@/components/home/LeaderboardSection';
 import { HeroSection } from '@/components/home/HeroSection';
 import { MatchCenterSection } from '@/components/home/MatchCenterSection';
@@ -31,10 +32,11 @@ export default function Home() {
         <HeroSection selectedTeamCode={selectedTeamCode} />
         <AboutSection selectedTeamCode={selectedTeamCode} />
         <MatchCenterSection selectedTeamCode={selectedTeamCode} />
-        <SquadSection selectedTeamCode={selectedTeamCode} />
+        <SquadSection selectedTeamCode={selectedTeamCode} onSelectTeam={setSelectedTeamCode} />
+        <FanZoneSection selectedTeamCode={selectedTeamCode} />
+        <CompetitionsTeaserSection />
         <LeaderboardSection />
         <TicketGuideSection />
-        <AppDownloadSection />
         
         {/* New Ministry Pitch Sections */}
         <OpportunitySection />

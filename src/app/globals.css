@@ -71,6 +71,11 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  html[dir='rtl'] body {
+    direction: rtl;
+    text-align: right;
+  }
 }
 
 @layer utilities {
@@ -111,5 +116,18 @@
     );
     border: 1px solid rgba(255, 255, 255, 0.16);
     box-shadow: 0 22px 55px rgba(9, 33, 37, 0.14);
+  }
+
+  html[dir='rtl'] .-skew-x-12,
+  html[dir='rtl'] .skew-x-12 {
+    transform: none !important;
+  }
+
+  html[dir='rtl'] .text-left {
+    text-align: right;
+  }
+
+  html[dir='rtl'] .text-right {
+    text-align: right;
   }
 }
