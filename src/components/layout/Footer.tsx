@@ -1,15 +1,16 @@
 'use client';
 
 import { useLocale, useTranslations } from 'next-intl';
-import { BriefcaseBusiness, Camera, Globe, MessageCircle } from 'lucide-react';
+import { Globe } from 'lucide-react';
+import { FaInstagram, FaFacebookF, FaLinkedinIn } from 'react-icons/fa';
 import { BrandLogo } from '@/components/branding/BrandLogo';
 import { Link } from '@/i18n/routing';
 
 const socialLinks = [
   { label: 'Website', href: 'https://www.tretrip.com/', icon: Globe },
-  { label: 'Instagram', href: 'https://www.instagram.com/tretrip/', icon: Camera },
-  { label: 'Facebook', href: 'https://www.facebook.com/tretrip20/', icon: MessageCircle },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/tretrip-llc', icon: BriefcaseBusiness },
+  { label: 'Instagram', href: 'https://www.instagram.com/tretrip/', icon: FaInstagram },
+  { label: 'Facebook', href: 'https://www.facebook.com/tretrip20/', icon: FaFacebookF },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/tretrip-llc', icon: FaLinkedinIn },
 ];
 
 export function Footer() {
@@ -32,6 +33,7 @@ export function Footer() {
         <div className="relative grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.85fr)] lg:gap-20">
           <div className="flex flex-col items-start">
             <BrandLogo className="h-24 w-auto md:h-28" />
+
             <p className="mt-10 max-w-xl text-lg leading-8 text-white/80">
               {locale === 'en'
                 ? 'TreTrip is the official supporter hub for Arab national teams on the road to FIFA World Cup 2026.'
@@ -39,16 +41,16 @@ export function Footer() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              {socialLinks.map((social) => (
+              {socialLinks.map(({ label, href, icon: Icon }) => (
                 <a
-                  key={social.label}
-                  href={social.href}
+                  key={label}
+                  href={href}
                   target="_blank"
                   rel="noreferrer"
                   className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/95 text-sm font-black text-[#124244] shadow-[0_12px_24px_rgba(54,197,180,0.24)] transition-transform hover:scale-105 hover:bg-[#7fe4d7]"
-                  aria-label={social.label}
+                  aria-label={label}
                 >
-                  <social.icon className="h-5 w-5" />
+                  <Icon className="h-5 w-5" />
                 </a>
               ))}
             </div>
@@ -56,6 +58,7 @@ export function Footer() {
 
           <div className="flex flex-col justify-start pt-2">
             <h2 className="text-3xl font-bold text-white">{t('quickLinks')}</h2>
+
             <div className="mt-8 flex flex-col gap-5">
               {quickLinks.map((link) => (
                 <Link
@@ -74,6 +77,7 @@ export function Footer() {
           <p className="text-lg text-white md:text-xl">
             {'\u00A9'} 2026 {t('copyright')}
           </p>
+
           <p className="mt-4 text-base text-white/80 md:text-lg">
             {locale === 'en' ? 'Designed and developed by ' : 'تصميم وتطوير '}
             <a
@@ -85,10 +89,12 @@ export function Footer() {
               Entertab
             </a>
           </p>
+
           <div className="mt-7 flex flex-wrap justify-center gap-8 text-lg text-white">
             <Link href="/" className="transition-colors hover:text-primary">
               {t('privacyPolicy')}
             </Link>
+
             <Link href="/" className="transition-colors hover:text-primary">
               {t('termsOfService')}
             </Link>
