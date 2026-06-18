@@ -74,6 +74,11 @@
   },
   "FanUploads": {
     "sectionTitle": "Fan Upload Designs",
+    "pageTitle": "Upload Styles Gallery",
+    "pageSubtitle": "A full showcase of the image and video layouts used for supporter uploads across the website.",
+    "imagesHeading": "Images",
+    "videosHeading": "Videos",
+    "backHome": "Back to Home",
     "imageCard1Title": "Image Post Layout",
     "imageCard1Desc": "Static image design for fan photos, match-day memories, and supporter highlights uploaded on the website.",
     "imageCard2Title": "Gallery Cover Layout",
