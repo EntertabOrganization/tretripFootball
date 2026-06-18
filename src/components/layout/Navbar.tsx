@@ -8,6 +8,7 @@ import { hasAdminSession } from '@/lib/admin-client';
 import { ARAB_TEAMS_DATA } from '@/data/arabTeams';
 import { supabase } from '@/lib/supabase';
 import { BrandLogo } from '@/components/branding/BrandLogo';
+import { TeamFlag } from '@/components/teams/TeamFlag';
 
 interface NavbarProps {
   selectedTeamCode?: string;
@@ -172,7 +173,11 @@ export function Navbar({ selectedTeamCode = 'KSA', onSelectTeam = () => {} }: Na
                   }`}
                   title={locale === 'ar' ? 'اختر المنتخب الوطني' : 'Select National Team'}
                 >
-                  <span className="text-lg">{currentTeam.flagEmoji}</span>
+                  <TeamFlag
+                    teamCode={currentTeam.code}
+                    alt={locale === 'ar' ? currentTeam.countryNameAr : currentTeam.countryName}
+                    className="h-5 w-7 rounded-sm"
+                  />
                   <span className="font-heading text-sm tracking-wider">{currentTeam.code}</span>
                   <span className={`text-xs transition-transform duration-200 ${isTeamDropdownOpen ? 'rotate-180' : ''}`}>⌄</span>
                 </button>
@@ -195,7 +200,11 @@ export function Navbar({ selectedTeamCode = 'KSA', onSelectTeam = () => {} }: Na
                             selectedTeamCode === team.code ? 'bg-primary/10 font-bold text-primary' : ''
                           }`}
                         >
-                          <span className="text-xl">{team.flagEmoji}</span>
+                          <TeamFlag
+                            teamCode={team.code}
+                            alt={locale === 'ar' ? team.countryNameAr : team.countryName}
+                            className="h-6 w-9 rounded-sm"
+                          />
                           <span className="text-sm font-semibold">{locale === 'ar' ? team.countryNameAr : team.countryName}</span>
                         </button>
                       ))}
@@ -298,7 +307,11 @@ export function Navbar({ selectedTeamCode = 'KSA', onSelectTeam = () => {} }: Na
                       }`}
                       title={locale === 'ar' ? team.countryNameAr : team.countryName}
                     >
-                      <span className="text-2xl">{team.flagEmoji}</span>
+                      <TeamFlag
+                        teamCode={team.code}
+                        alt={locale === 'ar' ? team.countryNameAr : team.countryName}
+                        className="h-8 w-12 rounded-md"
+                      />
                       <span className="mt-1 text-xs font-semibold">{team.code}</span>
                     </button>
                   ))}

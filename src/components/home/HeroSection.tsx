@@ -2,6 +2,7 @@ import { LogIn, UserPlus } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { getCompetitionCopy, getTeamByCode } from '@/data/arabTeams';
+import { TeamFlag } from '@/components/teams/TeamFlag';
 
 interface HeroSectionProps {
   selectedTeamCode?: string;
@@ -22,7 +23,12 @@ export function HeroSection({ selectedTeamCode = 'KSA' }: HeroSectionProps) {
       <div className="relative z-10 mx-auto grid w-full max-w-[112rem] gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
         <div className="flex flex-col items-start">
           <div className="mb-6 flex items-center gap-2.5 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-bold uppercase tracking-widest text-primary">
-            <span className="text-xl leading-none">{currentTeam.flagEmoji}</span>
+            <TeamFlag
+              teamCode={currentTeam.code}
+              alt={locale === 'ar' ? currentTeam.countryNameAr : currentTeam.countryName}
+              className="h-6 w-8 rounded-sm"
+              priority
+            />
             <span className="font-heading">
               {locale === 'en'
                 ? `FIFA World Cup 2026 • ${currentTeam.countryName}`
@@ -62,7 +68,12 @@ export function HeroSection({ selectedTeamCode = 'KSA' }: HeroSectionProps) {
             {locale === 'en' ? 'Selected Team' : 'المنتخب المختار'}
           </p>
           <div className="mt-5 flex items-center gap-4">
-            <span className="text-5xl">{currentTeam.flagEmoji}</span>
+            <TeamFlag
+              teamCode={currentTeam.code}
+              alt={locale === 'ar' ? currentTeam.countryNameAr : currentTeam.countryName}
+              className="h-14 w-20 rounded-xl border border-white/15"
+              priority
+            />
             <div>
               <h2 className="text-3xl font-bold">{locale === 'ar' ? currentTeam.countryNameAr : currentTeam.countryName}</h2>
               <p className="mt-1 text-white/70">{locale === 'ar' ? currentTeam.nicknameAr : currentTeam.nickname}</p>

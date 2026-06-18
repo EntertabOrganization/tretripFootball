@@ -8,6 +8,7 @@ import { Link, useRouter } from '@/i18n/routing';
 import { ALL_ARAB_MATCHES } from '@/data/arabMatches';
 import { getAdminMatches, getStoredPredictions, savePrediction } from '@/lib/admin-client';
 import { supabase } from '@/lib/supabase';
+import { TeamFlag } from '@/components/teams/TeamFlag';
 
 type SessionUser = {
   email?: string;
@@ -343,14 +344,24 @@ export default function DashboardPage() {
                     </div>
                     <div className="mt-4 space-y-2">
                       <div className="flex items-center gap-3">
-                        <span className="text-2xl">{match.homeFlag}</span>
+                        <TeamFlag
+                          teamCode={match.homeCode}
+                          src={match.homeFlag}
+                          alt={match.homeTeam}
+                          className="h-8 w-11 rounded-md"
+                        />
                         <div>
                           <p className="text-xs font-bold uppercase tracking-[0.18em] text-foreground/45">{t('homeLabel')}</p>
                           <p className="font-semibold text-foreground">{match.homeTeam}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="text-2xl">{match.awayFlag}</span>
+                        <TeamFlag
+                          teamCode={match.awayCode}
+                          src={match.awayFlag}
+                          alt={match.awayTeam}
+                          className="h-8 w-11 rounded-md"
+                        />
                         <div>
                           <p className="text-xs font-bold uppercase tracking-[0.18em] text-foreground/45">{t('awayLabel')}</p>
                           <p className="font-semibold text-foreground">{match.awayTeam}</p>
@@ -375,7 +386,14 @@ export default function DashboardPage() {
                   <div className="grid gap-5 md:grid-cols-[1fr_auto_1fr] md:items-center">
                     <div className="rounded-[1.4rem] bg-[color-mix(in_oklab,white_88%,var(--primary)_12%)] p-5 text-center">
                       <p className="text-xs font-bold uppercase tracking-[0.18em] text-foreground/45">{t('homeLabel')}</p>
-                      <div className="mt-3 text-5xl">{selectedMatch.homeFlag}</div>
+                      <div className="mt-3 flex justify-center">
+                        <TeamFlag
+                          teamCode={selectedMatch.homeCode}
+                          src={selectedMatch.homeFlag}
+                          alt={selectedMatch.homeTeam}
+                          className="h-16 w-24 rounded-xl"
+                        />
+                      </div>
                       <p className="mt-3 text-lg font-semibold text-foreground">{selectedMatch.homeTeam}</p>
                       <input
                         type="number"
@@ -390,7 +408,14 @@ export default function DashboardPage() {
 
                     <div className="rounded-[1.4rem] bg-[color-mix(in_oklab,white_92%,var(--accent)_8%)] p-5 text-center">
                       <p className="text-xs font-bold uppercase tracking-[0.18em] text-foreground/45">{t('awayLabel')}</p>
-                      <div className="mt-3 text-5xl">{selectedMatch.awayFlag}</div>
+                      <div className="mt-3 flex justify-center">
+                        <TeamFlag
+                          teamCode={selectedMatch.awayCode}
+                          src={selectedMatch.awayFlag}
+                          alt={selectedMatch.awayTeam}
+                          className="h-16 w-24 rounded-xl"
+                        />
+                      </div>
                       <p className="mt-3 text-lg font-semibold text-foreground">{selectedMatch.awayTeam}</p>
                       <input
                         type="number"

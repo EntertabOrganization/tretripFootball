@@ -72,6 +72,20 @@
     "step3Desc": "Complete your application and await the ticket allocation draw results.",
     "startApplication": "Start Application"
   },
+  "FanUploads": {
+    "sectionTitle": "Fan Upload Designs",
+    "imageCard1Title": "Image Post Layout",
+    "imageCard1Desc": "Static image design for fan photos, match-day memories, and supporter highlights uploaded on the website.",
+    "imageCard2Title": "Gallery Cover Layout",
+    "imageCard2Desc": "Clean cover design for image collections shared by users without any video treatment or play icon.",
+    "videoCardTitle": "Video Upload Layout",
+    "videoCardDesc": "Video design remains interactive for supporter clips, reactions, and match-day moments uploaded by users.",
+    "imageRail": "IMAGE DESIGN",
+    "videoRail": "VIDEO DESIGN",
+    "imageLabel": "IMAGE",
+    "videoLabel": "VIDEO",
+    "cta": "View Upload Styles"
+  },
   "Footer": {
     "quickLinks": "Quick Links",
     "about": "About",

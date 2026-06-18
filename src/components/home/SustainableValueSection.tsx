@@ -5,7 +5,7 @@ export function SustainableValueSection() {
   const t = useTranslations('Partnership');
 
   return (
-    <section className="relative overflow-hidden border-t border-white/10 bg-brand-light py-24">
+    <section className="relative overflow-hidden border-t border-white/10 bg-white py-24">
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none" />
       
       <div className="mx-auto max-w-7xl px-4 relative z-10">
@@ -15,7 +15,7 @@ export function SustainableValueSection() {
             {t('valueTitle')}
           </div>
           <div className="mx-auto mb-8 h-1 w-24 bg-blue-400" />
-          <h2 className="font-heading text-4xl font-bold uppercase leading-tight text-white md:text-5xl">
+          <h2 className="font-heading text-4xl font-bold uppercase leading-tight text-brand-light md:text-5xl">
             {t('valueHeadline')}
           </h2>
         </div>
@@ -29,7 +29,7 @@ export function SustainableValueSection() {
             <h3 className="mb-4 text-2xl font-bold text-primary uppercase tracking-wide">
               {t('value1')}
             </h3>
-            <p className="text-white/70 leading-relaxed text-lg">
+            <p className="text-brand-light/70 leading-relaxed text-lg">
               {t('value1Desc')}
             </p>
           </div>
@@ -41,7 +41,7 @@ export function SustainableValueSection() {
             <h3 className="mb-4 text-2xl font-bold text-blue-400 uppercase tracking-wide">
               {t('value2')}
             </h3>
-            <p className="text-white/70 leading-relaxed text-lg">
+            <p className="text-brand-light/70 leading-relaxed text-lg">
               {t('value2Desc')}
             </p>
           </div>
@@ -53,7 +53,7 @@ export function SustainableValueSection() {
             <h3 className="mb-4 text-2xl font-bold text-[#FF6B6B] uppercase tracking-wide">
               {t('value3')}
             </h3>
-            <p className="text-white/70 leading-relaxed text-lg">
+            <p className="text-brand-light/70 leading-relaxed text-lg">
               {t('value3Desc')}
             </p>
           </div>

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { ARAB_TEAMS_DATA } from '@/data/arabTeams';
+import { TeamFlag } from '@/components/teams/TeamFlag';
 
 interface SquadSectionProps {
   selectedTeamCode?: string;
@@ -69,9 +70,11 @@ export function SquadSection({ selectedTeamCode, onSelectTeam = () => {} }: Squa
                   <div className="absolute inset-0 z-10 bg-gradient-to-t from-white via-transparent to-transparent opacity-90" />
                   <div className="absolute -bottom-10 -right-10 h-48 w-48 rounded-full bg-primary/10 blur-3xl transition-colors duration-500 group-hover:bg-primary/20" />
                   <div className="absolute -left-10 -top-10 h-32 w-32 rounded-full bg-primary/5 blur-2xl" />
-                  <span className="relative z-20 mb-4 text-8xl drop-shadow-2xl transition-transform duration-300 group-hover:scale-110">
-                    {team.flagEmoji}
-                  </span>
+                  <TeamFlag
+                    teamCode={team.code}
+                    alt={locale === 'ar' ? team.countryNameAr : team.countryName}
+                    className="relative z-20 mb-4 h-24 w-36 rounded-2xl border border-white/70 shadow-2xl transition-transform duration-300 group-hover:scale-110"
+                  />
                   <span className={`relative z-20 rounded-full border px-3 py-1 text-xs font-bold uppercase tracking-widest ${confColors[team.confederation]}`}>
                     {team.confederation}
                   </span>

@@ -5,7 +5,7 @@ export function VoicesSection() {
   const t = useTranslations('Partnership');
 
   return (
-    <section className="relative overflow-hidden border-t border-white/10 bg-brand-light py-24">
+    <section className="relative overflow-hidden border-t border-white/10 bg-white py-24">
       <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-giddam-gold/5 rounded-full blur-3xl pointer-events-none" />
       
       <div className="mx-auto max-w-7xl px-4 relative z-10">
@@ -17,11 +17,11 @@ export function VoicesSection() {
             </div>
             <div className="mb-8 h-1 w-24 bg-giddam-gold" />
             
-            <h2 className="mb-8 font-heading text-4xl font-bold uppercase leading-tight text-white md:text-5xl">
+            <h2 className="mb-8 font-heading text-4xl font-bold uppercase leading-tight text-brand-light md:text-5xl">
               {t('voicesHeadline')}
             </h2>
             
-            <p className="mb-8 text-lg text-white/80 leading-relaxed md:text-xl">
+            <p className="mb-8 text-lg text-brand-light/80 leading-relaxed md:text-xl">
               {t('voicesDesc1')}
             </p>
           </div>

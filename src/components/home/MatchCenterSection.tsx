@@ -2,6 +2,7 @@ import { Calendar, MapPin } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { getLocalizedTeamName, getMatchesByTeamCode } from '@/data/arabTeams';
 import { Link } from '@/i18n/routing';
+import { TeamFlag } from '@/components/teams/TeamFlag';
 
 interface MatchCenterSectionProps {
   selectedTeamCode?: string;
@@ -35,7 +36,12 @@ export function MatchCenterSection({ selectedTeamCode = 'KSA' }: MatchCenterSect
               <div className="p-6">
                 <div className="mb-6 flex items-center justify-between">
                   <div className="flex w-1/3 flex-col items-center gap-2">
-                    <span className="text-4xl">{match.homeFlag}</span>
+                    <TeamFlag
+                      teamCode={match.homeCode}
+                      src={match.homeFlag}
+                      alt={getLocalizedTeamName(match.homeCode, locale as 'en' | 'ar')}
+                      className="h-12 w-16 rounded-lg"
+                    />
                     <span className="text-2xl font-heading font-bold text-primary">{match.homeCode}</span>
                     <span className="text-center text-sm font-bold text-white">
                       {getLocalizedTeamName(match.homeCode, locale as 'en' | 'ar')}
@@ -50,7 +56,12 @@ export function MatchCenterSection({ selectedTeamCode = 'KSA' }: MatchCenterSect
                   </div>
 
                   <div className="flex w-1/3 flex-col items-center gap-2">
-                    <span className="text-4xl">{match.awayFlag}</span>
+                    <TeamFlag
+                      teamCode={match.awayCode}
+                      src={match.awayFlag}
+                      alt={getLocalizedTeamName(match.awayCode, locale as 'en' | 'ar')}
+                      className="h-12 w-16 rounded-lg"
+                    />
                     <span className="text-2xl font-heading font-bold text-primary">{match.awayCode}</span>
                     <span className="text-center text-sm font-bold text-white">
                       {getLocalizedTeamName(match.awayCode, locale as 'en' | 'ar')}

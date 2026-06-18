@@ -9,6 +9,7 @@ import { HeroSection } from '@/components/home/HeroSection';
 import { MatchCenterSection } from '@/components/home/MatchCenterSection';
 import { SquadSection } from '@/components/home/SquadSection';
 import { TicketGuideSection } from '@/components/home/TicketGuideSection';
+import { FanUploadedItems } from '@/components/home/FanUploadedItems';
 import { VoicesSection } from '@/components/home/VoicesSection';
 import { ContentPreviewSection } from '@/components/home/ContentPreviewSection';
 import { CitiesStrategySection } from '@/components/home/CitiesStrategySection';
@@ -30,6 +31,7 @@ export default function Home() {
         <AboutSection selectedTeamCode={selectedTeamCode} />
         <MatchCenterSection selectedTeamCode={selectedTeamCode} />
         <SquadSection selectedTeamCode={selectedTeamCode} onSelectTeam={setSelectedTeamCode} />
+        <FanUploadedItems />
         <FanZoneSection selectedTeamCode={selectedTeamCode} />
         <CompetitionsTeaserSection />
         <LeaderboardSection />

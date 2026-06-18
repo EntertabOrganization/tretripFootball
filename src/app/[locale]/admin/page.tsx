@@ -3,15 +3,20 @@
 import { useEffect, useState } from 'react';
 import { CalendarPlus2, LogOut, ShieldCheck, Trash2 } from 'lucide-react';
 import { useRouter } from '@/i18n/routing';
+import { TeamFlag } from '@/components/teams/TeamFlag';
+import { ARAB_TEAMS_DATA } from '@/data/arabTeams';
 import { clearAdminSession, deleteAdminMatch, getAdminMatches, hasAdminSession, saveAdminMatch, type MatchDraft, SUPER_ADMIN } from '@/lib/admin-client';
 
+const defaultHomeTeam = ARAB_TEAMS_DATA[0];
+const defaultAwayTeam = ARAB_TEAMS_DATA[1] ?? ARAB_TEAMS_DATA[0];
+
 const initialForm: MatchDraft = {
-  homeTeam: '',
-  awayTeam: '',
-  homeCode: '',
-  awayCode: '',
-  homeFlag: '',
-  awayFlag: '',
+  homeTeam: defaultHomeTeam.countryName,
+  awayTeam: defaultAwayTeam.countryName,
+  homeCode: defaultHomeTeam.code,
+  awayCode: defaultAwayTeam.code,
+  homeFlag: defaultHomeTeam.flagImage,
+  awayFlag: defaultAwayTeam.flagImage,
   date: '',
   time: '',
   stadium: '',
@@ -33,6 +38,18 @@ export default function AdminPage() {
 
   const updateField = <K extends keyof MatchDraft>(key: K, value: MatchDraft[K]) => {
     setForm((current) => ({ ...current, [key]: value }));
+  };
+
+  const updateTeam = (side: 'home' | 'away', teamCode: string) => {
+    const nextTeam = ARAB_TEAMS_DATA.find((team) => team.code === teamCode);
+    if (!nextTeam) return;
+
+    setForm((current) => ({
+      ...current,
+      [`${side}Team`]: nextTeam.countryName,
+      [`${side}Code`]: nextTeam.code,
+      [`${side}Flag`]: nextTeam.flagImage,
+    }));
   };
 
   const handleAddMatch = (e: React.FormEvent) => {
@@ -99,12 +116,34 @@ export default function AdminPage() {
             </div>
 
             <form onSubmit={handleAddMatch} className="grid gap-4 sm:grid-cols-2">
-              <input required value={form.homeTeam} onChange={(e) => updateField('homeTeam', e.target.value)} placeholder="Home team" className="rounded-[1.1rem] border border-white/75 bg-white/80 px-4 py-3 text-foreground outline-none focus:border-primary" />
-              <input required value={form.awayTeam} onChange={(e) => updateField('awayTeam', e.target.value)} placeholder="Away team" className="rounded-[1.1rem] border border-white/75 bg-white/80 px-4 py-3 text-foreground outline-none focus:border-primary" />
-              <input required value={form.homeCode} onChange={(e) => updateField('homeCode', e.target.value.toUpperCase())} placeholder="Home code" className="rounded-[1.1rem] border border-white/75 bg-white/80 px-4 py-3 text-foreground outline-none focus:border-primary" />
-              <input required value={form.awayCode} onChange={(e) => updateField('awayCode', e.target.value.toUpperCase())} placeholder="Away code" className="rounded-[1.1rem] border border-white/75 bg-white/80 px-4 py-3 text-foreground outline-none focus:border-primary" />
-              <input value={form.homeFlag} onChange={(e) => updateField('homeFlag', e.target.value)} placeholder="Home flag emoji" className="rounded-[1.1rem] border border-white/75 bg-white/80 px-4 py-3 text-foreground outline-none focus:border-primary" />
-              <input value={form.awayFlag} onChange={(e) => updateField('awayFlag', e.target.value)} placeholder="Away flag emoji" className="rounded-[1.1rem] border border-white/75 bg-white/80 px-4 py-3 text-foreground outline-none focus:border-primary" />
+              <label className="space-y-2">
+                <span className="text-sm font-semibold text-foreground/65">Home team</span>
+                <select
+                  value={form.homeCode}
+                  onChange={(e) => updateTeam('home', e.target.value)}
+                  className="w-full rounded-[1.1rem] border border-white/75 bg-white/80 px-4 py-3 text-foreground outline-none focus:border-primary"
+                >
+                  {ARAB_TEAMS_DATA.map((team) => (
+                    <option key={team.code} value={team.code}>
+                      {team.countryName} ({team.code})
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="space-y-2">
+                <span className="text-sm font-semibold text-foreground/65">Away team</span>
+                <select
+                  value={form.awayCode}
+                  onChange={(e) => updateTeam('away', e.target.value)}
+                  className="w-full rounded-[1.1rem] border border-white/75 bg-white/80 px-4 py-3 text-foreground outline-none focus:border-primary"
+                >
+                  {ARAB_TEAMS_DATA.map((team) => (
+                    <option key={team.code} value={team.code}>
+                      {team.countryName} ({team.code})
+                    </option>
+                  ))}
+                </select>
+              </label>
               <input required value={form.date} onChange={(e) => updateField('date', e.target.value)} placeholder="18 JUN 2026" className="rounded-[1.1rem] border border-white/75 bg-white/80 px-4 py-3 text-foreground outline-none focus:border-primary" />
               <input required value={form.time} onChange={(e) => updateField('time', e.target.value)} placeholder="20:00 ET" className="rounded-[1.1rem] border border-white/75 bg-white/80 px-4 py-3 text-foreground outline-none focus:border-primary" />
               <input required value={form.stadium} onChange={(e) => updateField('stadium', e.target.value)} placeholder="Stadium" className="rounded-[1.1rem] border border-white/75 bg-white/80 px-4 py-3 text-foreground outline-none focus:border-primary" />
@@ -134,7 +173,11 @@ export default function AdminPage() {
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                       <div>
                         <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">{match.date} • {match.time}</p>
-                        <h3 className="mt-2 text-xl font-semibold text-foreground">{match.homeTeam} vs {match.awayTeam}</h3>
+                        <div className="mt-2 flex items-center gap-3">
+                          <TeamFlag teamCode={match.homeCode} src={match.homeFlag} alt={match.homeTeam} className="h-8 w-11 rounded-md" />
+                          <h3 className="text-xl font-semibold text-foreground">{match.homeTeam} vs {match.awayTeam}</h3>
+                          <TeamFlag teamCode={match.awayCode} src={match.awayFlag} alt={match.awayTeam} className="h-8 w-11 rounded-md" />
+                        </div>
                         <p className="mt-2 text-sm text-foreground/58">{match.stadium}, {match.city} • Group {match.group}</p>
                       </div>
 

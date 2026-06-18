@@ -7,6 +7,7 @@ import { ALL_ARAB_TEAM_MATCHES, ARAB_TEAMS_DATA, getLocalizedTeamName } from '@/
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { Link } from '@/i18n/routing';
+import { TeamFlag } from '@/components/teams/TeamFlag';
 
 export default function MatchesPage() {
   const t = useTranslations('MatchesPage');
@@ -85,7 +86,11 @@ export default function MatchesPage() {
                       : 'border-white/20 bg-white/5 text-white/80 hover:bg-white/10 hover:border-white/40'
                   }`}
                 >
-                  <span>{team.flagEmoji}</span>
+                  <TeamFlag
+                    teamCode={team.code}
+                    alt={locale === 'ar' ? team.countryNameAr : team.countryName}
+                    className="h-5 w-7 rounded-sm"
+                  />
                   <span>{team.code}</span>
                 </button>
               ))}
@@ -120,7 +125,12 @@ export default function MatchesPage() {
                         <div className="p-6">
                           <div className="mb-6 flex items-center justify-between">
                             <div className="flex w-1/3 flex-col items-center gap-2">
-                              <span className="text-4xl">{match.homeFlag}</span>
+                              <TeamFlag
+                                teamCode={match.homeCode}
+                                src={match.homeFlag}
+                                alt={getLocalizedTeamName(match.homeCode, locale as 'en' | 'ar')}
+                                className="h-12 w-16 rounded-lg"
+                              />
                               <span className="text-2xl font-heading font-bold text-primary">{match.homeCode}</span>
                               <span className="text-center text-sm font-bold text-white">
                                 {getLocalizedTeamName(match.homeCode, locale as 'en' | 'ar')}
@@ -135,7 +145,12 @@ export default function MatchesPage() {
                             </div>
 
                             <div className="flex w-1/3 flex-col items-center gap-2">
-                              <span className="text-4xl">{match.awayFlag}</span>
+                              <TeamFlag
+                                teamCode={match.awayCode}
+                                src={match.awayFlag}
+                                alt={getLocalizedTeamName(match.awayCode, locale as 'en' | 'ar')}
+                                className="h-12 w-16 rounded-lg"
+                              />
                               <span className="text-2xl font-heading font-bold text-primary">{match.awayCode}</span>
                               <span className="text-center text-sm font-bold text-white">
                                 {getLocalizedTeamName(match.awayCode, locale as 'en' | 'ar')}
