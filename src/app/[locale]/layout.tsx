@@ -1,23 +1,38 @@
-import type { Metadata } from 'next';
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
-import { notFound } from 'next/navigation';
-import { routing } from '@/i18n/routing';
-import '../globals.css';
+import type { Metadata } from "next";
+import { Cairo, Manrope } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { SiteFooter } from "@/components/layout/SiteFooter";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { routing } from "@/i18n/routing";
+import "../globals.css";
+
+const cairo = Cairo({
+  subsets: ["arabic", "latin"],
+  variable: "--font-cairo",
+  weight: ["400", "500", "600", "700"],
+});
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+  weight: ["400", "500", "600", "700", "800"],
+});
 
 export const metadata: Metadata = {
-  title: 'TreTrip - Arab World Cup 2026',
+  title: "Tretrip Football Platform",
   description:
-    'TreTrip is the official hub for Arab national teams at the 2026 FIFA World Cup, with matches, team profiles, fan content, and competitions.',
+    "A bilingual football platform for news, competitions, user engagement, and editorial management.",
 };
 
-export default async function RootLayout({
+export default async function LocaleLayout({
   children,
   params,
-}: Readonly<{
+}: {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
-}>) {
+}) {
   const { locale } = await params;
 
   if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
@@ -29,11 +44,18 @@ export default async function RootLayout({
   return (
     <html
       lang={locale}
-      dir={locale === 'ar' ? 'rtl' : 'ltr'}
-      className="h-full antialiased"
+      dir={locale === "ar" ? "rtl" : "ltr"}
+      className={`${cairo.variable} ${manrope.variable}`}
+      data-scroll-behavior="smooth"
     >
-      <body className="min-h-full bg-background font-sans text-foreground">
-        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+      <body>
+        <NextIntlClientProvider messages={messages}>
+          <div className="flex min-h-screen flex-col">
+            <SiteHeader />
+            <main className="flex-1 py-8 sm:py-10">{children}</main>
+            <SiteFooter />
+          </div>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

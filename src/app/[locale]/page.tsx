@@ -1,55 +1,97 @@
-'use client';
+import { ArrowRight, Newspaper, Trophy } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { CompetitionCard } from "@/components/competitions/CompetitionCard";
+import { ArticleCard } from "@/components/news/ArticleCard";
+import { buttonVariants } from "@/components/ui/button";
+import { Link } from "@/i18n/routing";
+import { getHomePageData } from "@/lib/queries";
+import { cn } from "@/lib/utils";
 
-import { useState } from 'react';
-import { AboutSection } from '@/components/home/AboutSection';
-import { CompetitionsTeaserSection } from '@/components/home/CompetitionsTeaserSection';
-import { FanZoneSection } from '@/components/home/FanZoneSection';
-import { LeaderboardSection } from '@/components/home/LeaderboardSection';
-import { HeroSection } from '@/components/home/HeroSection';
-import { MatchCenterSection } from '@/components/home/MatchCenterSection';
-import { SquadSection } from '@/components/home/SquadSection';
-import { TicketGuideSection } from '@/components/home/TicketGuideSection';
-import { FanUploadedItems } from '@/components/home/FanUploadedItems';
-import { VoicesSection } from '@/components/home/VoicesSection';
-import { ContentPreviewSection } from '@/components/home/ContentPreviewSection';
-import { CitiesStrategySection } from '@/components/home/CitiesStrategySection';
-import { WhatWeProvideSection } from '@/components/home/WhatWeProvideSection';
-import { SustainableValueSection } from '@/components/home/SustainableValueSection';
-import { PartnerSection } from '@/components/home/PartnerSection';
-import { MinistryContactCTA } from '@/components/home/MinistryContactCTA';
-import { Footer } from '@/components/layout/Footer';
-import { Navbar } from '@/components/layout/Navbar';
-
-export default function Home() {
-  const [selectedTeamCode, setSelectedTeamCode] = useState('KSA');
+export default async function HomePage() {
+  const t = await getTranslations("Home");
+  const { latestNews, featuredCompetitions, categories } = await getHomePageData();
 
   return (
-    <>
-      <Navbar selectedTeamCode={selectedTeamCode} onSelectTeam={setSelectedTeamCode} />
-      <main className="min-h-screen w-full bg-background">
-        <HeroSection selectedTeamCode={selectedTeamCode} />
-        <AboutSection selectedTeamCode={selectedTeamCode} />
-        <MatchCenterSection selectedTeamCode={selectedTeamCode} />
-        <SquadSection selectedTeamCode={selectedTeamCode} onSelectTeam={setSelectedTeamCode} />
-        <FanUploadedItems />
-        <FanZoneSection selectedTeamCode={selectedTeamCode} />
-        <CompetitionsTeaserSection />
-        <LeaderboardSection />
-        <TicketGuideSection />
-        
-        {/* New Ministry Pitch Sections */}
-        {/* <OpportunitySection /> */}
-        <VoicesSection />
-        {/* <DataActivationSection /> */}
-        <ContentPreviewSection />
-        <CitiesStrategySection selectedTeamCode={selectedTeamCode} />
-        <WhatWeProvideSection />
-        {/* <DeliverablesSection /> */}
-        <SustainableValueSection />
-        <PartnerSection />
-        <MinistryContactCTA />
-      </main>
-      <Footer />
-    </>
+    <div className="shell space-y-12">
+      <section className="hero-panel overflow-hidden rounded-[36px] px-6 py-10 text-primary-foreground shadow-[0_32px_90px_rgba(9,32,26,0.24)] sm:px-10 sm:py-14">
+        <div className="grid gap-10 lg:grid-cols-[1.35fr_0.9fr] lg:items-end">
+          <div className="space-y-6">
+            <span className="gold-chip">{t("badge")}</span>
+            <h1 className="max-w-4xl text-4xl font-semibold leading-tight text-balance sm:text-5xl lg:text-6xl">
+              {t("title")}
+            </h1>
+            <p className="max-w-2xl text-base leading-7 text-primary-foreground/78 sm:text-lg">
+              {t("subtitle")}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/news" className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}>
+                <Newspaper className="size-4" />
+                {t("primaryCta")}
+              </Link>
+              <Link href="/competitions" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "border-white/25 bg-white/10 text-white hover:bg-white/16 hover:text-white")}>
+                <Trophy className="size-4" />
+                {t("secondaryCta")}
+              </Link>
+            </div>
+          </div>
+
+          <div className="glass-card grid gap-4 p-6 text-foreground">
+            <div>
+              <div className="section-kicker">{t("categories")}</div>
+              <h2 className="mt-2 text-2xl font-semibold">Editorial structure</h2>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {categories.map((category) => (
+                <Link
+                  key={category.id}
+                  href={`/news?category=${category.slug}`}
+                  className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium transition hover:border-primary hover:text-primary"
+                >
+                  {category.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="space-y-6">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <div className="section-kicker">{t("latestNews")}</div>
+            <h2 className="section-title">Latest published coverage</h2>
+          </div>
+          <Link href="/news" className="inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:text-accent">
+            View all
+            <ArrowRight className="size-4" />
+          </Link>
+        </div>
+        {latestNews.length ? (
+          <div className="soft-grid">
+            {latestNews.map((article) => (
+              <ArticleCard key={article.id} article={article} />
+            ))}
+          </div>
+        ) : (
+          <div className="glass-card p-8 text-sm text-muted-foreground">{t("emptyNews")}</div>
+        )}
+      </section>
+
+      <section className="space-y-6">
+        <div>
+          <div className="section-kicker">{t("featuredCompetitions")}</div>
+          <h2 className="section-title">Current competitions</h2>
+        </div>
+        {featuredCompetitions.length ? (
+          <div className="soft-grid">
+            {featuredCompetitions.map((competition) => (
+              <CompetitionCard key={competition.id} competition={competition} />
+            ))}
+          </div>
+        ) : (
+          <div className="glass-card p-8 text-sm text-muted-foreground">{t("emptyCompetitions")}</div>
+        )}
+      </section>
+    </div>
   );
 }

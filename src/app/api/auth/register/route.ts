@@ -1,38 +1,62 @@
-import { NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabase-admin';
-
-type RegisterBody = {
-  fullName?: string;
-  email?: string;
-  password?: string;
-};
+import { NextResponse } from "next/server";
+import { Role, UserType } from "@prisma/client";
+import { createSession, hashPassword, isInternalEmail } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { registerSchema } from "@/lib/validations";
 
 export async function POST(request: Request) {
   try {
-    const { fullName, email, password } = (await request.json()) as RegisterBody;
+    const body = await request.json();
+    const parsed = registerSchema.safeParse(body);
 
-    if (!fullName?.trim() || !email?.trim() || !password?.trim()) {
-      return NextResponse.json({ error: 'Missing required fields.' }, { status: 400 });
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Invalid registration data.", details: parsed.error.flatten() },
+        { status: 400 },
+      );
     }
 
-    const { data, error } = await supabaseAdmin.auth.admin.createUser({
-      email: email.trim().toLowerCase(),
-      password,
-      email_confirm: true,
-      user_metadata: {
-        full_name: fullName.trim(),
+    const existingUser = await prisma.user.findUnique({
+      where: { email: parsed.data.email },
+    });
+
+    if (existingUser) {
+      return NextResponse.json(
+        { error: "An account with this email already exists." },
+        { status: 409 },
+      );
+    }
+
+    const user = await prisma.user.create({
+      data: {
+        fullName: parsed.data.fullName,
+        email: parsed.data.email,
+        passwordHash: await hashPassword(parsed.data.password),
+        phoneNumber: parsed.data.phoneNumber || null,
+        role: Role.USER,
+        userType: isInternalEmail(parsed.data.email)
+          ? UserType.INTERNAL
+          : UserType.EXTERNAL,
+      },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        role: true,
+        userType: true,
       },
     });
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 });
-    }
+    await createSession(user);
 
     return NextResponse.json({
       success: true,
-      userId: data.user.id,
+      user,
     });
   } catch {
-    return NextResponse.json({ error: 'Unable to create account.' }, { status: 500 });
+    return NextResponse.json(
+      { error: "Unable to create account." },
+      { status: 500 },
+    );
   }
 }
