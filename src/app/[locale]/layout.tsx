@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cairo, Manrope } from "next/font/google";
+import { Cairo, Cormorant_Garamond, Manrope } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -20,10 +20,21 @@ const manrope = Manrope({
   weight: ["400", "500", "600", "700", "800"],
 });
 
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-cormorant",
+  weight: ["400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   title: "Tretrip Football Platform",
   description:
     "A bilingual football platform for news, competitions, user engagement, and editorial management.",
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
+  },
 };
 
 export default async function LocaleLayout({
@@ -45,7 +56,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={locale === "ar" ? "rtl" : "ltr"}
-      className={`${cairo.variable} ${manrope.variable}`}
+      className={`${cairo.variable} ${manrope.variable} ${cormorant.variable}`}
       data-scroll-behavior="smooth"
     >
       <body>

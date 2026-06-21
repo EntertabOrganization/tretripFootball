@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { getCurrentUser } from "@/lib/auth";
 import { Link } from "@/i18n/routing";
@@ -11,38 +12,38 @@ export async function SiteHeader() {
   const user = await getCurrentUser();
 
   return (
-    <header className="sticky top-0 z-30 border-b border-border/70 bg-background/85 backdrop-blur">
+    <header className="sticky top-0 z-30 border-b border-border/70 bg-background/90 backdrop-blur-xl">
       <div className="shell flex min-h-18 items-center justify-between gap-4 py-4">
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-lg font-bold text-primary-foreground">
-              T
+            <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border border-border/60 bg-white/80 shadow-sm">
+              <Image src="/TreTrip.png" alt="Tretrip" width={40} height={39} className="h-auto w-10" priority />
             </div>
             <div>
-              <div className="font-heading text-lg font-semibold">Tretrip</div>
-              <div className="text-xs uppercase tracking-[0.24em] text-muted-foreground">
+              <div className="font-heading text-2xl font-semibold leading-none">Tretrip</div>
+              <div className="mt-1 text-[11px] uppercase tracking-[0.28em] text-muted-foreground">
                 Football Desk
               </div>
             </div>
           </Link>
 
-          <nav className="hidden items-center gap-5 text-sm text-muted-foreground lg:flex">
-            <Link href="/" className="transition hover:text-foreground">
+          <nav className="hidden items-center gap-6 text-sm text-muted-foreground lg:flex">
+            <Link href="/" className="transition hover:text-primary">
               {t("home")}
             </Link>
-            <Link href="/news" className="transition hover:text-foreground">
+            <Link href="/news" className="transition hover:text-primary">
               {t("news")}
             </Link>
-            <Link href="/competitions" className="transition hover:text-foreground">
+            <Link href="/competitions" className="transition hover:text-primary">
               {t("competitions")}
             </Link>
             {user ? (
               <>
-                <Link href="/profile" className="transition hover:text-foreground">
+                <Link href="/profile" className="transition hover:text-primary">
                   {t("profile")}
                 </Link>
                 {(user.role === "ADMIN" || user.role === "EDITOR") && (
-                  <Link href="/dashboard" className="transition hover:text-foreground">
+                  <Link href="/dashboard" className="transition hover:text-primary">
                     {t("dashboard")}
                   </Link>
                 )}

@@ -1,26 +1,53 @@
 "use client";
 
 import { Moon, SunMedium } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 
 function applyTheme(theme: "light" | "dark") {
   document.documentElement.dataset.theme = theme;
   document.documentElement.classList.toggle("dark", theme === "dark");
 }
 
-export function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">(() => {
-    if (typeof window === "undefined") {
-      return "light";
+function readThemeSnapshot(): "light" | "dark" {
+  if (typeof window === "undefined") {
+    return "light";
+  }
+
+  const storedTheme = window.localStorage.getItem("tretrip-theme");
+
+  if (storedTheme === "light" || storedTheme === "dark") {
+    return storedTheme;
+  }
+
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+function subscribe(callback: () => void) {
+  if (typeof window === "undefined") {
+    return () => undefined;
+  }
+
+  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  const handleChange = () => callback();
+  const handleStorage = (event: StorageEvent) => {
+    if (!event.key || event.key === "tretrip-theme") {
+      callback();
     }
+  };
 
-    const storedTheme = window.localStorage.getItem("tretrip-theme");
+  mediaQuery.addEventListener("change", handleChange);
+  window.addEventListener("storage", handleStorage);
+  window.addEventListener("tretrip-theme-change", handleChange);
 
-    return storedTheme === "dark" ||
-      (!storedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ? "dark"
-      : "light";
-  });
+  return () => {
+    mediaQuery.removeEventListener("change", handleChange);
+    window.removeEventListener("storage", handleStorage);
+    window.removeEventListener("tretrip-theme-change", handleChange);
+  };
+}
+
+export function ThemeToggle() {
+  const theme = useSyncExternalStore<"light" | "dark">(subscribe, readThemeSnapshot, () => "light");
 
   useEffect(() => {
     applyTheme(theme);
@@ -28,9 +55,9 @@ export function ThemeToggle() {
 
   function toggleTheme() {
     const nextTheme = theme === "dark" ? "light" : "dark";
-    setTheme(nextTheme);
-    applyTheme(nextTheme);
     window.localStorage.setItem("tretrip-theme", nextTheme);
+    applyTheme(nextTheme);
+    window.dispatchEvent(new Event("tretrip-theme-change"));
   }
 
   return (

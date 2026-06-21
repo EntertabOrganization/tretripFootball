@@ -66,6 +66,12 @@ npx prisma dev -d
 npx prisma migrate dev --name tretrip_platform_rebuild
 ```
 
+If you are using local `prisma dev` Postgres and hit connection or prepared-statement errors from Prisma Migrate, use the fallback sync path instead:
+
+```bash
+npm run db:setup
+```
+
 5. Seed development data:
 
 ```bash
@@ -114,6 +120,7 @@ Password123!
 npm install
 npx prisma validate
 npx prisma migrate dev --name tretrip_platform_rebuild
+npm run db:setup
 npx prisma db seed
 npm run lint
 npm run build

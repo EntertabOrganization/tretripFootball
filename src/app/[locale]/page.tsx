@@ -12,12 +12,12 @@ export default async function HomePage() {
   const { latestNews, featuredCompetitions, categories } = await getHomePageData();
 
   return (
-    <div className="shell space-y-12">
+    <div className="shell space-y-14">
       <section className="hero-panel overflow-hidden rounded-[36px] px-6 py-10 text-primary-foreground shadow-[0_32px_90px_rgba(9,32,26,0.24)] sm:px-10 sm:py-14">
         <div className="grid gap-10 lg:grid-cols-[1.35fr_0.9fr] lg:items-end">
           <div className="space-y-6">
             <span className="gold-chip">{t("badge")}</span>
-            <h1 className="max-w-4xl text-4xl font-semibold leading-tight text-balance sm:text-5xl lg:text-6xl">
+            <h1 className="max-w-4xl text-4xl font-semibold leading-[0.94] text-balance sm:text-5xl lg:text-7xl">
               {t("title")}
             </h1>
             <p className="max-w-2xl text-base leading-7 text-primary-foreground/78 sm:text-lg">
@@ -35,17 +35,34 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="glass-card grid gap-4 p-6 text-foreground">
-            <div>
+          <div className="glass-card grid gap-6 p-6 text-foreground">
+            <div className="space-y-2">
               <div className="section-kicker">{t("categories")}</div>
-              <h2 className="mt-2 text-2xl font-semibold">Editorial structure</h2>
+              <h2 className="text-3xl font-semibold">Editorial structure</h2>
+              <p className="text-sm leading-6 text-muted-foreground">
+                Curated coverage, competition launches, and bilingual fan touchpoints shaped for a modern Tretrip editorial desk.
+              </p>
+            </div>
+            <div className="grid grid-cols-3 gap-3 rounded-[24px] bg-primary/5 p-4 text-center">
+              <div>
+                <div className="font-heading text-3xl font-semibold text-primary">24/7</div>
+                <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">News flow</div>
+              </div>
+              <div>
+                <div className="font-heading text-3xl font-semibold text-primary">2</div>
+                <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Languages</div>
+              </div>
+              <div>
+                <div className="font-heading text-3xl font-semibold text-primary">V1</div>
+                <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Platform</div>
+              </div>
             </div>
             <div className="flex flex-wrap gap-3">
               {categories.map((category) => (
                 <Link
                   key={category.id}
                   href={`/news?category=${category.slug}`}
-                  className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium transition hover:border-primary hover:text-primary"
+                  className="rounded-full border border-border bg-background/80 px-4 py-2 text-sm font-medium transition hover:border-primary hover:bg-primary/5 hover:text-primary"
                 >
                   {category.name}
                 </Link>
