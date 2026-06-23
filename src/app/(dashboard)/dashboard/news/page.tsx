@@ -1,45 +1,58 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { NewsCreateForm } from "@/components/dashboard/forms";
+import { deleteNewsAction } from "@/lib/actions";
 import { getCurrentProfile } from "@/lib/auth";
-import { getCategories, getNewsList } from "@/lib/data";
+import { getAllNews } from "@/lib/data";
 import { hasMinimumRole } from "@/lib/permissions";
+import { AdminDataTable } from "@/components/dashboard/admin-data-table";
+import { DashboardPageHeader } from "@/components/dashboard/dashboard-page-header";
 
 export default async function DashboardNewsPage() {
   const profile = await getCurrentProfile();
+  if (!profile || !hasMinimumRole(profile.role, "EDITOR")) redirect("/unauthorized");
 
-  if (!profile || !hasMinimumRole(profile.role, "EDITOR")) {
-    redirect("/unauthorized");
-  }
-
-  const [categories, news] = await Promise.all([getCategories(), getNewsList({ includeDrafts: true })]);
+  const news = await getAllNews(true);
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[420px_1fr]">
-      <NewsCreateForm categories={categories} />
-      <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="font-display text-3xl text-slate-950">All Articles</h2>
-        <div className="mt-6 overflow-hidden rounded-[24px] border border-slate-200">
-          <table className="min-w-full divide-y divide-slate-200 text-sm">
-            <thead className="bg-slate-50 text-left">
-              <tr>
-                <th className="px-4 py-3">Title</th>
-                <th className="px-4 py-3">Category</th>
-                <th className="px-4 py-3">Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 bg-white">
-              {news.items.map((article) => (
-                <tr key={article.id}>
-                  <td className="px-4 py-3">{article.title_en}</td>
-                  <td className="px-4 py-3">{article.category?.title_en}</td>
-                  <td className="px-4 py-3">{article.status}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-    </div>
+    <>
+      <DashboardPageHeader
+        title="Articles"
+        subtitle="Manage every article with search, pagination, and full content editing."
+        action={
+          <Link
+            href="/dashboard/news/new"
+            target="_blank"
+            className="rounded-2xl bg-[#1f7a68] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#176454]"
+          >
+            Create Article
+          </Link>
+        }
+      />
+      <AdminDataTable
+        columns={["Title", "Category", "Status", "Published", "Action"]}
+        rows={news.map((article) => [
+          article.title_en,
+          article.category?.title_en ?? "Unassigned",
+          article.status,
+          article.published_at ? new Date(article.published_at).toLocaleDateString() : "—",
+          <div key={article.id} className="flex items-center gap-2">
+            <Link href={`/news/${article.slug}`} target="_blank" className="rounded-2xl px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100">
+              View
+            </Link>
+            <Link href={`/dashboard/news/${article.slug}/edit`} target="_blank" className="rounded-2xl border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+              Edit
+            </Link>
+            <form action={deleteNewsAction}>
+              <input type="hidden" name="id" value={article.id} />
+              <input type="hidden" name="slug" value={article.slug} />
+              <button type="submit" className="rounded-2xl border border-rose-200 px-3 py-2 text-sm font-semibold text-rose-600 hover:bg-rose-50">
+                Delete
+              </button>
+            </form>
+          </div>,
+        ])}
+      />
+    </>
   );
 }

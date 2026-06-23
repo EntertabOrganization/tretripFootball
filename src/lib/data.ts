@@ -157,6 +157,32 @@ export async function getNewsBySlug(slug: string) {
   } satisfies NewsArticle;
 }
 
+export async function getAllNews(includeDrafts = true): Promise<NewsArticle[]> {
+  const supabase = createSupabaseAdminClient();
+
+  if (!supabase) {
+    return includeDrafts ? mockNews : mockNews.filter((item) => item.status === "PUBLISHED");
+  }
+
+  let query = supabase
+    .from("news")
+    .select("*, category:news_categories(*), author:profiles(*)")
+    .order("created_at", { ascending: false });
+
+  if (!includeDrafts) {
+    query = query.eq("status", "PUBLISHED");
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    logFallback("Failed to fetch all news", error);
+    return includeDrafts ? mockNews : mockNews.filter((item) => item.status === "PUBLISHED");
+  }
+
+  return data ?? [];
+}
+
 export async function getCommentsForNews(newsId: string): Promise<CommentRecord[]> {
   const supabase = createSupabaseAdminClient();
 
@@ -218,6 +244,23 @@ export async function getCompetitionsList(searchParams?: {
     totalItems: count ?? items.length,
     totalPages: Math.max(1, Math.ceil((count ?? items.length) / pageSize)),
   };
+}
+
+export async function getAllCompetitions(): Promise<Competition[]> {
+  const supabase = createSupabaseAdminClient();
+
+  if (!supabase) {
+    return mockCompetitions;
+  }
+
+  const { data, error } = await supabase.from("competitions").select("*").order("created_at", { ascending: false });
+
+  if (error) {
+    logFallback("Failed to fetch all competitions", error);
+    return mockCompetitions;
+  }
+
+  return data ?? [];
 }
 
 export async function getCompetitionBySlug(slug: string) {

@@ -17,7 +17,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <DashboardShell locale={locale} profile={profile} path="/dashboard">
+    <DashboardShell locale={locale} profile={profile}>
       {children}
     </DashboardShell>
   );

@@ -6,9 +6,10 @@ import type { NewsCategory } from "@/lib/types";
 
 type Props = {
   initialCategories: NewsCategory[];
+  defaultValue?: string;
 };
 
-export function ArticleCategorySelect({ initialCategories }: Props) {
+export function ArticleCategorySelect({ initialCategories, defaultValue }: Props) {
   const [categories, setCategories] = useState<NewsCategory[]>(initialCategories);
   const [loading, setLoading] = useState(true);
 
@@ -46,7 +47,13 @@ export function ArticleCategorySelect({ initialCategories }: Props) {
   }, []);
 
   return (
-    <select name="categoryId" className="rounded-2xl border border-slate-200 px-4 py-3" required disabled={loading && categories.length === 0}>
+    <select
+      name="categoryId"
+      defaultValue={defaultValue}
+      className="rounded-2xl border border-slate-200 px-4 py-3"
+      required
+      disabled={loading && categories.length === 0}
+    >
       <option value="">{loading ? "Loading categories..." : "Select category"}</option>
       {categories.map((category) => (
         <option key={category.id} value={category.id}>

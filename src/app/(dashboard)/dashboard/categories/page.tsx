@@ -1,33 +1,57 @@
-import { redirect } from "next/navigation";
-
-import { CategoryCreateForm } from "@/components/dashboard/forms";
+import { deleteCategoryAction } from "@/lib/actions";
 import { getCurrentProfile } from "@/lib/auth";
 import { getCategories } from "@/lib/data";
 import { hasMinimumRole } from "@/lib/permissions";
+import { redirect } from "next/navigation";
+import { AdminDataTable } from "@/components/dashboard/admin-data-table";
+import { DashboardModal } from "@/components/dashboard/dashboard-modal";
+import { DashboardPageHeader } from "@/components/dashboard/dashboard-page-header";
+import { CategoryForm } from "@/components/dashboard/forms";
 
 export default async function DashboardCategoriesPage() {
   const profile = await getCurrentProfile();
-
-  if (!profile || !hasMinimumRole(profile.role, "ADMIN")) {
-    redirect("/unauthorized");
-  }
+  if (!profile || !hasMinimumRole(profile.role, "ADMIN")) redirect("/unauthorized");
 
   const categories = await getCategories();
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[420px_1fr]">
-      <CategoryCreateForm />
-      <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="font-display text-3xl text-slate-950">Categories</h2>
-        <div className="mt-6 grid gap-4">
-          {categories.map((category) => (
-            <div key={category.id} className="rounded-3xl border border-slate-200 p-5">
-              <p className="font-semibold text-slate-900">{category.title_en} / {category.title_ar}</p>
-              <p className="mt-2 text-sm text-slate-600">{category.description_en}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-    </div>
+    <>
+      <DashboardPageHeader
+        title="Categories"
+        subtitle="Organize editorial publishing with bilingual category management."
+        action={
+          <DashboardModal title="Create Category" triggerLabel="Create Category">
+            <CategoryForm />
+          </DashboardModal>
+        }
+      />
+      <AdminDataTable
+        columns={["English Title", "Arabic Title", "Description", "Action"]}
+        rows={categories.map((category) => [
+          category.title_en,
+          category.title_ar,
+          category.description_en || "—",
+          <div key={category.id} className="flex items-center gap-2">
+            <DashboardModal title="Category Details" triggerLabel="View" triggerVariant="ghost">
+              <div className="space-y-2 text-sm text-slate-600">
+                <p><strong>EN:</strong> {category.title_en}</p>
+                <p><strong>AR:</strong> {category.title_ar}</p>
+                <p><strong>Description EN:</strong> {category.description_en || "—"}</p>
+                <p><strong>Description AR:</strong> {category.description_ar || "—"}</p>
+              </div>
+            </DashboardModal>
+            <DashboardModal title="Edit Category" triggerLabel="Edit" triggerVariant="secondary">
+              <CategoryForm initialData={category} />
+            </DashboardModal>
+            <form action={deleteCategoryAction}>
+              <input type="hidden" name="id" value={category.id} />
+              <button type="submit" className="rounded-2xl border border-rose-200 px-3 py-2 text-sm font-semibold text-rose-600 hover:bg-rose-50">
+                Delete
+              </button>
+            </form>
+          </div>,
+        ])}
+      />
+    </>
   );
 }
