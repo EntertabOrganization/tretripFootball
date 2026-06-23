@@ -15,34 +15,36 @@ export default async function CompetitionsPage({ searchParams }: Props) {
   const competitions = await getCompetitionsList({ page, pageSize });
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-      <div className="rounded-[36px] border border-slate-200 bg-white p-8 shadow-sm">
-        <p className="text-sm uppercase tracking-[0.25em] text-[var(--color-primary)]">{copy.nav.competitions}</p>
-        <h1 className="mt-3 font-display text-5xl text-slate-950">{copy.competitions.title}</h1>
-        <p className="mt-4 max-w-3xl text-lg text-slate-600">{copy.competitions.subtitle}</p>
-      </div>
+    <div className="public-section">
+      <div className="public-container">
+        <div className="public-card rounded-[32px] p-8 sm:p-10">
+          <p className="public-kicker">{copy.nav.competitions}</p>
+          <h1 className="public-heading mt-3 text-5xl font-bold text-[var(--color-text)]">{copy.competitions.title}</h1>
+          <p className="mt-4 max-w-3xl text-lg leading-8 text-[var(--color-text-muted)]">{copy.competitions.subtitle}</p>
+        </div>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-2">
-        {competitions.items.map((competition) => (
-          <CompetitionCard key={competition.id} competition={competition} locale={locale} />
-        ))}
-      </div>
+        <div className="mt-8 grid gap-6 lg:grid-cols-2">
+          {competitions.items.map((competition) => (
+            <CompetitionCard key={competition.id} competition={competition} locale={locale} />
+          ))}
+        </div>
 
-      <div className="mt-8 flex items-center justify-between rounded-[28px] border border-slate-200 bg-white p-5 text-sm text-slate-600">
-        <span>
-          {copy.common.page} {competitions.page} / {competitions.totalPages}
-        </span>
-        <div className="flex gap-3">
-          {competitions.page > 1 ? (
-            <a className="rounded-full border border-slate-200 px-4 py-2" href={`/competitions?page=${competitions.page - 1}`}>
-              Prev
-            </a>
-          ) : null}
-          {competitions.page < competitions.totalPages ? (
-            <a className="rounded-full border border-slate-200 px-4 py-2" href={`/competitions?page=${competitions.page + 1}`}>
-              Next
-            </a>
-          ) : null}
+        <div className="public-card mt-8 flex flex-wrap items-center justify-between gap-4 rounded-[24px] p-5 text-sm text-[var(--color-text-muted)]">
+          <span>
+            {copy.common.page} {competitions.page} / {competitions.totalPages}
+          </span>
+          <div className="flex gap-3">
+            {competitions.page > 1 ? (
+              <a className="rounded-xl border border-[var(--color-outline)] px-4 py-2 font-semibold text-[var(--color-text)]" href={`/competitions?page=${competitions.page - 1}`}>
+                Prev
+              </a>
+            ) : null}
+            {competitions.page < competitions.totalPages ? (
+              <a className="rounded-xl border border-[var(--color-outline)] px-4 py-2 font-semibold text-[var(--color-text)]" href={`/competitions?page=${competitions.page + 1}`}>
+                Next
+              </a>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>

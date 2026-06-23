@@ -27,7 +27,7 @@ export function GoogleSignInButton({ label }: { label: string }) {
     <button
       type="button"
       onClick={handleGoogleSignIn}
-      className="w-full rounded-full border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-900 transition hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
+      className="w-full rounded-xl border border-[var(--color-outline)] bg-white px-4 py-3 text-sm font-semibold text-[var(--color-text)] transition hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
       disabled={pending}
     >
       {pending ? "Loading..." : label}

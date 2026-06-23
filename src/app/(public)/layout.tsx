@@ -12,10 +12,10 @@ export default async function PublicLayout({
   const profile = await getCurrentProfile();
 
   return (
-    <>
+    <div className="public-shell">
       <SiteHeader locale={locale} profile={profile} path="/" />
       <main>{children}</main>
       <SiteFooter locale={locale} />
-    </>
+    </div>
   );
 }

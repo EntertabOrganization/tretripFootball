@@ -13,11 +13,11 @@ export function Button({ children, className, variant = "primary", fullWidth, ..
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition",
+        "inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold transition duration-200",
         fullWidth && "w-full",
-        variant === "primary" && "bg-[var(--color-primary)] text-white shadow-lg shadow-cyan-950/20 hover:bg-[var(--color-primary-strong)]",
-        variant === "secondary" && "border border-white/50 bg-white/10 text-white hover:bg-white/20",
-        variant === "ghost" && "border border-slate-200 bg-white text-slate-800 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]",
+        variant === "primary" && "bg-[var(--color-primary)] text-white shadow-lg shadow-cyan-950/10 hover:bg-[var(--color-primary-strong)]",
+        variant === "secondary" && "border border-white/25 bg-white/10 text-white backdrop-blur-sm hover:bg-white/16",
+        variant === "ghost" && "border border-[var(--color-outline)] bg-white text-slate-800 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]",
         className,
       )}
       {...props}

@@ -15,70 +15,96 @@ export default async function HomePage() {
   ]);
 
   return (
-    <div className="pb-16">
-      <section id="home" className="px-4 pb-24 pt-8 sm:px-6">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-[40px] border border-white/10 bg-slate-950/55 p-8 shadow-2xl shadow-slate-950/25 backdrop-blur-xl sm:p-12">
-            <p className="inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.35em] text-white/75">
-              {copy.home.eyebrow}
-            </p>
-            <h1 className="mt-6 max-w-4xl font-display text-5xl leading-none text-white sm:text-7xl">
+    <div className="pb-20">
+      <section id="home" className="px-4 pb-20 pt-6 sm:px-6">
+        <div className="public-container grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="space-y-6 rounded-[36px] border border-white/12 bg-slate-950/18 p-8 text-white shadow-[0_30px_80px_-40px_rgba(15,23,42,0.85)] backdrop-blur-md sm:p-12">
+            <span className="public-pill text-white/88">{copy.home.eyebrow}</span>
+            <h1 className="public-heading max-w-4xl text-5xl font-bold leading-none text-white sm:text-7xl">
               {copy.home.title}
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/75">{copy.home.body}</p>
-            <div className="mt-10 flex flex-wrap gap-4">
+            <p className="max-w-2xl text-lg leading-8 text-white/82">{copy.home.body}</p>
+            <div className="flex flex-wrap gap-4 pt-2">
               <Link href="/news">
-                <Button>{copy.home.primary}</Button>
+                <Button className="px-7 py-4">{copy.home.primary}</Button>
               </Link>
               <Link href="/competitions">
-                <Button variant="secondary">{copy.home.secondary}</Button>
+                <Button variant="secondary" className="px-7 py-4">{copy.home.secondary}</Button>
               </Link>
             </div>
           </div>
+
           <div className="grid gap-5">
-            <div className="rounded-[32px] border border-white/15 bg-white/90 p-7 shadow-xl shadow-slate-900/10">
-              <p className="text-sm uppercase tracking-[0.25em] text-[var(--color-primary)]">{copy.dashboard.stats}</p>
+            <div className="public-card rounded-[30px] p-7">
+              <p className="public-kicker">{copy.dashboard.stats}</p>
               <div className="mt-5 grid grid-cols-2 gap-4">
-                <div className="rounded-3xl bg-slate-50 p-5">
-                  <p className="text-sm text-slate-500">Bilingual</p>
-                  <p className="mt-3 font-display text-4xl text-slate-900">EN / AR</p>
+                <div className="rounded-[24px] bg-[var(--color-surface-muted)] p-5">
+                  <p className="text-sm text-[var(--color-text-muted)]">Bilingual</p>
+                  <p className="public-heading mt-3 text-4xl font-bold text-[var(--color-text)]">EN / AR</p>
                 </div>
-                <div className="rounded-3xl bg-slate-50 p-5">
-                  <p className="text-sm text-slate-500">Modules</p>
-                  <p className="mt-3 font-display text-4xl text-slate-900">6</p>
+                <div className="rounded-[24px] bg-[var(--color-surface-muted)] p-5">
+                  <p className="text-sm text-[var(--color-text-muted)]">Modules</p>
+                  <p className="public-heading mt-3 text-4xl font-bold text-[var(--color-text)]">6</p>
                 </div>
               </div>
             </div>
-            <div className="overflow-hidden rounded-[32px] border border-white/15 bg-[var(--color-primary)] p-8 text-white shadow-xl shadow-cyan-900/20">
-              <p className="text-sm uppercase tracking-[0.25em] text-white/75">{copy.common.globalLeaderboard}</p>
-              <h2 className="mt-4 font-display text-4xl">TreTrip Champions</h2>
-              <p className="mt-3 max-w-md leading-7 text-white/80">
-                Editorial publishing, community registrations, and leaderboard momentum all live in the same platform.
+
+            <div className="overflow-hidden rounded-[30px] bg-white/12 p-8 text-white shadow-[0_30px_60px_-30px_rgba(9,17,25,0.75)] backdrop-blur-md">
+              <p className="public-kicker text-white/75">{copy.common.globalLeaderboard}</p>
+              <h2 className="public-heading mt-4 text-4xl font-bold">TreTrip Champions</h2>
+              <p className="mt-3 max-w-md leading-7 text-white/78">
+                Editorial publishing, community registrations, and leaderboard momentum all live in the same premium football platform.
               </p>
+              <div className="mt-6 flex flex-wrap gap-6">
+                <div>
+                  <p className="public-heading text-3xl font-bold text-white">1.2M</p>
+                  <p className="mt-1 text-sm uppercase tracking-[0.2em] text-white/60">Fans</p>
+                </div>
+                <div>
+                  <p className="public-heading text-3xl font-bold text-white">24/7</p>
+                  <p className="mt-1 text-sm uppercase tracking-[0.2em] text-white/60">Coverage</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="about" className="px-4 py-16 sm:px-6">
-        <div className="mx-auto max-w-7xl rounded-[36px] border border-slate-200 bg-white p-8 shadow-sm sm:p-10">
-          <p className="text-sm uppercase tracking-[0.25em] text-[var(--color-primary)]">{copy.nav.about}</p>
-          <h2 className="mt-4 font-display text-4xl text-slate-950">{copy.home.aboutTitle}</h2>
-          <p className="mt-4 max-w-4xl text-lg leading-8 text-slate-600">{copy.home.aboutBody}</p>
+      <section id="about" className="public-section">
+        <div className="public-container">
+          <div className="public-card rounded-[32px] p-8 sm:p-10">
+            <p className="public-kicker">{copy.nav.about}</p>
+            <h2 className="public-heading mt-4 text-4xl font-bold text-[var(--color-text)] sm:text-5xl">{copy.home.aboutTitle}</h2>
+            <p className="mt-4 max-w-4xl text-lg leading-8 text-[var(--color-text-muted)]">{copy.home.aboutBody}</p>
+
+            <div className="mt-10 grid gap-5 md:grid-cols-3">
+              <div className="rounded-[24px] border border-[var(--color-outline)] bg-[var(--color-surface)] p-6">
+                <p className="public-heading text-2xl font-bold text-[var(--color-primary)]">News</p>
+                <p className="mt-3 leading-7 text-[var(--color-text-muted)]">Professional bilingual editorial coverage for sports and internal updates.</p>
+              </div>
+              <div className="rounded-[24px] border border-[var(--color-outline)] bg-[var(--color-surface)] p-6">
+                <p className="public-heading text-2xl font-bold text-[var(--color-primary)]">Competitions</p>
+                <p className="mt-3 leading-7 text-[var(--color-text-muted)]">Structured fan challenges with clear registration, participation, and winner management.</p>
+              </div>
+              <div className="rounded-[24px] border border-[var(--color-outline)] bg-[var(--color-surface)] p-6">
+                <p className="public-heading text-2xl font-bold text-[var(--color-primary)]">Leaderboards</p>
+                <p className="mt-3 leading-7 text-[var(--color-text-muted)]">Competition and global rankings designed to reward community momentum.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section id="competitions" className="px-4 py-16 sm:px-6">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-8 flex items-end justify-between gap-4">
+      <section id="competitions" className="public-section">
+        <div className="public-container">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-sm uppercase tracking-[0.25em] text-[var(--color-primary)]">{copy.nav.competitions}</p>
-              <h2 className="mt-3 font-display text-4xl text-slate-950">{copy.home.liveCompetitions}</h2>
+              <p className="public-kicker">{copy.nav.competitions}</p>
+              <h2 className="public-heading mt-3 text-4xl font-bold text-[var(--color-text)] sm:text-5xl">{copy.home.liveCompetitions}</h2>
             </div>
-            <Link href="/competitions" className="text-sm font-semibold text-[var(--color-primary)]">
-              {copy.common.viewAll}
-            </Link>
+            <Link href="/competitions" className="text-sm font-bold text-[var(--color-primary)]">{copy.common.viewAll}</Link>
           </div>
+
           <div className="grid gap-6 lg:grid-cols-2">
             {competitions.items.map((competition) => (
               <CompetitionCard key={competition.id} competition={competition} locale={locale} />
@@ -87,17 +113,16 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section id="news" className="px-4 py-16 sm:px-6">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-8 flex items-end justify-between gap-4">
+      <section id="news" className="public-section">
+        <div className="public-container">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-sm uppercase tracking-[0.25em] text-[var(--color-primary)]">{copy.nav.news}</p>
-              <h2 className="mt-3 font-display text-4xl text-slate-950">{copy.home.latestNews}</h2>
+              <p className="public-kicker">{copy.nav.news}</p>
+              <h2 className="public-heading mt-3 text-4xl font-bold text-[var(--color-text)] sm:text-5xl">{copy.home.latestNews}</h2>
             </div>
-            <Link href="/news" className="text-sm font-semibold text-[var(--color-primary)]">
-              {copy.common.viewAll}
-            </Link>
+            <Link href="/news" className="text-sm font-bold text-[var(--color-primary)]">{copy.common.viewAll}</Link>
           </div>
+
           <div className="grid gap-6 lg:grid-cols-3">
             {news.items.map((article) => (
               <NewsCard key={article.id} article={article} locale={locale} />

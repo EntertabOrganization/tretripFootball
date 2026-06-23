@@ -6,31 +6,34 @@ import { formatDate } from "@/lib/utils";
 
 export function NewsCard({ article, locale }: { article: NewsArticle; locale: Locale }) {
   return (
-    <article className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm shadow-slate-200/60">
+    <article className="public-card group overflow-hidden rounded-[28px]">
       {article.cover_image_url ? (
         <div
-          className="h-56 bg-cover bg-center"
-          style={{ backgroundImage: `linear-gradient(rgba(15,23,42,0.15), rgba(15,23,42,0.45)), url(${article.cover_image_url})` }}
+          className="h-64 bg-cover bg-center transition duration-500 group-hover:scale-[1.03]"
+          style={{ backgroundImage: `linear-gradient(rgba(12,29,37,0.16), rgba(12,29,37,0.52)), url(${article.cover_image_url})` }}
         />
       ) : (
-        <div className="h-56 bg-slate-200" />
+        <div className="h-64 bg-[var(--color-surface-soft)]" />
       )}
-      <div className="space-y-4 p-6">
-        <div className="flex items-center justify-between text-xs uppercase tracking-[0.25em] text-slate-400">
+      <div className="space-y-5 p-6">
+        <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--color-text-muted)]">
           <span>{localizeText(locale, { en: article.category?.title_en ?? "General", ar: article.category?.title_ar ?? "عام" })}</span>
           {article.published_at ? <span>{formatDate(article.published_at, locale)}</span> : null}
         </div>
         <div>
-          <h3 className="font-display text-2xl text-slate-950">
+          <h3 className="public-heading text-[1.7rem] font-bold text-[var(--color-text)]">
             {localizeText(locale, { en: article.title_en, ar: article.title_ar })}
           </h3>
-          <p className="mt-3 leading-7 text-slate-600">
+          <p className="mt-3 line-clamp-3 leading-7 text-[var(--color-text-muted)]">
             {localizeText(locale, { en: article.summary_en, ar: article.summary_ar })}
           </p>
         </div>
-        <Link href={`/news/${article.slug}`} className="inline-flex text-sm font-semibold text-[var(--color-primary)]">
-          {locale === "ar" ? "قراءة الخبر" : "Read article"}
-        </Link>
+        <div className="flex items-center justify-between border-t border-[var(--color-outline)] pt-4">
+          <span className="text-sm font-semibold text-[var(--color-primary)]">{locale === "ar" ? "أخبار تحريرية" : "Editorial News"}</span>
+          <Link href={`/news/${article.slug}`} className="rounded-xl border border-[var(--color-outline)] px-4 py-2 text-sm font-semibold text-[var(--color-text)] transition hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]">
+            {locale === "ar" ? "قراءة الخبر" : "Read article"}
+          </Link>
+        </div>
       </div>
     </article>
   );

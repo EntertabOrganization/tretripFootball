@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import { Oswald, Plus_Jakarta_Sans } from "next/font/google";
+import { Inter, Montserrat } from "next/font/google";
 
 import { APP_NAME, LOCALE_COOKIE } from "@/lib/constants";
 import { getDirection } from "@/lib/i18n";
 
 import "./globals.css";
 
-const display = Oswald({
+const display = Montserrat({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["500", "600", "700", "800"],
 });
 
-const body = Plus_Jakarta_Sans({
+const body = Inter({
   variable: "--font-body",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],

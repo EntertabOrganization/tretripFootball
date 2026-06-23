@@ -5,9 +5,16 @@
 :root {
   --color-primary: #2a7f8c;
   --color-primary-strong: #155f69;
-  --color-background: #f5f8fb;
+  --color-primary-soft: #d8edf0;
+  --color-gold: #be9e38;
+  --color-background: #f7fafa;
   --color-background-dark: #081528;
-  --color-text: #0f172a;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f1f4f5;
+  --color-surface-soft: #ebeeef;
+  --color-outline: #d9e2e5;
+  --color-text: #181c1d;
+  --color-text-muted: #566063;
 }
 
 html {
@@ -17,11 +24,90 @@ html {
 body {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(42, 127, 140, 0.2), transparent 28%),
-    radial-gradient(circle at top right, rgba(13, 148, 136, 0.18), transparent 18%),
-    linear-gradient(180deg, #081528 0%, #0e1d30 14%, var(--color-background) 40%, #ffffff 100%);
+    radial-gradient(circle at top left, rgba(42, 127, 140, 0.14), transparent 26%),
+    radial-gradient(circle at top right, rgba(0, 168, 135, 0.1), transparent 18%),
+    linear-gradient(180deg, #f7fafa 0%, #f4f8f8 28%, #ffffff 100%);
   color: var(--color-text);
   font-family: var(--font-body), sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.public-shell {
+  position: relative;
+}
+
+.public-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 540px;
+  background: linear-gradient(135deg, rgba(0, 102, 114, 0.96) 0%, rgba(42, 127, 140, 0.9) 48%, rgba(0, 168, 135, 0.78) 100%);
+  z-index: -2;
+}
+
+.public-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 540px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.22), transparent 18%),
+    radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.14), transparent 16%),
+    radial-gradient(circle at 70% 65%, rgba(255, 255, 255, 0.08), transparent 18%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.public-container {
+  margin-inline: auto;
+  width: min(1280px, calc(100% - 32px));
+}
+
+.public-glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+}
+
+.public-section {
+  padding-block: 5rem;
+}
+
+.public-card {
+  border: 1px solid var(--color-outline);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 20px 50px -30px rgba(20, 54, 61, 0.3);
+}
+
+.public-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.12);
+  padding: 0.5rem 0.95rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.public-kicker {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.public-heading {
+  font-family: var(--font-display), sans-serif;
+  letter-spacing: -0.03em;
 }
 
 table.dataTable thead th {
@@ -95,6 +181,15 @@ div.dt-container .dt-paging .dt-paging-button {
 }
 
 @media (max-width: 640px) {
+  .public-shell::before,
+  .public-shell::after {
+    height: 460px;
+  }
+
+  .public-section {
+    padding-block: 3.5rem;
+  }
+
   div.dt-container .dt-toolbar,
   div.dt-container .dt-footer,
   div.dt-container .dt-footer-meta {
