@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { logoutAction } from "@/lib/actions";
@@ -18,9 +19,7 @@ export function SiteHeader({ locale, profile, path }: Props) {
     <header className="sticky top-0 z-40 px-4 py-4 sm:px-6">
       <div className="mx-auto flex max-w-7xl items-center gap-4 rounded-[28px] border border-white/15 bg-slate-950/55 px-5 py-4 shadow-2xl shadow-slate-950/25 backdrop-blur-xl">
         <Link href="/" className="flex min-w-0 items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-2xl bg-[var(--color-primary)] font-display text-lg text-white">
-            TF
-          </div>
+          <Image src="/Logo.png" alt="TreTrip FanZone" width={52} height={52} className="h-11 w-11 rounded-2xl object-cover" priority />
           <div className="min-w-0">
             <p className="truncate font-display text-xl text-white">{copy.home.eyebrow}</p>
             <p className="text-xs uppercase tracking-[0.3em] text-white/60">Football Platform</p>

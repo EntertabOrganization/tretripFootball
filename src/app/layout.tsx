@@ -22,6 +22,11 @@ const body = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: APP_NAME,
   description: "Bilingual football news, competitions, and leaderboard platform.",
+  icons: {
+    icon: "/Logo.png",
+    shortcut: "/Logo.png",
+    apple: "/Logo.png",
+  },
 };
 
 export default async function RootLayout({

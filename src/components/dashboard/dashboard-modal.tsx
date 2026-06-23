@@ -2,15 +2,27 @@
 
 import { useState, type ReactNode } from "react";
 
+import { cn } from "@/lib/utils";
+
 type Props = {
   title: string;
   description?: string;
   triggerLabel: string;
   triggerVariant?: "primary" | "secondary" | "ghost";
+  triggerContent?: ReactNode;
+  triggerClassName?: string;
   children: ReactNode;
 };
 
-export function DashboardModal({ title, description, triggerLabel, triggerVariant = "primary", children }: Props) {
+export function DashboardModal({
+  title,
+  description,
+  triggerLabel,
+  triggerVariant = "primary",
+  triggerContent,
+  triggerClassName,
+  children,
+}: Props) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -18,15 +30,18 @@ export function DashboardModal({ title, description, triggerLabel, triggerVarian
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className={
+        aria-label={triggerLabel}
+        title={triggerLabel}
+        className={cn(
           triggerVariant === "primary"
             ? "rounded-2xl bg-[#1f7a68] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#176454]"
             : triggerVariant === "secondary"
               ? "rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-              : "rounded-2xl px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100"
-        }
+              : "rounded-2xl px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100",
+          triggerClassName,
+        )}
       >
-        {triggerLabel}
+        {triggerContent ?? triggerLabel}
       </button>
 
       {open ? (

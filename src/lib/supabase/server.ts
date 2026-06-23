@@ -6,9 +6,14 @@ import { createClient } from "@supabase/supabase-js";
 
 import { getSupabaseEnv } from "@/lib/supabase/env";
 
-export async function createSupabaseServerClient() {
+type CreateSupabaseServerClientOptions = {
+  writeCookies?: boolean;
+};
+
+export async function createSupabaseServerClient(options: CreateSupabaseServerClientOptions = {}) {
   const cookieStore = await cookies();
   const env = getSupabaseEnv();
+  const canWriteCookies = options.writeCookies === true;
 
   if (!env.url || !env.anonKey) {
     return null;
@@ -20,6 +25,10 @@ export async function createSupabaseServerClient() {
         return cookieStore.getAll();
       },
       setAll(cookieList: Array<{ name: string; value: string; options?: Parameters<typeof cookieStore.set>[2] }>) {
+        if (!canWriteCookies) {
+          return;
+        }
+
         for (const cookie of cookieList) {
           cookieStore.set(cookie.name, cookie.value, cookie.options);
         }

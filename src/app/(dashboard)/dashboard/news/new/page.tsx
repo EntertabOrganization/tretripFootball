@@ -15,7 +15,7 @@ export default async function NewDashboardArticlePage() {
   return (
     <div className="min-h-screen bg-[#f7f7f3] px-6 py-8">
       <div className="mx-auto max-w-5xl space-y-6">
-        <DashboardPageHeader title="Create Article" subtitle="Write a polished bilingual article in a dedicated editor tab." />
+        <DashboardPageHeader title="Create Article" subtitle="Write a polished bilingual article in a dedicated full-page editor." />
         <NewsEditorForm categories={categories} />
       </div>
     </div>

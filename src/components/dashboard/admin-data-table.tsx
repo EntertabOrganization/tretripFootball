@@ -41,6 +41,7 @@ export function AdminDataTable({ columns, rows }: Props) {
         pageLength: 10,
         autoWidth: false,
         destroy: true,
+        dom: "<'dt-toolbar'<'dt-search-wrap'f>>t<'dt-footer'<'dt-footer-length'l><'dt-footer-meta'ip>>",
         language: {
           search: "",
           searchPlaceholder: "Search records...",

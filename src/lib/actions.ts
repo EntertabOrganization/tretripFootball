@@ -44,7 +44,7 @@ export async function loginAction(formData: FormData) {
     return;
   }
 
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient({ writeCookies: true });
   if (!supabase) {
     console.error("Supabase environment variables are missing.");
     return;
@@ -77,7 +77,7 @@ export async function signupAction(formData: FormData) {
     return;
   }
 
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient({ writeCookies: true });
   const admin = createSupabaseAdminClient();
 
   if (!supabase || !admin) {
@@ -119,7 +119,7 @@ export async function signupAction(formData: FormData) {
 }
 
 export async function logoutAction() {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient({ writeCookies: true });
   await supabase?.auth.signOut();
   redirect("/");
 }
@@ -692,7 +692,7 @@ export async function toggleWinnerAction(formData: FormData) {
 export async function setLocaleAction(formData: FormData) {
   const locale = String(formData.get("locale") ?? "en");
   const path = String(formData.get("path") ?? "/");
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient({ writeCookies: true });
   const profile = await getCurrentProfile();
 
   const { cookies } = await import("next/headers");

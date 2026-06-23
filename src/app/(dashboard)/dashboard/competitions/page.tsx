@@ -1,14 +1,17 @@
+import { Eye, PencilLine, Trash2 } from "lucide-react";
+import { redirect } from "next/navigation";
+
+import { DashboardActionButton } from "@/components/dashboard/dashboard-action-icon";
+import { AdminDataTable } from "@/components/dashboard/admin-data-table";
+import { CompetitionForm } from "@/components/dashboard/forms";
+import { DashboardModal } from "@/components/dashboard/dashboard-modal";
+import { DashboardPageHeader } from "@/components/dashboard/dashboard-page-header";
 import { deleteCompetitionAction, toggleWinnerAction } from "@/lib/actions";
 import { getCurrentProfile } from "@/lib/auth";
 import { getAllCompetitions } from "@/lib/data";
-import { createSupabaseAdminClient } from "@/lib/supabase/server";
 import { hasMinimumRole } from "@/lib/permissions";
+import { createSupabaseAdminClient } from "@/lib/supabase/server";
 import { firstRelation } from "@/lib/utils";
-import { redirect } from "next/navigation";
-import { AdminDataTable } from "@/components/dashboard/admin-data-table";
-import { DashboardModal } from "@/components/dashboard/dashboard-modal";
-import { DashboardPageHeader } from "@/components/dashboard/dashboard-page-header";
-import { CompetitionForm } from "@/components/dashboard/forms";
 
 export default async function DashboardCompetitionsPage() {
   const profile = await getCurrentProfile();
@@ -42,21 +45,33 @@ export default async function DashboardCompetitionsPage() {
           new Date(competition.start_date).toLocaleDateString(),
           new Date(competition.end_date).toLocaleDateString(),
           <div key={competition.id} className="flex items-center gap-2">
-            <DashboardModal title="Competition Details" triggerLabel="View" triggerVariant="ghost">
+            <DashboardModal
+              title="Competition Details"
+              triggerLabel="View Competition"
+              triggerVariant="ghost"
+              triggerClassName="h-10 w-10 border border-slate-200 bg-white p-0 hover:bg-slate-50"
+              triggerContent={<Eye size={18} />}
+            >
               <div className="space-y-2 text-sm text-slate-600">
                 <p><strong>EN:</strong> {competition.title_en}</p>
                 <p><strong>AR:</strong> {competition.title_ar}</p>
                 <p><strong>Description:</strong> {competition.description_en}</p>
               </div>
             </DashboardModal>
-            <DashboardModal title="Edit Competition" triggerLabel="Edit" triggerVariant="secondary">
+            <DashboardModal
+              title="Edit Competition"
+              triggerLabel="Edit Competition"
+              triggerVariant="secondary"
+              triggerClassName="h-10 w-10 p-0"
+              triggerContent={<PencilLine size={18} />}
+            >
               <CompetitionForm initialData={competition} />
             </DashboardModal>
             <form action={deleteCompetitionAction}>
               <input type="hidden" name="id" value={competition.id} />
-              <button type="submit" className="rounded-2xl border border-rose-200 px-3 py-2 text-sm font-semibold text-rose-600 hover:bg-rose-50">
-                Delete
-              </button>
+              <DashboardActionButton label="Delete Competition" tone="danger" type="submit">
+                <Trash2 size={18} />
+              </DashboardActionButton>
             </form>
           </div>,
         ])}
@@ -68,7 +83,7 @@ export default async function DashboardCompetitionsPage() {
           columns={["Participant", "Competition", "Winner", "Action"]}
           rows={registrations.map((registration) => [
             `${firstRelation(registration.profile)?.first_name ?? ""} ${firstRelation(registration.profile)?.last_name ?? ""}`.trim(),
-            firstRelation(registration.competition)?.title_en ?? "—",
+            firstRelation(registration.competition)?.title_en ?? "-",
             registration.is_winner ? "Yes" : "No",
             <form key={registration.id} action={toggleWinnerAction}>
               <input type="hidden" name="registrationId" value={registration.id} />

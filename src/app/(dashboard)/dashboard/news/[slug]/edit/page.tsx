@@ -21,7 +21,7 @@ export default async function EditDashboardArticlePage({ params }: Props) {
   return (
     <div className="min-h-screen bg-[#f7f7f3] px-6 py-8">
       <div className="mx-auto max-w-5xl space-y-6">
-        <DashboardPageHeader title="Edit Article" subtitle="Update content, metadata, and publishing state in a dedicated editor tab." />
+        <DashboardPageHeader title="Edit Article" subtitle="Update content, metadata, and publishing state in a dedicated full-page editor." />
         <NewsEditorForm categories={categories} initialData={article} />
       </div>
     </div>
