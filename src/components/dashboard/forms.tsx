@@ -1,5 +1,6 @@
 import { createCategoryAction, createCompetitionAction, createNewsAction } from "@/lib/actions";
 import type { NewsCategory } from "@/lib/types";
+import { ArticleCategorySelect } from "@/components/dashboard/article-category-select";
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
 
 export function CategoryCreateForm() {
@@ -21,14 +22,7 @@ export function NewsCreateForm({ categories }: { categories: NewsCategory[] }) {
   return (
     <form action={createNewsAction} className="grid gap-3 rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
       <h3 className="font-display text-2xl text-slate-900">Create Article</h3>
-      <select name="categoryId" className="rounded-2xl border border-slate-200 px-4 py-3" required>
-        <option value="">Select category</option>
-        {categories.map((category) => (
-          <option key={category.id} value={category.id}>
-            {category.title_en}
-          </option>
-        ))}
-      </select>
+      <ArticleCategorySelect initialCategories={categories} />
       <input name="titleEn" placeholder="Title (EN)" className="rounded-2xl border border-slate-200 px-4 py-3" required />
       <input name="titleAr" placeholder="Title (AR)" className="rounded-2xl border border-slate-200 px-4 py-3" required />
       <textarea name="summaryEn" placeholder="Summary (EN)" className="min-h-24 rounded-2xl border border-slate-200 px-4 py-3" required />

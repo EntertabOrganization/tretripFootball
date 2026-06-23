@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useId, useRef } from "react";
-import Quill from "quill";
 
 type Props = {
   name: string;
@@ -33,38 +32,54 @@ export function RichTextEditor({
   const editorId = useId();
   const editorRef = useRef<HTMLDivElement | null>(null);
   const hiddenInputRef = useRef<HTMLInputElement | null>(null);
-  const quillRef = useRef<Quill | null>(null);
+  const quillRef = useRef<{ root: HTMLDivElement; getText: () => string; on: (event: string, handler: () => void) => void } | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
+
     if (!editorRef.current || quillRef.current) {
       return;
     }
 
-    const quill = new Quill(editorRef.current, {
-      theme: "snow",
-      placeholder,
-      modules: {
-        toolbar: toolbarOptions,
-      },
-    });
+    const boot = async () => {
+      const { default: Quill } = await import("quill");
 
-    quill.root.setAttribute("dir", dir);
-    quill.root.innerHTML = initialValue;
-    if (hiddenInputRef.current) {
-      hiddenInputRef.current.value = quill.root.innerHTML;
-    }
-
-    quill.on("text-change", () => {
-      if (!hiddenInputRef.current) {
+      if (cancelled || !editorRef.current || quillRef.current) {
         return;
       }
 
-      const html = quill.root.innerHTML;
-      const text = quill.getText().trim();
-      hiddenInputRef.current.value = text ? html : "";
-    });
+      const quill = new Quill(editorRef.current, {
+        theme: "snow",
+        placeholder,
+        modules: {
+          toolbar: toolbarOptions,
+        },
+      });
 
-    quillRef.current = quill;
+      quill.root.setAttribute("dir", dir);
+      quill.root.innerHTML = initialValue;
+      if (hiddenInputRef.current) {
+        hiddenInputRef.current.value = quill.root.innerHTML;
+      }
+
+      quill.on("text-change", () => {
+        if (!hiddenInputRef.current) {
+          return;
+        }
+
+        const html = quill.root.innerHTML;
+        const text = quill.getText().trim();
+        hiddenInputRef.current.value = text ? html : "";
+      });
+
+      quillRef.current = quill;
+    };
+
+    void boot();
+
+    return () => {
+      cancelled = true;
+    };
   }, [dir, initialValue, placeholder]);
 
   return (

@@ -1,12 +1,16 @@
 "use server";
 
+import { randomUUID } from "node:crypto";
+
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { getCurrentProfile, getSessionUser } from "@/lib/auth";
+import { mockCategories, mockCompetitions, mockNews } from "@/lib/mock-data";
 import { assertRole, hasMinimumRole } from "@/lib/permissions";
 import { createSupabaseAdminClient, createSupabaseServerClient } from "@/lib/supabase/server";
+import type { Competition, NewsArticle, NewsCategory, PublishStatus } from "@/lib/types";
 import { slugify } from "@/lib/utils";
 
 const authSchema = z.object({
@@ -19,6 +23,15 @@ const signupSchema = authSchema.extend({
   lastName: z.string().min(2),
   phoneNumber: z.string().min(5),
 });
+
+function isMissingTableError(error: unknown) {
+  const message =
+    error && typeof error === "object" && "message" in error
+      ? String((error as { message?: unknown }).message ?? "")
+      : "";
+
+  return message.includes("Could not find the table");
+}
 
 export async function loginAction(formData: FormData) {
   const values = authSchema.safeParse({
@@ -115,16 +128,33 @@ export async function createCategoryAction(formData: FormData) {
   const profile = await getCurrentProfile();
   assertRole(profile?.role, "ADMIN");
   const admin = createSupabaseAdminClient();
-  if (!admin) return;
 
   const titleEn = String(formData.get("titleEn") ?? "");
-  await admin.from("news_categories").insert({
+  const payload: Omit<NewsCategory, "id"> = {
     slug: slugify(titleEn),
     title_en: titleEn,
     title_ar: String(formData.get("titleAr") ?? ""),
     description_en: String(formData.get("descriptionEn") ?? "").trim(),
     description_ar: String(formData.get("descriptionAr") ?? "").trim(),
-  });
+  };
+
+  if (!admin) {
+    mockCategories.unshift({
+      id: `mock-category-${randomUUID()}`,
+      ...payload,
+    });
+  } else {
+    const { error } = await admin.from("news_categories").insert(payload);
+
+    if (error && isMissingTableError(error)) {
+      mockCategories.unshift({
+        id: `mock-category-${randomUUID()}`,
+        ...payload,
+      });
+    } else if (error) {
+      throw error;
+    }
+  }
 
   revalidatePath("/dashboard/categories");
   revalidatePath("/news");
@@ -134,12 +164,10 @@ export async function createNewsAction(formData: FormData) {
   const profile = await getCurrentProfile();
   assertRole(profile?.role, "EDITOR");
   const admin = createSupabaseAdminClient();
-  if (!admin) return;
 
   const titleEn = String(formData.get("titleEn") ?? "");
-  const status = formData.get("status") === "PUBLISHED" ? "PUBLISHED" : "DRAFT";
-
-  await admin.from("news").insert({
+  const status: PublishStatus = formData.get("status") === "PUBLISHED" ? "PUBLISHED" : "DRAFT";
+  const payload: Omit<NewsArticle, "id" | "created_at" | "updated_at" | "likes_count" | "comments_count" | "category" | "author"> = {
     slug: slugify(titleEn),
     category_id: String(formData.get("categoryId") ?? ""),
     author_id: profile?.id ?? null,
@@ -152,7 +180,39 @@ export async function createNewsAction(formData: FormData) {
     cover_image_url: String(formData.get("coverImageUrl") ?? ""),
     status,
     published_at: status === "PUBLISHED" ? new Date().toISOString() : null,
-  });
+  };
+
+  if (!admin) {
+    const category = mockCategories.find((item) => item.id === payload.category_id);
+    mockNews.unshift({
+      id: `mock-news-${randomUUID()}`,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      likes_count: 0,
+      comments_count: 0,
+      category: category ?? undefined,
+      author: profile ?? undefined,
+      ...payload,
+    });
+  } else {
+    const { error } = await admin.from("news").insert(payload);
+
+    if (error && isMissingTableError(error)) {
+      const category = mockCategories.find((item) => item.id === payload.category_id);
+      mockNews.unshift({
+        id: `mock-news-${randomUUID()}`,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        likes_count: 0,
+        comments_count: 0,
+        category: category ?? undefined,
+        author: profile ?? undefined,
+        ...payload,
+      });
+    } else if (error) {
+      throw error;
+    }
+  }
 
   revalidatePath("/dashboard/news");
   revalidatePath("/news");
@@ -163,10 +223,9 @@ export async function createCompetitionAction(formData: FormData) {
   const profile = await getCurrentProfile();
   assertRole(profile?.role, "ADMIN");
   const admin = createSupabaseAdminClient();
-  if (!admin) return;
 
   const titleEn = String(formData.get("titleEn") ?? "");
-  await admin.from("competitions").insert({
+  const payload: Omit<Competition, "id" | "created_at" | "updated_at" | "registrations_count" | "winners_count"> = {
     slug: slugify(titleEn),
     title_en: titleEn,
     title_ar: String(formData.get("titleAr") ?? ""),
@@ -175,7 +234,33 @@ export async function createCompetitionAction(formData: FormData) {
     cover_image_url: String(formData.get("coverImageUrl") ?? ""),
     start_date: String(formData.get("startDate") ?? ""),
     end_date: String(formData.get("endDate") ?? ""),
-  });
+  };
+
+  if (!admin) {
+    mockCompetitions.unshift({
+      id: `mock-competition-${randomUUID()}`,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      registrations_count: 0,
+      winners_count: 0,
+      ...payload,
+    });
+  } else {
+    const { error } = await admin.from("competitions").insert(payload);
+
+    if (error && isMissingTableError(error)) {
+      mockCompetitions.unshift({
+        id: `mock-competition-${randomUUID()}`,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        registrations_count: 0,
+        winners_count: 0,
+        ...payload,
+      });
+    } else if (error) {
+      throw error;
+    }
+  }
 
   revalidatePath("/dashboard/competitions");
   revalidatePath("/competitions");
