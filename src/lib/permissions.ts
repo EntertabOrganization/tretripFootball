@@ -1,47 +1,23 @@
-import "server-only";
+import { redirect } from "next/navigation";
 
-import { Role, UserType } from "@prisma/client";
-import { unauthorized } from "next/navigation";
-import { getCurrentUser } from "@/lib/auth";
+import type { Role } from "@/lib/types";
 
-export async function requireAuth() {
-  const user = await getCurrentUser();
+const roleRank: Record<Role, number> = {
+  USER: 1,
+  EDITOR: 2,
+  ADMIN: 3,
+};
 
-  if (!user) {
-    unauthorized();
+export function hasMinimumRole(role: Role | null | undefined, minimum: Role) {
+  if (!role) {
+    return false;
   }
 
-  return user;
+  return roleRank[role] >= roleRank[minimum];
 }
 
-export async function requireRole(roles: Role[]) {
-  const user = await requireAuth();
-
-  if (!roles.includes(user.role)) {
-    unauthorized();
+export function assertRole(role: Role | null | undefined, minimum: Role) {
+  if (!hasMinimumRole(role, minimum)) {
+    redirect("/unauthorized");
   }
-
-  return user;
-}
-
-export async function requireInternalUser() {
-  const user = await requireAuth();
-
-  if (user.userType !== UserType.INTERNAL) {
-    unauthorized();
-  }
-
-  return user;
-}
-
-export function canManageUsers(role: Role) {
-  return role === Role.ADMIN;
-}
-
-export function canManageEditorial(role: Role) {
-  return role === Role.ADMIN || role === Role.EDITOR;
-}
-
-export function canManageCompetitions(role: Role) {
-  return role === Role.ADMIN;
 }

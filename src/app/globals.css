@@ -1,164 +1,44 @@
 @import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
-
-@theme inline {
-  --font-sans: var(--font-manrope);
-  --font-heading: var(--font-cormorant);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-destructive: var(--destructive);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 8px);
-}
 
 :root {
-  --background: #f6efe4;
-  --foreground: #18261f;
-  --card: rgba(255, 251, 245, 0.9);
-  --card-foreground: #111827;
-  --popover: #fdf8f1;
-  --popover-foreground: #111827;
-  --primary: #214b3b;
-  --primary-foreground: #f8fbf8;
-  --secondary: #c9a25e;
-  --secondary-foreground: #2f2110;
-  --muted: #ede4d6;
-  --muted-foreground: #6b6b63;
-  --accent: #567969;
-  --accent-foreground: #f7fbf8;
-  --border: rgba(24, 38, 31, 0.11);
-  --input: rgba(255, 251, 245, 0.9);
-  --ring: #214b3b;
-  --destructive: #b42318;
-  --radius: 1rem;
+  --color-primary: #2a7f8c;
+  --color-primary-strong: #155f69;
+  --color-background: #f5f8fb;
+  --color-background-dark: #081528;
+  --color-text: #0f172a;
 }
 
-.dark {
-  --background: #101716;
-  --foreground: #edf4ef;
-  --card: rgba(20, 29, 27, 0.92);
-  --card-foreground: #eef7ef;
-  --popover: #16201e;
-  --popover-foreground: #eef7ef;
-  --primary: #89c4a5;
-  --primary-foreground: #08110d;
-  --secondary: #d5b067;
-  --secondary-foreground: #11130e;
-  --muted: #17211f;
-  --muted-foreground: #aab7af;
-  --accent: #67927f;
-  --accent-foreground: #effdfb;
-  --border: rgba(236, 245, 238, 0.1);
-  --input: rgba(16, 23, 22, 0.82);
-  --ring: #89c4a5;
-  --destructive: #f97066;
+html {
+  scroll-behavior: smooth;
 }
 
-@layer base {
-  * {
-    border-color: var(--border);
-    outline-color: color-mix(in oklab, var(--ring) 55%, transparent);
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  html[data-theme="dark"] {
-    color-scheme: dark;
-  }
-
-  body {
-    @apply min-h-screen bg-background text-foreground font-sans antialiased;
-    background-image:
-      radial-gradient(circle at top left, rgba(33, 75, 59, 0.18), transparent 26%),
-      radial-gradient(circle at top right, rgba(201, 162, 94, 0.16), transparent 30%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 28%);
-  }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: var(--font-cormorant), serif;
-    letter-spacing: -0.03em;
-  }
-
-  html[dir="rtl"] h1,
-  html[dir="rtl"] h2,
-  html[dir="rtl"] h3,
-  html[dir="rtl"] h4 {
-    font-family: var(--font-cairo), sans-serif;
-    letter-spacing: -0.02em;
-  }
-
-  input,
-  textarea,
-  select {
-    @apply w-full rounded-xl border bg-input px-4 py-3 text-sm text-foreground shadow-sm transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20;
-  }
-
-  textarea {
-    @apply min-h-32 resize-y;
-  }
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(42, 127, 140, 0.2), transparent 28%),
+    radial-gradient(circle at top right, rgba(13, 148, 136, 0.18), transparent 18%),
+    linear-gradient(180deg, #081528 0%, #0e1d30 14%, var(--color-background) 40%, #ffffff 100%);
+  color: var(--color-text);
+  font-family: var(--font-body), sans-serif;
 }
 
-@layer components {
-  .shell {
-    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
-  }
-
-  .glass-card {
-    @apply rounded-[28px] border border-white/50 bg-card shadow-[0_24px_80px_rgba(24,38,31,0.08)] backdrop-blur;
-  }
-
-  .section-title {
-    @apply text-3xl font-semibold tracking-tight sm:text-4xl;
-  }
-
-  .section-kicker {
-    @apply text-xs font-semibold uppercase tracking-[0.28em] text-accent;
-  }
-
-  .field-grid {
-    @apply grid gap-4 sm:grid-cols-2;
-  }
-
-  .soft-grid {
-    @apply grid gap-6 md:grid-cols-2 xl:grid-cols-3;
-  }
+.font-display {
+  font-family: var(--font-display), sans-serif;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.prose-content p + p {
+  margin-top: 1rem;
+}
 
-  .hero-panel {
-    background:
-      linear-gradient(135deg, rgba(33, 75, 59, 0.98), rgba(48, 92, 75, 0.94)),
-      radial-gradient(circle at top right, rgba(201, 162, 94, 0.2), transparent 38%);
-  }
+input,
+textarea,
+select {
+  outline: none;
+}
 
-  .gold-chip {
-    @apply inline-flex items-center gap-2 rounded-full border border-secondary/35 bg-secondary/16 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-secondary-foreground;
-  }
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(42, 127, 140, 0.12);
 }

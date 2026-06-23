@@ -1,130 +1,55 @@
 import "server-only";
 
-import bcrypt from "bcryptjs";
-import { SignJWT, jwtVerify } from "jose";
 import { cache } from "react";
-import { cookies } from "next/headers";
-import { withPrismaConnectionFallback } from "@/lib/prisma-errors";
-import { prisma } from "@/lib/prisma";
-import type { SessionUser } from "@/types";
 
-const COOKIE_NAME = "tretrip_session";
-const SESSION_DURATION = 60 * 60 * 24 * 7;
+import { createSupabaseAdminClient, createSupabaseServerClient } from "@/lib/supabase/server";
+import { mockUsers } from "@/lib/mock-data";
+import type { Profile } from "@/lib/types";
 
-type SessionToken = {
-  sub: string;
-  email: string;
-  role: SessionUser["role"];
-  userType: SessionUser["userType"];
-  fullName: string;
-};
+function logAuthFallback(message: string, error: unknown) {
+  const details =
+    error && typeof error === "object" && "message" in error
+      ? String((error as { message?: unknown }).message ?? "")
+      : "";
 
-function getSecretKey() {
-  const secret = process.env.SESSION_SECRET;
-
-  if (!secret) {
-    throw new Error("SESSION_SECRET is not configured.");
-  }
-
-  return new TextEncoder().encode(secret);
-}
-
-export async function hashPassword(password: string) {
-  return bcrypt.hash(password, 10);
-}
-
-export async function verifyPassword(password: string, passwordHash: string) {
-  return bcrypt.compare(password, passwordHash);
-}
-
-async function signSession(payload: SessionToken) {
-  return new SignJWT(payload)
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setExpirationTime(`${SESSION_DURATION}s`)
-    .sign(getSecretKey());
-}
-
-async function verifySessionToken(token: string) {
-  try {
-    const { payload } = await jwtVerify(token, getSecretKey(), {
-      algorithms: ["HS256"],
-    });
-
-    return payload as SessionToken;
-  } catch {
-    return null;
+  if (process.env.NODE_ENV !== "production") {
+    console.warn(`${message}. Falling back to unauthenticated profile state.${details ? ` ${details}` : ""}`);
   }
 }
 
-export async function createSession(user: SessionUser) {
-  const token = await signSession({
-    sub: user.id,
-    email: user.email,
-    role: user.role,
-    userType: user.userType,
-    fullName: user.fullName,
-  });
+export const getSessionUser = cache(async () => {
+  const supabase = await createSupabaseServerClient();
 
-  const cookieStore = await cookies();
-  cookieStore.set(COOKIE_NAME, token, {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-    maxAge: SESSION_DURATION,
-  });
-}
-
-export async function destroySession() {
-  const cookieStore = await cookies();
-  cookieStore.delete(COOKIE_NAME);
-}
-
-export const getSession = cache(async () => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get(COOKIE_NAME)?.value;
-
-  if (!token) {
+  if (!supabase) {
     return null;
   }
 
-  return verifySessionToken(token);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  return user ?? null;
 });
 
-export const getCurrentUser = cache(async (): Promise<SessionUser | null> => {
-  const session = await getSession();
+export const getCurrentProfile = cache(async (): Promise<Profile | null> => {
+  const user = await getSessionUser();
 
-  if (!session?.sub) {
+  if (!user) {
     return null;
   }
 
-  const user = await withPrismaConnectionFallback(
-    () =>
-      prisma.user.findUnique({
-        where: { id: session.sub },
-        select: {
-          id: true,
-          email: true,
-          fullName: true,
-          role: true,
-          userType: true,
-        },
-      }),
-    null,
-    "current user lookup",
-  );
+  const admin = createSupabaseAdminClient();
 
-  return user;
+  if (!admin) {
+    return mockUsers.find((candidate) => candidate.email === user.email) ?? null;
+  }
+
+  const { data, error } = await admin.from("profiles").select("*").eq("id", user.id).maybeSingle();
+
+  if (error) {
+    logAuthFallback("Failed to fetch current profile", error);
+    return null;
+  }
+
+  return data;
 });
-
-export function getInternalEmailDomains() {
-  return (process.env.INTERNAL_EMAIL_DOMAINS ?? "tretrip.com")
-    .split(",")
-    .map((value) => value.trim().toLowerCase())
-    .filter(Boolean);
-}
-
-export function isInternalEmail(email: string) {
-  return getInternalEmailDomains().some((domain) => email.endsWith(`@${domain}`));
-}
