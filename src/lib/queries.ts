@@ -8,6 +8,7 @@ import {
   Role,
   UserType,
 } from "@prisma/client";
+import { withPrismaConnectionFallback } from "@/lib/prisma-errors";
 import { prisma } from "@/lib/prisma";
 import type { SessionUser } from "@/types";
 
@@ -36,116 +37,136 @@ const blogCardSelect = {
 } satisfies Prisma.BlogSelect;
 
 export async function getHomePageData() {
-  const [latestNews, featuredCompetitions, categories] = await Promise.all([
-    prisma.blog.findMany({
-      where: { status: BlogStatus.PUBLISHED },
-      orderBy: { publishedAt: "desc" },
-      take: 3,
-      select: blogCardSelect,
-    }),
-    prisma.competition.findMany({
-      where: { endDate: { gte: new Date() } },
-      orderBy: { startDate: "asc" },
-      take: 3,
-    }),
-    prisma.category.findMany({
-      orderBy: { name: "asc" },
-    }),
-  ]);
+  const [latestNews, featuredCompetitions, categories] = await withPrismaConnectionFallback(
+    () =>
+      Promise.all([
+        prisma.blog.findMany({
+          where: { status: BlogStatus.PUBLISHED },
+          orderBy: { publishedAt: "desc" },
+          take: 3,
+          select: blogCardSelect,
+        }),
+        prisma.competition.findMany({
+          where: { endDate: { gte: new Date() } },
+          orderBy: { startDate: "asc" },
+          take: 3,
+        }),
+        prisma.category.findMany({
+          orderBy: { name: "asc" },
+        }),
+      ]),
+    [[], [], []],
+    "homepage data query",
+  );
 
   return { latestNews, featuredCompetitions, categories };
 }
 
 export async function getPublishedBlogs(categorySlug?: string) {
-  return prisma.blog.findMany({
-    where: {
-      status: BlogStatus.PUBLISHED,
-      ...(categorySlug
-        ? {
-            category: {
-              slug: categorySlug,
-            },
-          }
-        : {}),
-    },
-    orderBy: { publishedAt: "desc" },
-    select: blogCardSelect,
-  });
+  return withPrismaConnectionFallback(
+    () =>
+      prisma.blog.findMany({
+        where: {
+          status: BlogStatus.PUBLISHED,
+          ...(categorySlug
+            ? {
+                category: {
+                  slug: categorySlug,
+                },
+              }
+            : {}),
+        },
+        orderBy: { publishedAt: "desc" },
+        select: blogCardSelect,
+      }),
+    [],
+    "published blogs query",
+  );
 }
 
 export async function getBlogBySlug(slug: string, viewer?: SessionUser | null) {
-  return prisma.blog.findUnique({
-    where: { slug },
-    select: {
-      id: true,
-      title: true,
-      slug: true,
-      description: true,
-      content: true,
-      imageUrl: true,
-      publishedAt: true,
-      status: true,
-      category: {
+  return withPrismaConnectionFallback(
+    () =>
+      prisma.blog.findUnique({
+        where: { slug },
         select: {
           id: true,
-          name: true,
+          title: true,
           slug: true,
-        },
-      },
-      author: {
-        select: {
-          fullName: true,
-        },
-      },
-      comments: {
-        where:
-          viewer?.role === Role.ADMIN || viewer?.role === Role.EDITOR
-            ? undefined
-            : { isVisible: true },
-        orderBy: { createdAt: "desc" },
-        select: {
-          id: true,
-          commentText: true,
-          isVisible: true,
-          createdAt: true,
-          user: {
+          description: true,
+          content: true,
+          imageUrl: true,
+          publishedAt: true,
+          status: true,
+          category: {
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+            },
+          },
+          author: {
             select: {
               fullName: true,
             },
           },
-        },
-      },
-      _count: {
-        select: {
           comments: {
-            where: { isVisible: true },
+            where:
+              viewer?.role === Role.ADMIN || viewer?.role === Role.EDITOR
+                ? undefined
+                : { isVisible: true },
+            orderBy: { createdAt: "desc" },
+            select: {
+              id: true,
+              commentText: true,
+              isVisible: true,
+              createdAt: true,
+              user: {
+                select: {
+                  fullName: true,
+                },
+              },
+            },
+          },
+          _count: {
+            select: {
+              comments: {
+                where: { isVisible: true },
+              },
+            },
           },
         },
-      },
-    },
-  });
+      }),
+    null,
+    `blog lookup for slug "${slug}"`,
+  );
 }
 
 export async function getBlogLikeSummary(blogId: string, userId?: string) {
-  const [count, liked] = await Promise.all([
-    prisma.like.count({
-      where: {
-        likeableType: LikeableType.BLOG,
-        likeableId: blogId,
-      },
-    }),
-    userId
-      ? prisma.like.findUnique({
+  const [count, liked] = await withPrismaConnectionFallback(
+    () =>
+      Promise.all([
+        prisma.like.count({
           where: {
-            userId_likeableType_likeableId: {
-              userId,
-              likeableType: LikeableType.BLOG,
-              likeableId: blogId,
-            },
+            likeableType: LikeableType.BLOG,
+            likeableId: blogId,
           },
-        })
-      : null,
-  ]);
+        }),
+        userId
+          ? prisma.like.findUnique({
+              where: {
+                userId_likeableType_likeableId: {
+                  userId,
+                  likeableType: LikeableType.BLOG,
+                  likeableId: blogId,
+                },
+              },
+            })
+          : null,
+      ]),
+    [0, null],
+    `blog like summary for "${blogId}"`,
+  );
 
   return { count, liked: Boolean(liked) };
 }
@@ -155,16 +176,21 @@ export async function getCommentLikeSummaries(commentIds: string[], userId?: str
     return new Map<string, { count: number; liked: boolean }>();
   }
 
-  const likes = await prisma.like.findMany({
-    where: {
-      likeableType: LikeableType.COMMENT,
-      likeableId: { in: commentIds },
-    },
-    select: {
-      likeableId: true,
-      userId: true,
-    },
-  });
+  const likes = await withPrismaConnectionFallback(
+    () =>
+      prisma.like.findMany({
+        where: {
+          likeableType: LikeableType.COMMENT,
+          likeableId: { in: commentIds },
+        },
+        select: {
+          likeableId: true,
+          userId: true,
+        },
+      }),
+    [],
+    "comment like summary query",
+  );
 
   const map = new Map<string, { count: number; liked: boolean }>();
 
@@ -180,39 +206,65 @@ export async function getCommentLikeSummaries(commentIds: string[], userId?: str
 }
 
 export async function getVisibleCompetitions(user?: SessionUser | null) {
-  return prisma.competition.findMany({
-    where:
-      user?.userType === UserType.INTERNAL
-        ? undefined
-        : {
-            visibility: CompetitionVisibility.PUBLIC,
-          },
-    orderBy: [{ endDate: "asc" }, { startDate: "asc" }],
-  });
+  return withPrismaConnectionFallback(
+    () =>
+      prisma.competition.findMany({
+        where:
+          user?.userType === UserType.INTERNAL
+            ? undefined
+            : {
+                visibility: CompetitionVisibility.PUBLIC,
+              },
+        orderBy: [{ endDate: "asc" }, { startDate: "asc" }],
+      }),
+    [],
+    "visible competitions query",
+  );
 }
 
 export async function getCompetitionBySlug(slug: string) {
-  return prisma.competition.findUnique({
-    where: { slug },
-    include: {
-      _count: {
-        select: {
-          registrations: true,
+  return withPrismaConnectionFallback(
+    () =>
+      prisma.competition.findUnique({
+        where: { slug },
+        include: {
+          _count: {
+            select: {
+              registrations: true,
+            },
+          },
         },
-      },
-    },
-  });
+      }),
+    null,
+    `competition lookup for slug "${slug}"`,
+  );
 }
 
 export async function getUserCompetitionStatus(userId: string, competitionId: string) {
-  return prisma.userCompetition.findUnique({
-    where: {
-      userId_competitionId: {
-        userId,
-        competitionId,
-      },
-    },
-  });
+  return withPrismaConnectionFallback(
+    () =>
+      prisma.userCompetition.findUnique({
+        where: {
+          userId_competitionId: {
+            userId,
+            competitionId,
+          },
+        },
+      }),
+    null,
+    `competition registration lookup for "${competitionId}"`,
+  );
+}
+
+export async function getCategories() {
+  return withPrismaConnectionFallback(
+    () =>
+      prisma.category.findMany({
+        orderBy: { name: "asc" },
+      }),
+    [],
+    "categories query",
+  );
 }
 
 export async function getProfileData(userId: string) {

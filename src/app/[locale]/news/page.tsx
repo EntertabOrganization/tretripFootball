@@ -1,8 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { ArticleCard } from "@/components/news/ArticleCard";
 import { Link } from "@/i18n/routing";
-import { getPublishedBlogs } from "@/lib/queries";
-import { prisma } from "@/lib/prisma";
+import { getCategories, getPublishedBlogs } from "@/lib/queries";
 
 export default async function NewsPage({
   searchParams,
@@ -13,7 +12,7 @@ export default async function NewsPage({
   const { category } = await searchParams;
   const [articles, categories] = await Promise.all([
     getPublishedBlogs(category),
-    prisma.category.findMany({ orderBy: { name: "asc" } }),
+    getCategories(),
   ]);
 
   return (

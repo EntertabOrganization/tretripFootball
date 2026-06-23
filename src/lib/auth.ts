@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { SignJWT, jwtVerify } from "jose";
 import { cache } from "react";
 import { cookies } from "next/headers";
+import { withPrismaConnectionFallback } from "@/lib/prisma-errors";
 import { prisma } from "@/lib/prisma";
 import type { SessionUser } from "@/types";
 
@@ -98,16 +99,21 @@ export const getCurrentUser = cache(async (): Promise<SessionUser | null> => {
     return null;
   }
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.sub },
-    select: {
-      id: true,
-      email: true,
-      fullName: true,
-      role: true,
-      userType: true,
-    },
-  });
+  const user = await withPrismaConnectionFallback(
+    () =>
+      prisma.user.findUnique({
+        where: { id: session.sub },
+        select: {
+          id: true,
+          email: true,
+          fullName: true,
+          role: true,
+          userType: true,
+        },
+      }),
+    null,
+    "current user lookup",
+  );
 
   return user;
 });
