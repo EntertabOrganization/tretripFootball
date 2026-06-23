@@ -6,17 +6,6 @@ import { createSupabaseAdminClient, createSupabaseServerClient } from "@/lib/sup
 import { mockUsers } from "@/lib/mock-data";
 import type { Profile } from "@/lib/types";
 
-function logAuthFallback(message: string, error: unknown) {
-  const details =
-    error && typeof error === "object" && "message" in error
-      ? String((error as { message?: unknown }).message ?? "")
-      : "";
-
-  if (process.env.NODE_ENV !== "production") {
-    console.warn(`${message}. Falling back to unauthenticated profile state.${details ? ` ${details}` : ""}`);
-  }
-}
-
 export const getSessionUser = cache(async () => {
   const supabase = await createSupabaseServerClient();
 
@@ -39,17 +28,17 @@ export const getCurrentProfile = cache(async (): Promise<Profile | null> => {
   }
 
   const admin = createSupabaseAdminClient();
+  const fallbackProfile = mockUsers.find((candidate) => candidate.email.toLowerCase() === (user.email ?? "").toLowerCase()) ?? null;
 
   if (!admin) {
-    return mockUsers.find((candidate) => candidate.email === user.email) ?? null;
+    return fallbackProfile;
   }
 
   const { data, error } = await admin.from("profiles").select("*").eq("id", user.id).maybeSingle();
 
   if (error) {
-    logAuthFallback("Failed to fetch current profile", error);
-    return null;
+    return fallbackProfile;
   }
 
-  return data;
+  return data ?? fallbackProfile;
 });

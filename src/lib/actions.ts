@@ -122,8 +122,8 @@ export async function createCategoryAction(formData: FormData) {
     slug: slugify(titleEn),
     title_en: titleEn,
     title_ar: String(formData.get("titleAr") ?? ""),
-    description_en: String(formData.get("descriptionEn") ?? ""),
-    description_ar: String(formData.get("descriptionAr") ?? ""),
+    description_en: String(formData.get("descriptionEn") ?? "").trim(),
+    description_ar: String(formData.get("descriptionAr") ?? "").trim(),
   });
 
   revalidatePath("/dashboard/categories");

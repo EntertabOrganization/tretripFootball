@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "seed:auth": "tsx scripts/seed-auth.ts",
     "db:apply": "tsx scripts/apply-schema.ts",
     "db:seed": "tsx scripts/seed.ts",
     "db:setup": "npm run db:apply && npm run db:seed"
@@ -17,6 +18,7 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.553.0",
     "next": "16.2.7",
+    "quill": "^2.0.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "server-only": "^0.0.1",
