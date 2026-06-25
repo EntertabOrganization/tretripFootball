@@ -64,13 +64,19 @@ a {
 
 .public-container {
   margin-inline: auto;
-  width: min(1280px, calc(100% - 32px));
+  width: min(80rem, calc(100% - 32px));
 }
 
 .public-glass {
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.42);
+}
+
+.public-glass-dark {
+  background: rgba(70, 102, 107, 0.72);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .public-section {

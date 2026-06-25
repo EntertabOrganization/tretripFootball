@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { CompetitionCard } from "@/components/cards/competition-card";
@@ -5,6 +6,21 @@ import { NewsCard } from "@/components/cards/news-card";
 import { Button } from "@/components/ui/button";
 import { getCompetitionsList, getNewsList } from "@/lib/data";
 import { getLocale, t } from "@/lib/i18n";
+
+const arabTeams = [
+  "Saudi Arabia",
+  "Qatar",
+  "United Arab Emirates",
+  "Iraq",
+  "Jordan",
+  "Palestine",
+  "Oman",
+  "Bahrain",
+  "Kuwait",
+  "Syria",
+  "Lebanon",
+  "Yemen",
+];
 
 export default async function HomePage() {
   const locale = await getLocale();
@@ -16,55 +32,39 @@ export default async function HomePage() {
 
   return (
     <div className="pb-20">
-      <section id="home" className="px-4 pb-20 pt-6 sm:px-6">
-        <div className="public-container grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="space-y-6 rounded-[36px] border border-white/12 bg-slate-950/18 p-8 text-white shadow-[0_30px_80px_-40px_rgba(15,23,42,0.85)] backdrop-blur-md sm:p-12">
+      <section id="home" className="relative overflow-hidden px-4 pb-24 pt-44 text-white sm:px-6 sm:pt-48">
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+        >
+          <source src="/HeroVideo.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,27,31,0.58)_0%,rgba(5,27,31,0.72)_38%,rgba(5,27,31,0.9)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(61,223,193,0.18),transparent_28%),radial-gradient(circle_at_right_center,rgba(255,255,255,0.08),transparent_24%)]" />
+
+        <div className="public-container relative">
+          <div className="max-w-5xl">
             <span className="public-pill text-white/88">{copy.home.eyebrow}</span>
-            <h1 className="public-heading max-w-4xl text-5xl font-bold leading-none text-white sm:text-7xl">
-              {copy.home.title}
+            <h1 className="public-heading mt-8 text-5xl font-black uppercase leading-[0.92] text-white sm:text-7xl xl:text-[6.4rem]">
+              Qiddam with the same spirit
             </h1>
-            <p className="max-w-2xl text-lg leading-8 text-white/82">{copy.home.body}</p>
-            <div className="flex flex-wrap gap-4 pt-2">
-              <Link href="/news">
-                <Button className="px-7 py-4">{copy.home.primary}</Button>
-              </Link>
+            <p className="mt-8 max-w-4xl text-lg leading-8 text-white/82 sm:text-2xl">
+              The official national team campaign for the 2026 FIFA World Cup, and be part of the event.
+            </p>
+            <div className="mt-10 flex flex-wrap gap-4">
               <Link href="/competitions">
-                <Button variant="secondary" className="px-7 py-4">{copy.home.secondary}</Button>
+                <Button className="rounded-2xl px-8 py-4 text-base font-bold">Book Your Ticket</Button>
               </Link>
-            </div>
-          </div>
-
-          <div className="grid gap-5">
-            <div className="public-card rounded-[30px] p-7">
-              <p className="public-kicker">{copy.dashboard.stats}</p>
-              <div className="mt-5 grid grid-cols-2 gap-4">
-                <div className="rounded-[24px] bg-[var(--color-surface-muted)] p-5">
-                  <p className="text-sm text-[var(--color-text-muted)]">Bilingual</p>
-                  <p className="public-heading mt-3 text-4xl font-bold text-[var(--color-text)]">EN / AR</p>
-                </div>
-                <div className="rounded-[24px] bg-[var(--color-surface-muted)] p-5">
-                  <p className="text-sm text-[var(--color-text-muted)]">Modules</p>
-                  <p className="public-heading mt-3 text-4xl font-bold text-[var(--color-text)]">6</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="overflow-hidden rounded-[30px] bg-white/12 p-8 text-white shadow-[0_30px_60px_-30px_rgba(9,17,25,0.75)] backdrop-blur-md">
-              <p className="public-kicker text-white/75">{copy.common.globalLeaderboard}</p>
-              <h2 className="public-heading mt-4 text-4xl font-bold">TreTrip Champions</h2>
-              <p className="mt-3 max-w-md leading-7 text-white/78">
-                Editorial publishing, community registrations, and leaderboard momentum all live in the same premium football platform.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-6">
-                <div>
-                  <p className="public-heading text-3xl font-bold text-white">1.2M</p>
-                  <p className="mt-1 text-sm uppercase tracking-[0.2em] text-white/60">Fans</p>
-                </div>
-                <div>
-                  <p className="public-heading text-3xl font-bold text-white">24/7</p>
-                  <p className="mt-1 text-sm uppercase tracking-[0.2em] text-white/60">Coverage</p>
-                </div>
-              </div>
+              <Link href="/news">
+                <Button variant="secondary" className="rounded-2xl px-8 py-4 text-base font-bold">
+                  Match Schedule
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -72,30 +72,74 @@ export default async function HomePage() {
 
       <section id="about" className="public-section">
         <div className="public-container">
-          <div className="public-card rounded-[32px] p-8 sm:p-10">
+          <div className="text-center">
             <p className="public-kicker">{copy.nav.about}</p>
-            <h2 className="public-heading mt-4 text-4xl font-bold text-[var(--color-text)] sm:text-5xl">{copy.home.aboutTitle}</h2>
-            <p className="mt-4 max-w-4xl text-lg leading-8 text-[var(--color-text-muted)]">{copy.home.aboutBody}</p>
+            <h2 className="public-heading mt-4 text-4xl font-black text-[var(--color-text)] sm:text-5xl">
+              {copy.home.aboutTitle}
+            </h2>
+          </div>
 
-            <div className="mt-10 grid gap-5 md:grid-cols-3">
-              <div className="rounded-[24px] border border-[var(--color-outline)] bg-[var(--color-surface)] p-6">
-                <p className="public-heading text-2xl font-bold text-[var(--color-primary)]">News</p>
-                <p className="mt-3 leading-7 text-[var(--color-text-muted)]">Professional bilingual editorial coverage for sports and internal updates.</p>
+          <div className="mt-14 grid items-center gap-8 md:grid-cols-2">
+            <div className="order-2 md:order-1">
+              <div className="overflow-hidden rounded-[34px] border border-[var(--color-outline)] bg-[linear-gradient(145deg,#edf7f7_0%,#d4ebea_100%)] p-6 shadow-[0_28px_70px_-42px_rgba(17,67,74,0.45)]">
+                <div className="relative aspect-[4/5] overflow-hidden rounded-[26px] bg-[radial-gradient(circle_at_top,rgba(53,199,164,0.35),transparent_35%),linear-gradient(180deg,rgba(8,21,40,0.08),rgba(8,21,40,0.22))]">
+                  <Image
+                    src="/Logo.png"
+                    alt="TreTrip FanZone"
+                    fill
+                    className="object-contain p-10 sm:p-16"
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                  />
+                </div>
               </div>
-              <div className="rounded-[24px] border border-[var(--color-outline)] bg-[var(--color-surface)] p-6">
-                <p className="public-heading text-2xl font-bold text-[var(--color-primary)]">Competitions</p>
-                <p className="mt-3 leading-7 text-[var(--color-text-muted)]">Structured fan challenges with clear registration, participation, and winner management.</p>
-              </div>
-              <div className="rounded-[24px] border border-[var(--color-outline)] bg-[var(--color-surface)] p-6">
-                <p className="public-heading text-2xl font-bold text-[var(--color-primary)]">Leaderboards</p>
-                <p className="mt-3 leading-7 text-[var(--color-text-muted)]">Competition and global rankings designed to reward community momentum.</p>
+            </div>
+
+            <div className="order-1 md:order-2">
+              <div className="public-card rounded-[34px] p-8 sm:p-10">
+                <p className="public-kicker">{copy.home.eyebrow}</p>
+                <h3 className="public-heading mt-4 text-3xl font-black text-[var(--color-text)] sm:text-4xl">
+                  {copy.home.aboutTitle}
+                </h3>
+                <p className="mt-5 text-lg leading-8 text-[var(--color-text-muted)]">
+                  {copy.home.aboutBody}
+                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="competitions" className="public-section">
+      <section id="arab-teams" className="public-section pt-0">
+        <div className="public-container">
+          <div className="mb-8 text-center">
+            <p className="public-kicker">Arab National Teams</p>
+            <h2 className="public-heading mt-4 text-4xl font-black text-[var(--color-text)] sm:text-5xl">
+              Teams In The Cup
+            </h2>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {arabTeams.map((team) => (
+              <article
+                key={team}
+                className="public-card rounded-[28px] p-6 transition duration-200 hover:-translate-y-1 hover:shadow-[0_26px_60px_-36px_rgba(15,66,72,0.4)]"
+              >
+                <div className="flex aspect-square items-center justify-center rounded-[24px] border-2 border-dashed border-[var(--color-outline)] bg-[var(--color-surface-muted)] text-center">
+                  <span className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">
+                    Logo Placeholder
+                  </span>
+                </div>
+                <h3 className="public-heading mt-5 text-2xl font-bold text-[var(--color-text)]">{team}</h3>
+                <p className="mt-2 text-sm leading-7 text-[var(--color-text-muted)]">
+                  Add the official team crest here when the final artwork is ready.
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="competitions" className="public-section pt-0">
         <div className="public-container">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -113,7 +157,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section id="news" className="public-section">
+      <section id="news" className="public-section pt-0">
         <div className="public-container">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
