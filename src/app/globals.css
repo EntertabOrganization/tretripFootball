@@ -31,6 +31,10 @@ body {
   font-family: var(--font-body), sans-serif;
 }
 
+html[dir="rtl"] body {
+  font-family: var(--font-body-ar), sans-serif;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -38,6 +42,7 @@ a {
 
 .public-shell {
   position: relative;
+  padding-top: 8.5rem;
 }
 
 .public-shell::before {
@@ -116,6 +121,14 @@ a {
   letter-spacing: -0.03em;
 }
 
+html[dir="rtl"] .public-heading,
+html[dir="rtl"] .font-display,
+html[dir="rtl"] .prose-content h1,
+html[dir="rtl"] .prose-content h2,
+html[dir="rtl"] .prose-content h3 {
+  font-family: var(--font-display-ar), sans-serif;
+}
+
 table.dataTable thead th {
   border-bottom: 1px solid #e2e8f0 !important;
   color: #64748b !important;
@@ -187,6 +200,10 @@ div.dt-container .dt-paging .dt-paging-button {
 }
 
 @media (max-width: 640px) {
+  .public-shell {
+    padding-top: 7.5rem;
+  }
+
   .public-shell::before,
   .public-shell::after {
     height: 460px;

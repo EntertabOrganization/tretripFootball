@@ -22,15 +22,7 @@ export default async function HomePage() {
   return (
     <div className="pb-20">
       <section id="home" className="relative overflow-hidden px-4 pb-24 pt-44 text-white sm:px-6 sm:pt-48">
-        <video
-          className="absolute inset-0 h-full w-full object-cover"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          aria-hidden="true"
-        >
+        <video className="absolute inset-0 h-full w-full object-cover" autoPlay loop muted playsInline preload="metadata" aria-hidden="true">
           <source src="/HeroVideo.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,27,31,0.58)_0%,rgba(5,27,31,0.72)_38%,rgba(5,27,31,0.9)_100%)]" />
@@ -40,18 +32,16 @@ export default async function HomePage() {
           <div className="max-w-5xl">
             <span className="public-pill text-white/88">{copy.home.eyebrow}</span>
             <h1 className="public-heading mt-8 text-5xl font-black uppercase leading-[0.92] text-white sm:text-7xl xl:text-[6.4rem]">
-              Qiddam with the same spirit
+              {copy.home.heroTitle}
             </h1>
-            <p className="mt-8 max-w-4xl text-lg leading-8 text-white/82 sm:text-2xl">
-              The official national team campaign for the 2026 FIFA World Cup, and be part of the event.
-            </p>
+            <p className="mt-8 max-w-4xl text-lg leading-8 text-white/82 sm:text-2xl">{copy.home.heroBody}</p>
             <div className="mt-10 flex flex-wrap gap-4">
               <Link href="/competitions">
-                <Button className="rounded-2xl px-8 py-4 text-base font-bold">Book Your Ticket</Button>
+                <Button className="rounded-2xl px-8 py-4 text-base font-bold">{copy.home.heroPrimary}</Button>
               </Link>
               <Link href="/news">
                 <Button variant="secondary" className="rounded-2xl px-8 py-4 text-base font-bold">
-                  Match Schedule
+                  {copy.home.heroSecondary}
                 </Button>
               </Link>
             </div>
@@ -63,27 +53,21 @@ export default async function HomePage() {
         <div className="public-container">
           <div className="text-center">
             <p className="public-kicker">{copy.nav.about}</p>
-            <h2 className="public-heading mt-4 text-4xl font-black text-[var(--color-text)] sm:text-5xl">
-              {copy.home.aboutTitle}
-            </h2>
+            <h2 className="public-heading mt-4 text-4xl font-black text-[var(--color-text)] sm:text-5xl">{copy.home.aboutTitle}</h2>
           </div>
 
           <div className="mt-14 grid items-center gap-8 md:grid-cols-2">
             <div className="order-2 md:order-1">
               <div className="overflow-hidden rounded-[34px] border border-[var(--color-outline)] bg-[linear-gradient(145deg,#edf7f7_0%,#d4ebea_100%)] p-6 shadow-[0_28px_70px_-42px_rgba(17,67,74,0.45)]">
-                <AboutImageSlider images={aboutImages} />
+                <AboutImageSlider images={aboutImages} locale={locale} />
               </div>
             </div>
 
             <div className="order-1 md:order-2">
               <div className="public-card rounded-[34px] p-8 sm:p-10">
                 <p className="public-kicker">{copy.home.eyebrow}</p>
-                <h3 className="public-heading mt-4 text-3xl font-black text-[var(--color-text)] sm:text-4xl">
-                  {copy.home.aboutTitle}
-                </h3>
-                <p className="mt-5 text-lg leading-8 text-[var(--color-text-muted)]">
-                  {copy.home.aboutBody}
-                </p>
+                <h3 className="public-heading mt-4 text-3xl font-black text-[var(--color-text)] sm:text-4xl">{copy.home.aboutTitle}</h3>
+                <p className="mt-5 text-lg leading-8 text-[var(--color-text-muted)]">{copy.home.aboutBody}</p>
               </div>
             </div>
           </div>
@@ -93,18 +77,13 @@ export default async function HomePage() {
       <section id="arab-teams" className="public-section pt-0">
         <div className="public-container">
           <div className="mb-8 text-center">
-            <p className="public-kicker">Arab National Teams</p>
-            <h2 className="public-heading mt-4 text-4xl font-black text-[var(--color-text)] sm:text-5xl">
-              Teams In The Cup
-            </h2>
+            <p className="public-kicker">{copy.home.teamsKicker}</p>
+            <h2 className="public-heading mt-4 text-4xl font-black text-[var(--color-text)] sm:text-5xl">{copy.home.teamsTitle}</h2>
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {teamFlags.map((team) => (
-              <article
-                key={team.name}
-                className="public-card rounded-[28px] p-6 transition duration-200 hover:-translate-y-1 hover:shadow-[0_26px_60px_-36px_rgba(15,66,72,0.4)]"
-              >
+              <article key={team.name} className="public-card rounded-[28px] p-6 transition duration-200 hover:-translate-y-1 hover:shadow-[0_26px_60px_-36px_rgba(15,66,72,0.4)]">
                 <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-[24px] border border-[var(--color-outline)] bg-[var(--color-surface-muted)] p-6">
                   <Image
                     src={team.imagePath}
@@ -115,9 +94,7 @@ export default async function HomePage() {
                   />
                 </div>
                 <h3 className="public-heading mt-5 text-2xl font-bold text-[var(--color-text)]">{team.name}</h3>
-                <p className="mt-2 text-sm leading-7 text-[var(--color-text-muted)]">
-                  Displayed automatically from the available files in the flags folder.
-                </p>
+                <p className="mt-2 text-sm leading-7 text-[var(--color-text-muted)]">{copy.home.teamsDescription}</p>
               </article>
             ))}
           </div>

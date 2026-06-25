@@ -3,12 +3,17 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
+import { t } from "@/lib/dictionaries";
+import type { Locale } from "@/lib/types";
+
 type AboutImageSliderProps = {
   images: string[];
+  locale: Locale;
 };
 
-export function AboutImageSlider({ images }: AboutImageSliderProps) {
+export function AboutImageSlider({ images, locale }: AboutImageSliderProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const copy = t(locale);
 
   useEffect(() => {
     if (images.length <= 1) {
@@ -25,7 +30,7 @@ export function AboutImageSlider({ images }: AboutImageSliderProps) {
   if (images.length === 0) {
     return (
       <div className="flex h-full min-h-[22rem] items-center justify-center rounded-[26px] bg-[var(--color-surface-muted)] text-center text-sm font-semibold uppercase tracking-[0.16em] text-[var(--color-text-muted)]">
-        About gallery
+        {copy.common.aboutGallery}
       </div>
     );
   }
@@ -33,10 +38,7 @@ export function AboutImageSlider({ images }: AboutImageSliderProps) {
   return (
     <div className="relative aspect-[4/5] overflow-hidden rounded-[26px] bg-[var(--color-surface-muted)]">
       {images.map((image, index) => (
-        <div
-          key={image}
-          className={`absolute inset-0 transition-opacity duration-700 ${index === activeIndex ? "opacity-100" : "opacity-0"}`}
-        >
+        <div key={image} className={`absolute inset-0 transition-opacity duration-700 ${index === activeIndex ? "opacity-100" : "opacity-0"}`}>
           <Image
             src={image}
             alt={`About TreTrip ${index + 1}`}

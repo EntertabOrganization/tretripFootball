@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import { Inter, Montserrat } from "next/font/google";
+import { Cairo, Changa, Inter, Montserrat } from "next/font/google";
 
 import { APP_NAME, LOCALE_COOKIE } from "@/lib/constants";
 import { getDirection } from "@/lib/i18n";
@@ -16,6 +16,18 @@ const display = Montserrat({
 const body = Inter({
   variable: "--font-body",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const displayArabic = Changa({
+  variable: "--font-display-ar",
+  subsets: ["arabic", "latin"],
+  weight: ["500", "600", "700", "800"],
+});
+
+const bodyArabic = Cairo({
+  variable: "--font-body-ar",
+  subsets: ["arabic", "latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
 
@@ -37,7 +49,7 @@ export default async function RootLayout({
   const locale = (await cookies()).get(LOCALE_COOKIE)?.value === "ar" ? "ar" : "en";
   return (
     <html lang={locale} dir={getDirection(locale)} data-scroll-behavior="smooth">
-      <body className={`${display.variable} ${body.variable}`}>{children}</body>
+      <body className={`${display.variable} ${body.variable} ${displayArabic.variable} ${bodyArabic.variable}`}>{children}</body>
     </html>
   );
 }

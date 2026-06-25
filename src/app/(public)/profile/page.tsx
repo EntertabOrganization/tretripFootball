@@ -45,7 +45,7 @@ export default async function ProfilePage() {
               <p className="mt-2 font-semibold text-[var(--color-text)]">{profile.email}</p>
             </div>
             <div className="rounded-[24px] bg-[var(--color-surface-muted)] p-4">
-              <p className="text-sm text-[var(--color-text-muted)]">Role</p>
+              <p className="text-sm text-[var(--color-text-muted)]">{copy.common.role}</p>
               <p className="mt-2 font-semibold text-[var(--color-text)]">{profile.role}</p>
             </div>
           </div>
@@ -60,7 +60,7 @@ export default async function ProfilePage() {
                   <p className="font-semibold text-[var(--color-text)]">
                     {locale === "ar" ? firstRelation(registration.competition)?.title_ar : firstRelation(registration.competition)?.title_en}
                   </p>
-                  <p className="mt-2 text-sm text-[var(--color-text-muted)]">{registration.is_winner ? "Winner" : "Participant"}</p>
+                  <p className="mt-2 text-sm text-[var(--color-text-muted)]">{registration.is_winner ? copy.common.winner : copy.common.participant}</p>
                 </div>
               ))}
             </div>

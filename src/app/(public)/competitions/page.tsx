@@ -1,52 +1,54 @@
+import Link from "next/link";
+
 import { CompetitionCard } from "@/components/cards/competition-card";
-import { getCompetitionsList } from "@/lib/data";
+import { Button } from "@/components/ui/button";
+import { getAllCompetitions } from "@/lib/data";
 import { getLocale, t } from "@/lib/i18n";
 
-type Props = {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
-
-export default async function CompetitionsPage({ searchParams }: Props) {
-  const params = await searchParams;
-  const page = typeof params.page === "string" ? params.page : undefined;
-  const pageSize = typeof params.pageSize === "string" ? params.pageSize : undefined;
+export default async function CompetitionsPage() {
   const locale = await getLocale();
   const copy = t(locale);
-  const competitions = await getCompetitionsList({ page, pageSize });
+  const competitions = await getAllCompetitions();
 
   return (
-    <div className="public-section">
-      <div className="public-container">
-        <div className="public-card rounded-[32px] p-8 sm:p-10">
-          <p className="public-kicker">{copy.nav.competitions}</p>
-          <h1 className="public-heading mt-3 text-5xl font-bold text-[var(--color-text)]">{copy.competitions.title}</h1>
-          <p className="mt-4 max-w-3xl text-lg leading-8 text-[var(--color-text-muted)]">{copy.competitions.subtitle}</p>
-        </div>
+    <div className="pb-20">
+      <section className="relative overflow-hidden px-4 pb-24 pt-44 text-white sm:px-6 sm:pt-48">
+        <video className="absolute inset-0 h-full w-full object-cover" autoPlay loop muted playsInline preload="metadata" aria-hidden="true">
+          <source src="/HeroVideo.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,27,31,0.58)_0%,rgba(5,27,31,0.72)_38%,rgba(5,27,31,0.9)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(61,223,193,0.18),transparent_28%),radial-gradient(circle_at_right_center,rgba(255,255,255,0.08),transparent_24%)]" />
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-2">
-          {competitions.items.map((competition) => (
-            <CompetitionCard key={competition.id} competition={competition} locale={locale} />
-          ))}
-        </div>
-
-        <div className="public-card mt-8 flex flex-wrap items-center justify-between gap-4 rounded-[24px] p-5 text-sm text-[var(--color-text-muted)]">
-          <span>
-            {copy.common.page} {competitions.page} / {competitions.totalPages}
-          </span>
-          <div className="flex gap-3">
-            {competitions.page > 1 ? (
-              <a className="rounded-xl border border-[var(--color-outline)] px-4 py-2 font-semibold text-[var(--color-text)]" href={`/competitions?page=${competitions.page - 1}`}>
-                Prev
-              </a>
-            ) : null}
-            {competitions.page < competitions.totalPages ? (
-              <a className="rounded-xl border border-[var(--color-outline)] px-4 py-2 font-semibold text-[var(--color-text)]" href={`/competitions?page=${competitions.page + 1}`}>
-                Next
-              </a>
-            ) : null}
+        <div className="public-container relative">
+          <div className="max-w-5xl">
+            <span className="public-pill text-white/88">{copy.nav.competitions}</span>
+            <h1 className="public-heading mt-8 text-5xl font-black uppercase leading-[0.92] text-white sm:text-7xl xl:text-[6.4rem]">
+              {copy.competitions.title}
+            </h1>
+            <p className="mt-8 max-w-4xl text-lg leading-8 text-white/82 sm:text-2xl">{copy.competitions.subtitle}</p>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Link href="#competitions-feed">
+                <Button className="rounded-2xl px-8 py-4 text-base font-bold">{copy.competitions.viewCompetitions}</Button>
+              </Link>
+              <Link href="/news">
+                <Button variant="secondary" className="rounded-2xl px-8 py-4 text-base font-bold">
+                  {copy.competitions.latestNews}
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      <section id="competitions-feed" className="public-section pt-0">
+        <div className="public-container">
+          <div className="grid gap-6 lg:grid-cols-2">
+            {competitions.map((competition) => (
+              <CompetitionCard key={competition.id} competition={competition} locale={locale} />
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

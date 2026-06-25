@@ -25,19 +25,16 @@ export default async function NewsDetailPage({ params }: Props) {
       <div className="public-container max-w-5xl">
         <article className="public-card overflow-hidden rounded-[36px]">
           {article.cover_image_url ? (
-            <div
-              className="h-80 bg-cover bg-center"
-              style={{ backgroundImage: `linear-gradient(rgba(0,102,114,0.18), rgba(15,23,42,0.62)), url(${article.cover_image_url})` }}
-            />
+            <div className="h-80 bg-cover bg-center" style={{ backgroundImage: `linear-gradient(rgba(0,102,114,0.18), rgba(15,23,42,0.62)), url(${article.cover_image_url})` }} />
           ) : null}
           <div className="space-y-6 p-8 sm:p-10">
             <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--color-text-muted)]">
               <span className="rounded-full bg-[var(--color-surface-muted)] px-3 py-1.5 font-semibold">
-                {localizeText(locale, { en: article.category?.title_en ?? "General", ar: article.category?.title_ar ?? "عام" })}
+                {localizeText(locale, { en: article.category?.title_en ?? copy.common.general, ar: article.category?.title_ar ?? copy.common.general })}
               </span>
               {article.published_at ? <span>{formatDate(article.published_at, locale)}</span> : null}
-              <span>{article.likes_count ?? 0} likes</span>
-              <span>{article.comments_count ?? 0} comments</span>
+              <span>{article.likes_count ?? 0} {copy.common.likes}</span>
+              <span>{article.comments_count ?? 0} {copy.common.commentsCount}</span>
             </div>
             <div>
               <h1 className="public-heading text-5xl font-bold text-[var(--color-text)]">
@@ -47,9 +44,7 @@ export default async function NewsDetailPage({ params }: Props) {
                 {localizeText(locale, { en: article.summary_en, ar: article.summary_ar })}
               </p>
             </div>
-            <div className="prose-content text-lg leading-8 text-slate-700">
-              {localizeText(locale, { en: article.content_en, ar: article.content_ar })}
-            </div>
+            <div className="prose-content text-lg leading-8 text-slate-700">{localizeText(locale, { en: article.content_en, ar: article.content_ar })}</div>
 
             <form action={toggleNewsLikeAction} className="inline-flex">
               <input type="hidden" name="newsId" value={article.id} />
@@ -69,12 +64,7 @@ export default async function NewsDetailPage({ params }: Props) {
             <form action={addCommentAction} className="mt-6 grid gap-3">
               <input type="hidden" name="newsId" value={article.id} />
               <input type="hidden" name="newsSlug" value={article.slug} />
-              <textarea
-                name="commentText"
-                className="min-h-28 rounded-[24px] border border-[var(--color-outline)] px-4 py-4"
-                placeholder={copy.news.commentPlaceholder}
-                required
-              />
+              <textarea name="commentText" className="min-h-28 rounded-[24px] border border-[var(--color-outline)] px-4 py-4" placeholder={copy.news.commentPlaceholder} required />
               <button type="submit" className="w-fit rounded-xl bg-[var(--color-primary)] px-5 py-3 font-semibold text-white">
                 {copy.news.addComment}
               </button>

@@ -15,7 +15,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             <p className="mt-4 max-w-xl text-base leading-8 text-[var(--color-text-muted)]">{copy.home.body}</p>
           </div>
           <div>
-            <p className="public-kicker">Platform</p>
+            <p className="public-kicker">{copy.common.platform}</p>
             <div className="mt-5 space-y-3 text-sm font-medium text-[var(--color-text-muted)]">
               <Link href="/#about" className="block transition hover:text-[var(--color-primary)]">{copy.nav.about}</Link>
               <Link href="/competitions" className="block transition hover:text-[var(--color-primary)]">{copy.nav.competitions}</Link>
@@ -23,10 +23,10 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             </div>
           </div>
           <div>
-            <p className="public-kicker">Community</p>
+            <p className="public-kicker">{copy.common.community}</p>
             <div className="mt-5 space-y-3 text-sm leading-7 text-[var(--color-text-muted)]">
-              <p>Leaderboards, editorial updates, fan competitions, and bilingual football engagement in one modern experience.</p>
-              <p className="font-semibold text-[var(--color-text)]">© 2026 TreTrip FanZone</p>
+              <p>{copy.common.footerCommunityBody}</p>
+              <p className="font-semibold text-[var(--color-text)]">{"\u00A9"} 2026 TreTrip FanZone</p>
             </div>
           </div>
         </div>

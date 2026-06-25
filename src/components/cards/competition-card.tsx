@@ -1,10 +1,12 @@
 import Link from "next/link";
 
-import { localizeText } from "@/lib/i18n";
+import { localizeText, t } from "@/lib/i18n";
 import type { Competition, Locale } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 
 export function CompetitionCard({ competition, locale }: { competition: Competition; locale: Locale }) {
+  const copy = t(locale);
+
   return (
     <article className="public-card group overflow-hidden rounded-[28px]">
       <div
@@ -15,7 +17,7 @@ export function CompetitionCard({ competition, locale }: { competition: Competit
       />
       <div className="space-y-5 p-6">
         <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-primary)]">
-          <span>{locale === "ar" ? "مسابقة مفتوحة" : "Active Competition"}</span>
+          <span>{copy.common.activeCompetition}</span>
         </div>
         <div>
           <h3 className="public-heading text-[1.7rem] font-bold text-[var(--color-text)]">
@@ -27,16 +29,16 @@ export function CompetitionCard({ competition, locale }: { competition: Competit
         </div>
         <div className="grid grid-cols-2 gap-4 rounded-2xl bg-[var(--color-surface-muted)] p-4 text-sm">
           <div>
-            <p className="font-semibold text-[var(--color-text)]">{locale === "ar" ? "البداية" : "Start"}</p>
+            <p className="font-semibold text-[var(--color-text)]">{copy.common.start}</p>
             <p className="mt-1 text-[var(--color-text-muted)]">{formatDate(competition.start_date, locale)}</p>
           </div>
           <div>
-            <p className="font-semibold text-[var(--color-text)]">{locale === "ar" ? "النهاية" : "End"}</p>
+            <p className="font-semibold text-[var(--color-text)]">{copy.common.end}</p>
             <p className="mt-1 text-[var(--color-text-muted)]">{formatDate(competition.end_date, locale)}</p>
           </div>
         </div>
         <Link href={`/competitions/${competition.slug}`} className="inline-flex rounded-xl bg-[var(--color-primary)] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[var(--color-primary-strong)]">
-          {locale === "ar" ? "عرض التفاصيل" : "View details"}
+          {copy.common.viewDetails}
         </Link>
       </div>
     </article>

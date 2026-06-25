@@ -23,10 +23,7 @@ export default async function CompetitionDetailPage({ params }: Props) {
     <div className="public-section">
       <div className="public-container max-w-6xl">
         <section className="public-card overflow-hidden rounded-[36px]">
-          <div
-            className="h-80 bg-cover bg-center"
-            style={{ backgroundImage: `linear-gradient(rgba(0,102,114,0.3), rgba(15,23,42,0.62)), url(${competition.cover_image_url ?? ""})` }}
-          />
+          <div className="h-80 bg-cover bg-center" style={{ backgroundImage: `linear-gradient(rgba(0,102,114,0.3), rgba(15,23,42,0.62)), url(${competition.cover_image_url ?? ""})` }} />
           <div className="grid gap-8 p-8 lg:grid-cols-[1fr_340px]">
             <div>
               <p className="public-kicker">{copy.nav.competitions}</p>
@@ -50,7 +47,7 @@ export default async function CompetitionDetailPage({ params }: Props) {
             <div className="rounded-[28px] bg-slate-950 p-6 text-white">
               <p className="public-kicker text-white/68">{copy.common.leaderboard}</p>
               <p className="public-heading mt-3 text-4xl font-bold">{competition.registrations_count ?? 0}</p>
-              <p className="mt-2 text-white/72">{locale === "ar" ? "إجمالي المشاركين الحاليين" : "Total current participants"}</p>
+              <p className="mt-2 text-white/72">{copy.common.totalCurrentParticipants}</p>
               <form action={registerCompetitionAction} className="mt-6">
                 <input type="hidden" name="competitionId" value={competition.id} />
                 <input type="hidden" name="competitionSlug" value={competition.slug} />
@@ -68,9 +65,9 @@ export default async function CompetitionDetailPage({ params }: Props) {
             <table className="min-w-full divide-y divide-[var(--color-outline)] text-sm">
               <thead className="bg-[var(--color-surface-muted)] text-left text-[var(--color-text-muted)]">
                 <tr>
-                  <th className="px-4 py-3">User</th>
-                  <th className="px-4 py-3">Wins</th>
-                  <th className="px-4 py-3">Participations</th>
+                  <th className="px-4 py-3">{copy.common.user}</th>
+                  <th className="px-4 py-3">{copy.common.wins}</th>
+                  <th className="px-4 py-3">{copy.competitions.participants}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 bg-white">

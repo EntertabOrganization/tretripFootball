@@ -13,7 +13,7 @@ export default async function PublicLayout({
 
   return (
     <div className="public-shell">
-      <SiteHeader locale={locale} profile={profile} path="/" />
+      <SiteHeader locale={locale} profile={profile} />
       <main>{children}</main>
       <SiteFooter locale={locale} />
     </div>
