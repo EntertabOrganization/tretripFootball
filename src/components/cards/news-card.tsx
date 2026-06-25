@@ -5,6 +5,9 @@ import type { Locale, NewsArticle } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 
 export function NewsCard({ article, locale }: { article: NewsArticle; locale: Locale }) {
+  const articleHref = article.external_url ?? `/news/${article.slug}`;
+  const isExternalArticle = Boolean(article.external_url);
+
   return (
     <article className="public-card group overflow-hidden rounded-[28px]">
       {article.cover_image_url ? (
@@ -29,9 +32,16 @@ export function NewsCard({ article, locale }: { article: NewsArticle; locale: Lo
           </p>
         </div>
         <div className="flex items-center justify-between border-t border-[var(--color-outline)] pt-4">
-          <span className="text-sm font-semibold text-[var(--color-primary)]">{locale === "ar" ? "أخبار تحريرية" : "Editorial News"}</span>
-          <Link href={`/news/${article.slug}`} className="rounded-xl border border-[var(--color-outline)] px-4 py-2 text-sm font-semibold text-[var(--color-text)] transition hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]">
-            {locale === "ar" ? "قراءة الخبر" : "Read article"}
+          <span className="text-sm font-semibold text-[var(--color-primary)]">
+            {article.source_name ?? (locale === "ar" ? "أخبار تحريرية" : "Editorial News")}
+          </span>
+          <Link
+            href={articleHref}
+            className="rounded-xl border border-[var(--color-outline)] px-4 py-2 text-sm font-semibold text-[var(--color-text)] transition hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
+            target={isExternalArticle ? "_blank" : undefined}
+            rel={isExternalArticle ? "noreferrer" : undefined}
+          >
+            {isExternalArticle ? (locale === "ar" ? "افتح المصدر" : "Open source") : locale === "ar" ? "قراءة الخبر" : "Read article"}
           </Link>
         </div>
       </div>

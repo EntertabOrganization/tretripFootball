@@ -20,7 +20,7 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { startTransition, useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import type { ComponentType, ReactNode } from "react";
 
 import { logoutAction } from "@/lib/actions";
@@ -56,6 +56,11 @@ export function DashboardShell({ children, locale, profile }: Props) {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const profileMenuRef = useRef<HTMLDivElement | null>(null);
+  const closeSidebarOnNavigation = useEffectEvent(() => {
+    startTransition(() => {
+      setIsSidebarOpen(false);
+    });
+  });
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
@@ -69,7 +74,7 @@ export function DashboardShell({ children, locale, profile }: Props) {
   }, []);
 
   useEffect(() => {
-    setIsSidebarOpen(false);
+    closeSidebarOnNavigation();
   }, [pathname]);
 
   const initials = useMemo(

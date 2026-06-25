@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CalendarDays, Ticket, User } from "lucide-react";
+import { User } from "lucide-react";
 
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { logoutAction } from "@/lib/actions";

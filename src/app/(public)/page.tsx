@@ -1,33 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { AboutImageSlider } from "@/components/about/about-image-slider";
 import { CompetitionCard } from "@/components/cards/competition-card";
 import { NewsCard } from "@/components/cards/news-card";
 import { Button } from "@/components/ui/button";
 import { getCompetitionsList, getNewsList } from "@/lib/data";
 import { getLocale, t } from "@/lib/i18n";
-
-const arabTeams = [
-  "Saudi Arabia",
-  "Qatar",
-  "United Arab Emirates",
-  "Iraq",
-  "Jordan",
-  "Palestine",
-  "Oman",
-  "Bahrain",
-  "Kuwait",
-  "Syria",
-  "Lebanon",
-  "Yemen",
-];
+import { getAboutImagePaths, getTeamFlags } from "@/lib/site-assets";
 
 export default async function HomePage() {
   const locale = await getLocale();
   const copy = t(locale);
-  const [news, competitions] = await Promise.all([
+  const [news, competitions, aboutImages, teamFlags] = await Promise.all([
     getNewsList({ page: "1", pageSize: "3" }),
     getCompetitionsList({ page: "1", pageSize: "2" }),
+    getAboutImagePaths(),
+    getTeamFlags(),
   ]);
 
   return (
@@ -82,15 +71,7 @@ export default async function HomePage() {
           <div className="mt-14 grid items-center gap-8 md:grid-cols-2">
             <div className="order-2 md:order-1">
               <div className="overflow-hidden rounded-[34px] border border-[var(--color-outline)] bg-[linear-gradient(145deg,#edf7f7_0%,#d4ebea_100%)] p-6 shadow-[0_28px_70px_-42px_rgba(17,67,74,0.45)]">
-                <div className="relative aspect-[4/5] overflow-hidden rounded-[26px] bg-[radial-gradient(circle_at_top,rgba(53,199,164,0.35),transparent_35%),linear-gradient(180deg,rgba(8,21,40,0.08),rgba(8,21,40,0.22))]">
-                  <Image
-                    src="/Logo.png"
-                    alt="TreTrip FanZone"
-                    fill
-                    className="object-contain p-10 sm:p-16"
-                    sizes="(min-width: 768px) 50vw, 100vw"
-                  />
-                </div>
+                <AboutImageSlider images={aboutImages} />
               </div>
             </div>
 
@@ -119,19 +100,23 @@ export default async function HomePage() {
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {arabTeams.map((team) => (
+            {teamFlags.map((team) => (
               <article
-                key={team}
+                key={team.name}
                 className="public-card rounded-[28px] p-6 transition duration-200 hover:-translate-y-1 hover:shadow-[0_26px_60px_-36px_rgba(15,66,72,0.4)]"
               >
-                <div className="flex aspect-square items-center justify-center rounded-[24px] border-2 border-dashed border-[var(--color-outline)] bg-[var(--color-surface-muted)] text-center">
-                  <span className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">
-                    Logo Placeholder
-                  </span>
+                <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-[24px] border border-[var(--color-outline)] bg-[var(--color-surface-muted)] p-6">
+                  <Image
+                    src={team.imagePath}
+                    alt={`${team.name} flag`}
+                    fill
+                    className="object-contain p-6"
+                    sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  />
                 </div>
-                <h3 className="public-heading mt-5 text-2xl font-bold text-[var(--color-text)]">{team}</h3>
+                <h3 className="public-heading mt-5 text-2xl font-bold text-[var(--color-text)]">{team.name}</h3>
                 <p className="mt-2 text-sm leading-7 text-[var(--color-text-muted)]">
-                  Add the official team crest here when the final artwork is ready.
+                  Displayed automatically from the available files in the flags folder.
                 </p>
               </article>
             ))}

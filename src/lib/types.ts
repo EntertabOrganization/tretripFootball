@@ -48,6 +48,9 @@ export type NewsArticle = {
   author?: Profile | null;
   likes_count?: number;
   comments_count?: number;
+  external_url?: string | null;
+  source_name?: string | null;
+  is_external?: boolean;
 };
 
 export type Competition = {

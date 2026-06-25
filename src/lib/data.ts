@@ -1,5 +1,6 @@
 import "server-only";
 
+import { createHash } from "node:crypto";
 import { cache } from "react";
 
 import { PAGE_SIZE_DEFAULT } from "@/lib/constants";
@@ -16,6 +17,10 @@ import type {
   PaginatedResult,
   Profile,
 } from "@/lib/types";
+
+const WORLD_CUP_NEWS_URL =
+  process.env.WORLD_CUP_NEWS_URL ??
+  'https://newsapi.org/v2/everything?q=("FIFA World Cup" OR "World Cup 2026")&language=en&sortBy=publishedAt&pageSize=10&apiKey=fc6b53c1c7854f04aa06a64617b7555f';
 
 function logFallback(message: string, error: unknown) {
   const details =
@@ -40,6 +45,81 @@ function paginateArray<T>(items: T[], page = 1, pageSize = PAGE_SIZE_DEFAULT): P
   };
 }
 
+type ExternalNewsApiResponse = {
+  articles?: Array<{
+    title?: string | null;
+    description?: string | null;
+    content?: string | null;
+    url?: string | null;
+    urlToImage?: string | null;
+    publishedAt?: string | null;
+    source?: {
+      name?: string | null;
+    } | null;
+  }>;
+};
+
+const fallbackSportsCategory: NewsCategory = {
+  id: "external-sports",
+  slug: "sports",
+  title_en: "Sports",
+  title_ar: "رياضة",
+  description_en: "Sports coverage and football editorial content.",
+  description_ar: "تغطية رياضية ومحتوى تحريري لكرة القدم.",
+};
+
+const getExternalSportsNews = cache(async (sportsCategory?: NewsCategory | null): Promise<NewsArticle[]> => {
+  try {
+    const response = await fetch(WORLD_CUP_NEWS_URL, {
+      next: { revalidate: 60 * 60 * 24 },
+    });
+
+    if (!response.ok) {
+      throw new Error(`News API returned ${response.status}`);
+    }
+
+    const payload = (await response.json()) as ExternalNewsApiResponse;
+
+    return (payload.articles ?? [])
+      .filter((article) => article.title && article.url)
+      .map((article) => {
+        const externalUrl = String(article.url);
+        const title = String(article.title);
+        const summary = article.description?.trim() || article.content?.trim() || title;
+        const publishedAt = article.publishedAt ?? new Date().toISOString();
+        const slug = `external-${createHash("sha1").update(externalUrl).digest("hex").slice(0, 12)}`;
+
+        return {
+          id: slug,
+          slug,
+          category_id: sportsCategory?.id ?? fallbackSportsCategory.id,
+          author_id: null,
+          title_en: title,
+          title_ar: title,
+          summary_en: summary,
+          summary_ar: summary,
+          content_en: article.content?.trim() || summary,
+          content_ar: article.content?.trim() || summary,
+          cover_image_url: article.urlToImage?.trim() || null,
+          status: "PUBLISHED",
+          published_at: publishedAt,
+          created_at: publishedAt,
+          updated_at: publishedAt,
+          category: sportsCategory ?? fallbackSportsCategory,
+          author: null,
+          likes_count: 0,
+          comments_count: 0,
+          external_url: externalUrl,
+          source_name: article.source?.name?.trim() || "News API",
+          is_external: true,
+        } satisfies NewsArticle;
+      });
+  } catch (error) {
+    logFallback("Failed to fetch external sports news", error);
+    return [];
+  }
+});
+
 export const getCategories = cache(async (): Promise<NewsCategory[]> => {
   const supabase = createSupabaseAdminClient();
 
@@ -62,27 +142,41 @@ export async function getNewsList(searchParams?: {
   pageSize?: string;
   category?: string;
   includeDrafts?: boolean;
+  includeExternalSports?: boolean;
 }): Promise<PaginatedResult<NewsArticle>> {
   const page = parsePageParam(searchParams?.page);
   const pageSize = parsePageSizeParam(searchParams?.pageSize);
   const supabase = createSupabaseAdminClient();
   const includeDrafts = searchParams?.includeDrafts ?? false;
+  const includeExternalSports = searchParams?.includeExternalSports ?? !includeDrafts;
+  const shouldIncludeExternalSports =
+    includeExternalSports && (!searchParams?.category || searchParams.category === "sports");
 
-  if (!supabase) {
-    const filtered = mockNews.filter((item) => {
+  const sortByPublishedAt = (items: NewsArticle[]) =>
+    [...items].sort(
+      (left, right) => new Date(right.published_at ?? 0).getTime() - new Date(left.published_at ?? 0).getTime(),
+    );
+
+  const filterMockNews = () =>
+    mockNews.filter((item) => {
       if (!includeDrafts && item.status !== "PUBLISHED") return false;
       if (searchParams?.category) return item.category?.slug === searchParams.category;
       return true;
     });
 
-    return paginateArray(filtered, page, pageSize);
+  if (!supabase) {
+    const filtered = filterMockNews();
+    const sportsCategory = mockCategories.find((item) => item.slug === "sports") ?? fallbackSportsCategory;
+    const externalNews = shouldIncludeExternalSports ? await getExternalSportsNews(sportsCategory) : [];
+
+    return paginateArray(sortByPublishedAt([...filtered, ...externalNews]), page, pageSize);
   }
 
+  let sportsCategory: NewsCategory | null = null;
   let query = supabase
     .from("news")
     .select(
       "*, category:news_categories(*), author:profiles(*), comments:comments(count), likes:news_likes(count)",
-      { count: "exact" },
     )
     .order("published_at", { ascending: false, nullsFirst: false });
 
@@ -93,37 +187,42 @@ export async function getNewsList(searchParams?: {
   if (searchParams?.category) {
     const { data: category } = await supabase
       .from("news_categories")
-      .select("id")
+      .select("*")
       .eq("slug", searchParams.category)
       .maybeSingle();
 
-    if (category?.id) {
+    if (category) {
+      sportsCategory = category.slug === "sports" ? category : sportsCategory;
       query = query.eq("category_id", category.id);
     }
   }
 
-  const from = (page - 1) * pageSize;
-  const to = from + pageSize - 1;
-  const { data, count, error } = await query.range(from, to);
+  const { data, error } = await query;
 
   if (error) {
     logFallback("Failed to fetch news", error);
-    return paginateArray(mockNews, page, pageSize);
+    const filtered = filterMockNews();
+    const externalNews = shouldIncludeExternalSports
+      ? await getExternalSportsNews(mockCategories.find((item) => item.slug === "sports") ?? fallbackSportsCategory)
+      : [];
+    return paginateArray(sortByPublishedAt([...filtered, ...externalNews]), page, pageSize);
   }
 
-  const items = (data ?? []).map((item) => ({
+  const databaseItems = (data ?? []).map((item) => ({
     ...item,
     comments_count: item.comments?.[0]?.count ?? 0,
     likes_count: item.likes?.[0]?.count ?? 0,
   }));
 
-  return {
-    items,
-    page,
-    pageSize,
-    totalItems: count ?? items.length,
-    totalPages: Math.max(1, Math.ceil((count ?? items.length) / pageSize)),
-  };
+  if (!sportsCategory) {
+    sportsCategory =
+      databaseItems.find((item) => item.category?.slug === "sports")?.category ??
+      (await getCategories()).find((item) => item.slug === "sports") ??
+      fallbackSportsCategory;
+  }
+
+  const externalNews = shouldIncludeExternalSports ? await getExternalSportsNews(sportsCategory) : [];
+  return paginateArray(sortByPublishedAt([...databaseItems, ...externalNews]), page, pageSize);
 }
 
 export async function getNewsBySlug(slug: string) {
