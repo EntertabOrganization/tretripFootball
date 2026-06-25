@@ -31,7 +31,7 @@ export default async function HomePage() {
         <div className="public-container relative">
           <div className="max-w-5xl">
             <span className="public-pill text-white/88">{copy.home.eyebrow}</span>
-            <h1 className="public-heading mt-8 text-5xl font-black uppercase leading-[0.92] text-white sm:text-7xl xl:text-[6.4rem]">
+            <h1 className="public-heading mt-8 whitespace-pre-line text-5xl font-black uppercase leading-[0.92] text-white sm:text-7xl xl:text-[6.4rem]">
               {copy.home.heroTitle}
             </h1>
             <p className="mt-8 max-w-4xl text-lg leading-8 text-white/82 sm:text-2xl">{copy.home.heroBody}</p>
@@ -94,7 +94,6 @@ export default async function HomePage() {
                   />
                 </div>
                 <h3 className="public-heading mt-5 text-2xl font-bold text-[var(--color-text)]">{team.name}</h3>
-                <p className="mt-2 text-sm leading-7 text-[var(--color-text-muted)]">{copy.home.teamsDescription}</p>
               </article>
             ))}
           </div>
