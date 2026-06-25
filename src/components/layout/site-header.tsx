@@ -27,11 +27,6 @@ export function SiteHeader({ locale, profile, path }: Props) {
     <header className="absolute inset-x-0 top-0 z-40 px-4 py-6 sm:px-6">
       <div className="public-container">
         <div className="mb-5 flex items-center justify-between gap-4 text-white/88">
-          <div className="inline-flex items-center gap-2 text-sm font-semibold">
-            <CalendarDays className="h-4 w-4" />
-            <span>Thursday, June 25, 2026</span>
-          </div>
-
           {profile ? (
             <Link
               href="/profile"
@@ -46,10 +41,6 @@ export function SiteHeader({ locale, profile, path }: Props) {
         <div className="public-glass-dark flex flex-wrap items-center gap-5 rounded-[32px] px-6 py-5 text-white shadow-[0_30px_80px_-36px_rgba(0,0,0,0.6)]">
           <Link href="/" className="flex min-w-0 items-center gap-4">
             <Image src="/Logo.png" alt="TreTrip FanZone" width={74} height={74} className="h-[74px] w-[74px] rounded-2xl object-contain" priority />
-            <div className="min-w-0">
-              <p className="public-heading text-2xl font-extrabold tracking-tight sm:text-3xl">{copy.home.eyebrow}</p>
-              <p className="mt-1 text-xs uppercase tracking-[0.28em] text-white/64">Arab Cup Fan Experience</p>
-            </div>
           </Link>
 
           <nav className="mx-auto hidden items-center gap-8 xl:flex">
@@ -61,15 +52,7 @@ export function SiteHeader({ locale, profile, path }: Props) {
           </nav>
 
           <div className="ms-auto flex flex-wrap items-center gap-3">
-            <Link
-              href="/competitions"
-              className="inline-flex items-center gap-2 rounded-2xl bg-[#35c7a4] px-6 py-3.5 text-sm font-bold text-[#0f3c41] transition hover:bg-[#58d7b7]"
-            >
-              <Ticket className="h-4 w-4" />
-              Buy Tickets
-            </Link>
-
-            <LanguageSwitcher locale={locale} path={path} />
+             <LanguageSwitcher locale={locale} path={path} />
 
             {profile ? (
               <>
