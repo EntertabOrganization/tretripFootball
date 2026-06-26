@@ -36,10 +36,10 @@ export default async function HomePage() {
             </h1>
             <p className="mt-8 max-w-4xl text-lg leading-8 text-white/82 sm:text-2xl">{copy.home.heroBody}</p>
             <div className="mt-10 flex flex-wrap gap-4">
-              <Link href="/competitions">
+              <Link href="/login">
                 <Button className="rounded-2xl px-8 py-4 text-base font-bold">{copy.home.heroPrimary}</Button>
               </Link>
-              <Link href="/news">
+              <Link href="/signup">
                 <Button variant="secondary" className="rounded-2xl px-8 py-4 text-base font-bold">
                   {copy.home.heroSecondary}
                 </Button>
@@ -58,7 +58,7 @@ export default async function HomePage() {
 
           <div className="mt-14 grid items-center gap-8 md:grid-cols-2">
             <div className="order-2 md:order-1">
-              <div className="overflow-hidden rounded-[34px] border border-[var(--color-outline)] bg-[linear-gradient(145deg,#edf7f7_0%,#d4ebea_100%)] p-6 shadow-[0_28px_70px_-42px_rgba(17,67,74,0.45)]">
+              <div className="mx-auto max-w-[34rem] overflow-hidden rounded-[34px] border border-[var(--color-outline)] bg-[linear-gradient(145deg,#edf7f7_0%,#d4ebea_100%)] p-6 shadow-[0_28px_70px_-42px_rgba(17,67,74,0.45)]">
                 <AboutImageSlider images={aboutImages} locale={locale} />
               </div>
             </div>

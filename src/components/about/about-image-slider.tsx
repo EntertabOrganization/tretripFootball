@@ -29,14 +29,14 @@ export function AboutImageSlider({ images, locale }: AboutImageSliderProps) {
 
   if (images.length === 0) {
     return (
-      <div className="flex h-full min-h-[22rem] items-center justify-center rounded-[26px] bg-[var(--color-surface-muted)] text-center text-sm font-semibold uppercase tracking-[0.16em] text-[var(--color-text-muted)]">
+      <div className="flex aspect-square w-full items-center justify-center rounded-[26px] bg-[var(--color-surface-muted)] text-center text-sm font-semibold uppercase tracking-[0.16em] text-[var(--color-text-muted)]">
         {copy.common.aboutGallery}
       </div>
     );
   }
 
   return (
-    <div className="relative aspect-[4/5] overflow-hidden rounded-[26px] bg-[var(--color-surface-muted)]">
+    <div className="relative aspect-square w-full overflow-hidden rounded-[26px] bg-[var(--color-surface-muted)]">
       {images.map((image, index) => (
         <div key={image} className={`absolute inset-0 transition-opacity duration-700 ${index === activeIndex ? "opacity-100" : "opacity-0"}`}>
           <Image

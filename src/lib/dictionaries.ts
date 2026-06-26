@@ -22,8 +22,8 @@ export const dictionaries = {
       heroTitle: "SUPPORT YOUR TEAM.\nLIVE THE MOMENT.\nGET A CHANCE TO WIN.",
       heroBody:
         "Follow the Arab teams, stay updated on the 2026 FIFA World Cup, join the TreTrip fan community, and participate in fan activities for a chance to win prizes.",
-      heroPrimary: "Book Your Ticket",
-      heroSecondary: "Match Schedule",
+      heroPrimary: "Sign In",
+      heroSecondary: "Sign Up",
       aboutTitle: "About TreTrip Fan Zone",
       aboutBody:
         "TreTrip Fan Zone is your space to join exciting campaigns, take part in interactive challenges, share unforgettable moments on social media, and get a chance to win amazing prizes. Connect, engage, and be part of experiences that bring people together and make every moment more exciting.",
@@ -158,8 +158,8 @@ export const dictionaries = {
       heroTitle: "شجّع فريقك.\nعِش اللحظة.\nاحصل على فرصة للفوز.",
       heroBody:
         "تابع المنتخبات العربية، وابقَ على اطلاع بآخر مستجدات كأس العالم 2026، وانضم إلى مجتمع جماهير TreTrip، وشارك في أنشطة المشجعين لفرصة الفوز بجوائز.",
-      heroPrimary: "احجز تذكرتك",
-      heroSecondary: "جدول المباريات",
+      heroPrimary: "تسجيل الدخول",
+      heroSecondary: "إنشاء حساب",
       aboutTitle: "عن TreTrip Fan Zone",
       aboutBody:
         "TreTrip Fan Zone هو مساحتك للانضمام إلى حملات مليئة بالحماس، والمشاركة في تحديات تفاعلية، ومشاركة لحظات لا تُنسى عبر منصات التواصل الاجتماعي، والحصول على فرصة للفوز بجوائز رائعة. تواصل، تفاعل، وكن جزءًا من تجارب تجمع الناس وتجعل كل لحظة أكثر إثارة.",

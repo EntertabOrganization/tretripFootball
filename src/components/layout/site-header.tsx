@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, User, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { logoutAction } from "@/lib/actions";
@@ -46,28 +46,16 @@ export function SiteHeader({ locale, profile, path }: Props) {
   }, []);
 
   const actionClass =
-    "rounded-2xl border border-white/24 bg-white/8 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/14";
+    "rounded-2xl border border-white/24 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10";
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 px-4 transition-all duration-300 sm:px-6 ${isScrolled ? "py-3" : "py-6"}`}>
+    <header className={`fixed inset-x-0 top-0 z-[1000] px-4 transition-all duration-300 sm:px-6 ${isScrolled ? "py-3" : "py-6"}`}>
       <div className="public-container">
-        {!isScrolled && profile ? (
-          <div className="mb-5 flex items-center justify-between gap-4 text-white/88">
-            <Link
-              href="/profile"
-              className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/8 px-4 py-2 text-sm font-semibold transition hover:bg-white/14"
-            >
-              <User className="h-4 w-4" />
-              {copy.nav.profile}
-            </Link>
-          </div>
-        ) : null}
-
         <div
           className={`rounded-[32px] border px-5 transition-all duration-300 sm:px-6 ${
             isScrolled
-              ? "border-white/12 bg-[rgba(42,127,140,0.6)] py-4 text-white shadow-[0_24px_50px_-28px_rgba(10,41,46,0.65)] backdrop-blur-xl"
-              : "public-glass-dark border-white/16 py-5 text-white shadow-[0_30px_80px_-36px_rgba(0,0,0,0.6)]"
+              ? "border-white/12 bg-[var(--color-primary)] py-4 text-white shadow-[0_24px_50px_-28px_rgba(10,41,46,0.85)] backdrop-blur-2xl"
+              : "border-white/16 py-5 text-white shadow-[0_30px_80px_-36px_rgba(0,0,0,0.6)] backdrop-blur-xl"
           }`}
         >
           <div className="flex items-center gap-4">
@@ -91,13 +79,6 @@ export function SiteHeader({ locale, profile, path }: Props) {
             </nav>
 
             <div className="ms-auto hidden items-center gap-3 xl:flex">
-              {isScrolled && profile ? (
-                <Link href="/profile" className="inline-flex items-center gap-2 rounded-2xl border border-white/24 bg-white/8 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/14">
-                  <User className="h-4 w-4" />
-                  {copy.nav.profile}
-                </Link>
-              ) : null}
-
               <LanguageSwitcher locale={locale} path={path} />
 
               {profile ? (
@@ -126,7 +107,7 @@ export function SiteHeader({ locale, profile, path }: Props) {
             <button
               type="button"
               aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-              className="ms-auto inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/24 bg-white/8 text-white transition hover:bg-white/14 xl:hidden"
+              className="ms-auto inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/24 text-white transition hover:bg-white/10 xl:hidden"
               onClick={() => setIsMobileMenuOpen((value) => !value)}
             >
               {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -140,7 +121,7 @@ export function SiteHeader({ locale, profile, path }: Props) {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="rounded-2xl border border-white/12 bg-white/6 px-4 py-3 text-base font-medium text-white/92 transition hover:bg-white/12"
+                    className="rounded-2xl border border-white/12 px-4 py-3 text-base font-medium text-white/92 transition hover:bg-white/10"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {copy.nav[item.key]}
@@ -149,13 +130,6 @@ export function SiteHeader({ locale, profile, path }: Props) {
               </nav>
 
               <div className="flex flex-col gap-3 pt-2">
-                {profile ? (
-                  <Link href="/profile" className="inline-flex items-center gap-2 rounded-2xl border border-white/12 bg-white/6 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/12" onClick={() => setIsMobileMenuOpen(false)}>
-                    <User className="h-4 w-4" />
-                    {copy.nav.profile}
-                  </Link>
-                ) : null}
-
                 <LanguageSwitcher locale={locale} path={path} />
 
                 {profile ? (
