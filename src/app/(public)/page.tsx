@@ -6,7 +6,7 @@ import { CompetitionCard } from "@/components/cards/competition-card";
 import { NewsCard } from "@/components/cards/news-card";
 import { Button } from "@/components/ui/button";
 import { getCompetitionsList, getNewsList } from "@/lib/data";
-import { getLocale, t } from "@/lib/i18n";
+import { getLocale, localizeText, t } from "@/lib/i18n";
 import { getAboutImagePaths, getTeamFlags } from "@/lib/site-assets";
 
 export default async function HomePage() {
@@ -31,7 +31,7 @@ export default async function HomePage() {
         <div className="public-container relative">
           <div className="max-w-5xl">
             <span className="public-pill text-white/88">{copy.home.eyebrow}</span>
-            <h1 className="public-heading mt-8 whitespace-pre-line text-5xl font-black uppercase leading-[0.92] text-white sm:text-7xl xl:text-[6.4rem]">
+            <h1 className="public-heading mt-8 whitespace-pre-line text-4xl font-black uppercase leading-[1] text-white sm:text-6xl xl:text-[5.5rem] xl:leading-[7.5rem]">
               {copy.home.heroTitle}
             </h1>
             <p className="mt-8 max-w-4xl text-lg leading-8 text-white/82 sm:text-2xl">{copy.home.heroBody}</p>
@@ -83,17 +83,19 @@ export default async function HomePage() {
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {teamFlags.map((team) => (
-              <article key={team.name} className="public-card rounded-[28px] p-6 transition duration-200 hover:-translate-y-1 hover:shadow-[0_26px_60px_-36px_rgba(15,66,72,0.4)]">
+              <article key={team.name.en} className="public-card rounded-[28px] p-6 transition duration-200 hover:-translate-y-1 hover:shadow-[0_26px_60px_-36px_rgba(15,66,72,0.4)]">
                 <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-[24px] border border-[var(--color-outline)] bg-[var(--color-surface-muted)] p-6">
                   <Image
                     src={team.imagePath}
-                    alt={`${team.name} flag`}
+                    alt={`${team.name.en} flag`}
                     fill
                     className="object-contain p-6"
                     sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   />
                 </div>
-                <h3 className="public-heading mt-5 text-2xl font-bold text-[var(--color-text)]">{team.name}</h3>
+                <h3 className="public-heading mt-5 text-2xl font-bold text-[var(--color-text)]">
+                  {localizeText(locale, team.name)}
+                </h3>
               </article>
             ))}
           </div>

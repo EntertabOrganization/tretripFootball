@@ -9,11 +9,13 @@ import { DashboardPageHeader } from "@/components/dashboard/dashboard-page-heade
 import { deleteCompetitionAction, toggleWinnerAction } from "@/lib/actions";
 import { getCurrentProfile } from "@/lib/auth";
 import { getAllCompetitions } from "@/lib/data";
+import { getLocale, localizeText } from "@/lib/i18n";
 import { hasMinimumRole } from "@/lib/permissions";
 import { createSupabaseAdminClient } from "@/lib/supabase/server";
 import { firstRelation } from "@/lib/utils";
 
 export default async function DashboardCompetitionsPage() {
+  const locale = await getLocale();
   const profile = await getCurrentProfile();
   if (!profile || !hasMinimumRole(profile.role, "ADMIN")) redirect("/unauthorized");
 
@@ -22,7 +24,7 @@ export default async function DashboardCompetitionsPage() {
   const registrations = admin
     ? (await admin
         .from("competition_registrations")
-        .select("id,is_winner,competition:competitions(title_en),profile:profiles(first_name,last_name)")
+        .select("id,is_winner,competition:competitions(title_en,title_ar),profile:profiles(first_name,last_name)")
         .order("created_at", { ascending: false })).data ?? []
     : [];
 
@@ -55,7 +57,8 @@ export default async function DashboardCompetitionsPage() {
               <div className="space-y-2 text-sm text-slate-600">
                 <p><strong>EN:</strong> {competition.title_en}</p>
                 <p><strong>AR:</strong> {competition.title_ar}</p>
-                <p><strong>Description:</strong> {competition.description_en}</p>
+                <p><strong>Description (EN):</strong> {competition.description_en}</p>
+                <p dir="rtl"><strong>Description (AR):</strong> {competition.description_ar}</p>
               </div>
             </DashboardModal>
             <DashboardModal
@@ -83,7 +86,12 @@ export default async function DashboardCompetitionsPage() {
           columns={["Participant", "Competition", "Winner", "Action"]}
           rows={registrations.map((registration) => [
             `${firstRelation(registration.profile)?.first_name ?? ""} ${firstRelation(registration.profile)?.last_name ?? ""}`.trim(),
-            firstRelation(registration.competition)?.title_en ?? "-",
+            firstRelation(registration.competition)
+              ? localizeText(locale, {
+                  en: firstRelation(registration.competition)?.title_en ?? "-",
+                  ar: firstRelation(registration.competition)?.title_ar ?? firstRelation(registration.competition)?.title_en ?? "-",
+                })
+              : "-",
             registration.is_winner ? "Yes" : "No",
             <form key={registration.id} action={toggleWinnerAction}>
               <input type="hidden" name="registrationId" value={registration.id} />

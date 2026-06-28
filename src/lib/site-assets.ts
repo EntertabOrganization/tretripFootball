@@ -29,8 +29,22 @@ export async function getAboutImagePaths() {
 }
 
 export type TeamFlag = {
-  name: string;
+  name: {
+    en: string;
+    ar: string;
+  };
   imagePath: string;
+};
+
+const TEAM_NAME_TRANSLATIONS: Record<string, string> = {
+  Algeria: "الجزائر",
+  Egypt: "مصر",
+  Iraq: "العراق",
+  Jordan: "الأردن",
+  Morocco: "المغرب",
+  Qatar: "قطر",
+  "Saudi Arabia": "السعودية",
+  Tunisia: "تونس",
 };
 
 export async function getTeamFlags(): Promise<TeamFlag[]> {
@@ -44,9 +58,12 @@ export async function getTeamFlags(): Promise<TeamFlag[]> {
       const name = path.basename(entry.name, extension);
 
       return {
-        name,
+        name: {
+          en: name,
+          ar: TEAM_NAME_TRANSLATIONS[name] ?? name,
+        },
         imagePath: toPublicPath("flags", entry.name),
       };
     })
-    .sort((left, right) => left.name.localeCompare(right.name));
+    .sort((left, right) => left.name.en.localeCompare(right.name.en));
 }

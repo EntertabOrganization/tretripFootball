@@ -27,6 +27,7 @@ export function SiteHeader({ locale, profile, path }: Props) {
   const copy = t(locale);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const logoSrc = isScrolled ? "/SecondLogo.svg" : "/Logo.png";
 
   useEffect(() => {
     const updateScrollState = () => {
@@ -61,11 +62,15 @@ export function SiteHeader({ locale, profile, path }: Props) {
           <div className="flex items-center gap-4">
             <Link href="/" className="flex min-w-0 items-center gap-4">
               <Image
-                src="/Logo.png"
+                src={logoSrc}
                 alt="TreTrip FanZone"
                 width={74}
                 height={74}
-                className={`${isScrolled ? "h-[60px] w-[60px] sm:h-[64px] sm:w-[64px]" : "h-[64px] w-[64px] sm:h-[74px] sm:w-[74px]"} rounded-2xl object-contain transition-all duration-300`}
+                className={`${
+                  isScrolled
+                    ? "h-[60px] w-[60px] brightness-0 invert sm:h-[64px] sm:w-[64px]"
+                    : "h-[64px] w-[64px] sm:h-[74px] sm:w-[74px]"
+                } rounded-2xl object-contain transition-all duration-300`}
                 priority
               />
             </Link>
